@@ -6,7 +6,7 @@
 
 - Những Distro phổ biến:
  <ul>
- <li><b>Debian</b> là một phân phối phi thương mại và là một trong những Distro ra đời sớm nhất, duy trì bởi một cộng đồng phát triển tình nguyện với một cam kết mạnh mẽ nguyên tắc phần mềm miễn phí và quản lý dự án một cách dân chủ.</li>
+ <li color="blue"><b>Debian</b> là một phân phối phi thương mại và là một trong những Distro ra đời sớm nhất, duy trì bởi một cộng đồng phát triển tình nguyện với một cam kết mạnh mẽ nguyên tắc phần mềm miễn phí và quản lý dự án một cách dân chủ.</li>
  <li><b>Ubuntu</b> Là một hệ điều hành máy tính dựa trên Debian GNU/Linux. Là một bản phân phối thông dụng của Linux.
   <ul>
   <li><b>Kubuntu</b> là một phiên bản KDE của Ubuntu.</li>
@@ -17,7 +17,7 @@
  </li>
  <li><b>Fedora</b> Là một phân phối cộng đồng được tài trợ bởi công ty American Red Hat. Nó nhằm mục đích thử nghiệm công nghệ cho Red Hat, nơi mà mã nguồn mở mới là mẫu thử nghiệm trước khi được đưa vào Red Hat Enterprise Linux.</li>
   <ul>
-  <li></b>Red Hat Enterprise Linux</b> Là một dẫn xuất của Fedora, duy trì và hỗ trợ thương mại của Red Hat. Nó tìm cách cung cấp thử nghiệm, an toàn và ổn định máy chủ và máy trạm Linux hỗ trợ cho các doanh nghiệp.
+  <li><b>Red Hat Enterprise Linux</b> Là một dẫn xuất của Fedora, duy trì và hỗ trợ thương mại của Red Hat. Nó tìm cách cung cấp thử nghiệm, an toàn và ổn định máy chủ và máy trạm Linux hỗ trợ cho các doanh nghiệp.
    <ul>
    <li><b>CentOS</b> Là một phân phối từ các nguồn tương tự được sử dụng bởi Red Hat, được duy trì bỏi một cộng đồng tình nguyện dành riêng cho các nhà phát triển với cả 2 phiên bản : 100% Red Hat tương thích và một phiên bản nâng cấp mà không phải là luôn luôn 100% tương thích ngược dòng.</li>
    <li><b>Oracle Linux</b> Là một dẫn xuất của Enterprise, duy trì và hỗ trợ thương mại bởi Oracle.</li>
