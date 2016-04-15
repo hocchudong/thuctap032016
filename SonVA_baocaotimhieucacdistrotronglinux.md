@@ -1,8 +1,8 @@
 # MỤC LỤC
-[1. Định nghĩa về Distro](#1)
-[2. Distro Linux](#2)
-[3. Các mục đích mà DistroLinux](#3)
-[4. Một số dòng distro phổ biến](#4)
+[1. Định nghĩa về Distro](#1)  
+[2. Distro Linux](#2)  
+[3. Các mục đích mà DistroLinux](#3)  
+[4. Một số dòng distro phổ biến](#4)  
 
 
 <a href"1"></a>
