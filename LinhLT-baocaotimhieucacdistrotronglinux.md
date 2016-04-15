@@ -1,4 +1,4 @@
-# Các distro trong linux
+# Tìm hiểu Các distro trong linux
 
 #Mục lục
 
