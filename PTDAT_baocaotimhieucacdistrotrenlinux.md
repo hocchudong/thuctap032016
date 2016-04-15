@@ -11,7 +11,7 @@
  <li><b>2. Ubuntu</b> Là một hệ điều hành máy tính dựa trên Debian GNU/Linux. Là một bản phân phối thông dụng của Linux.
   <ul>
   <li><b>2.1 Kubuntu</b> là một phiên bản KDE của Ubuntu.</li>
-  <li><b>2.2 Linux Mint</b> là một bản phân phối dựa trên trên Ubuntu và sự tương thích với Ubuntu. Hỗ trợ nhiều môi trường máy tính để bàn </li>
+  <li><b>2.2 Linux Mint</b> là một bản phân phối dựa trên trên Ubuntu và sự tương thích với Ubuntu. Hỗ trợ nhiều môi trường máy tính để bàn.</li>
   <li><b>2.3 Trisquel</b> Là một phân phối dựa trên Ubuntu và Linux Kernel bao gồm toàn bộ những phần mềm miễn phí.</li>
   <li><b>2.4 Elementary OS</b> là một phần phối dựa trên Ubuntu với những tập chung mạnh vào các trải nghiệm hình ảnh mà không bị ảnh hưởng đến hiệu suất.</li>
   </ul> 
