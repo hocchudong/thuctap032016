@@ -2,8 +2,7 @@
 Thực tập sinh: Nguyễn Đức Chiến
 
 #Mục lục:
-[1.Các distro nhắm vào người am hiểu hệ thống linux]
-(#1)
+[1.Các distro nhắm vào người am hiểu hệ thống linux](#1)
 [2. Các distro Nhắm vào người dùng doanh nghiệp. Hỗ trợ lâu dài. Ổn định cao](#2)
 [3. Distro nhắm vào những người chưa thật sự hiểu rõ hoàn toàn về Linux](#3)
 [4. Nhóm người dùng đầu cuối mới sử dụng linux, ứng dụng nhiều công cụ mới. Nhắm tới xu hướng dễ dùng](#4)
