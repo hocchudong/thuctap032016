@@ -1,4 +1,4 @@
-#Tìm hiểu một số distro của linux
+#Tìm hiểu một số distro của Linux
 Thực tập sinh: Nguyễn Đức Chiến
 
 #Mục lục:
