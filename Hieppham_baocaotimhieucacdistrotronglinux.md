@@ -18,8 +18,9 @@
 ----
 ##2. Các nhóm distro phổ biến hiện nay.
 
-* 2.1 Nhóm Arc, Gentoo, Slackware.
+* ** 2.1 Nhóm Arc, Gentoo, Slackware.**
  *Arch (archlinux.org), Gentoo (gentoo.org), Slackware (slackware.com): Các distro nhắm vào người dùng am hiểu về hệ thống Linux. Hầu hết phương thức xây dựng và cấu hình hệ thống đều phải thực hiện qua môi trường dòng lệnh.
+ 
  *cấu trúc gọn nhẹ, uyển chuyển để có thể xây dựng một hệ thống hoàn toàn tuân theo ý của mình.
  
 *2.2 Nhóm Debian, Fedora
