@@ -9,7 +9,7 @@
  <li><b color="blue">Debian</b> là một phân phối phi thương mại và là một trong những Distro ra đời sớm nhất, duy trì bởi một cộng đồng phát triển tình nguyện với một cam kết mạnh mẽ nguyên tắc phần mềm miễn phí và quản lý dự án một cách dân chủ.</li>
  <li><b>Ubuntu</b> Là một hệ điều hành máy tính dựa trên Debian GNU/Linux. Là một bản phân phối thông dụng của Linux.
   <ul>
-  <li><b>Kubuntu</b> là một phiên bản KDE của Ubuntu.</li>
+  <li><font color="blue">Kubuntu</font> là một phiên bản KDE của Ubuntu.</li>
   <li><b>Linux Mint</b> là một bản phân phối dựa trên trên Ubuntu và sự tương thích với Ubuntu. Hỗ trợ nhiều môi trường máy tính để bàn như </li>
   <li><b>Trisquel</b> Là một phân phối dựa trên Ubuntu và Linux Kernel bao gồm toàn bộ những phần mềm miễn phí.</li>
   <li><b>Elementary OS</b> là một phần phối dựa trên Ubuntu với những tập chung mạnh vào các trải nghiệm hình ảnh mà không bị ảnh hưởng đến hiệu suất.</li>
