@@ -35,8 +35,8 @@ Distro linux có nhiều loại, chúng ta có thể phân theo các tiêu chí 
  - Ubuntu: bản phân phối phổ biến nhất được quản lý bởi Canonical Ltd (Anh). Tùy theo môi trường làm việc mà có các bản chia nhỏ như Ubuntu GNOME, Lubuntu, Kubuntu.... Linux Mint là một Distro cũng được viết dựa trên Ubuntu. Ubuntu có bản Ubuntu server sử dụng cho server và workstation.  
  - Knoppix: Được viết để chạy trên các thiết bị di động (USB, ổ cứng di động)
 * Fedora: là bản phân phối được tài trợ bởi công ty RedHat, là bản phân phối dùng để test cho các bản phân phối cho doanh nghiệp  
- REDHAT ENTERPRISE LINUX (RHEL): là bản linux thương mại được phân phối và hỗ trợ bởi REDHAT, sử dụng cho server và work station bao gồm:  
- - CentOS: bản phân phối của redhat Ent. linux được phát triển bởi cộng đồng và được hỗ trợ rộng rãi
+ REDHAT ENTERPRISE LINUX (RHEL): là bản linux thương mại được phân phối và hỗ trợ bởi REDHAT (Phải trả phí để được nhận hỗ trợ), sử dụng cho server và work station bao gồm:  
+ - CentOS: bản phân phối của redhat Ent. linux được phát triển bởi cộng đồng và được hỗ trợ rộng rãi (Hỗ trợ miễn phí)
  - Oracle Linux: là một bản của redhat ent. Linux, được phát triển và hỗ trợ bởi Oracle
  - Scientify Linux: là một bản của redhat ent. Linux, được phát triển và hỗ trợ bởi FermiLab
 * Mandiva Linux: Bản linux được phát triển cho châu Âu và brazil.
