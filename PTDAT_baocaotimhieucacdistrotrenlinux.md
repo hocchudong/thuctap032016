@@ -29,8 +29,8 @@
 
 - Những Distro phổ biến:
 
-<a name="phan2"></a>
  <ul>
+<a name="phan2"></a>
  <li><b>Debian</b> là một phân phối phi thương mại và là một trong những Distro ra đời sớm nhất, duy trì bởi một cộng đồng phát triển tình nguyện với một cam kết mạnh mẽ nguyên tắc phần mềm miễn phí và quản lý dự án một cách dân chủ.</li>
 <a name="phan3"></a>
  <li><b>Ubuntu</b> Là một hệ điều hành máy tính dựa trên Debian GNU/Linux. Là một bản phân phối thông dụng của Linux.
