@@ -1,4 +1,4 @@
-#Báo cáo về các distro của linux
+#Báo cáo tìm hiểu một số distro của linux
 Thực tập sinh: Nguyễn Đức Chiến
 
 #Mục lục:
