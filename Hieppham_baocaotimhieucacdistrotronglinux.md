@@ -12,6 +12,7 @@
 <a name="phan1"></a>
 ##1. Khái niệm về distro trong Linux.
 * Linux là một hệ điều hành máy tính dựa trên Unix được phát triển và phân phối qua mô hình phần mềm tự do mã nguồn mở. Thành phần cơ bản tạo nên Linux đó là nhân linux, một nhân hệ điều hành ra đời bản đầu tiên vào tháng 8 năm 1991 bởi Linus Torvalds.
+
 * Linux distro (viết tắt của distribution) là một hệ điều hành được tạo bởi một tập các phần mềm dựa trên nhân Linux
  
 ----
@@ -33,6 +34,7 @@
 <a name="phan23"></a>
 ###2.3 Nhóm Centos, RHEL
 * Các distro này chủ yếu nhắm vào thị trường doanh nghiệp, cơ quan, thị trường máy chủ… Các dòng distro này có nhiều đặc tính phù hợp cho mảng thị trường đòi hỏi sự ổn định cao như: thời gian ra phiên bản mới thường khá lâu (3 – 5 năm tùy distro); dịch vụ hỗ trợ thương mại cho các công ty, tổ chức sử dụng sản phẩm; ít sử dụng các công nghệ mới nhất (thường kém ổn định) mà tập trung phát triển trên các công nghệ lâu đời và đáng tin cậy hơn.
+
 * phát triển theo hướng bền vững, chuyên nghiệp, cung cấp dịch vụ hỗ trợ dài hạn, cung cấp sản phẩm có vòng đời kéo dài (lên tới 7 năm).
 ----
 <a name="phan24"></a>
