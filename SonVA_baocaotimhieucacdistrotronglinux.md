@@ -24,9 +24,17 @@ Distro linux có nhiều loại, chúng ta có thể phân theo các tiêu chí 
 
 ## 4. Một số dòng Distro phổ biến  
 * Debian: là một nhân linux phi thương mại, là một trong các Distro xuất hiện sớm nhất, với một cộng đồng các lập trình viên viết và cải tiến các gói rất mạnh, được chia ra làm nhiều bản phân phối như:  
-
  - Ubuntu: bản phân phối phổ biến nhất được quản lý bởi Canonical Ltd (Anh). Tùy theo môi trường làm việc mà có các bản chia nhỏ như Ubuntu GNOME, Lubuntu, Kubuntu.... Linux Mint là một Distro cũng được viết dựa trên Ubuntu  
  - Knoppix: Được viết để chạy trên các thiết bị di động (USB, ổ cứng di động)
 * Fedora: là bản phân phối được tài trợ bởi công ty RedHat, là bản phân phối dùng để test cho các bản phân phối cho doanh nghiệp  
- - REDHAT ENTERPRISE LINUX (RHEL): là bản linux thương mại được phân phối và hỗ trợ bởi REDHAT, sử dụng cho server và work station  
+ REDHAT ENTERPRISE LINUX (RHEL): là bản linux thương mại được phân phối và hỗ trợ bởi REDHAT, sử dụng cho server và work station bao gồm:  
+ - CentOS: bản phân phối của redhat Ent. linux được phát triển bởi cộng đồng và được hỗ trợ rộng rãi
+ - Oracle Linux: là một bản của redhat ent. Linux, được phát triển và hỗ trợ bởi Oracle
+ - Scientify Linux: là một bản của redhat ent. Linux, được phát triển và hỗ trợ bởi FermiLab
+* Mandiva Linux: Bản linux được phát triển cho châu Âu và brazil.
+* OpenSUSE: Distro linux được tài trợ bởi công ty cùng tên của Đức (SUSE). trong openSUSE có 
+openSUSE Linux Enterprise hỗ trợ cho server và workstation
+* ARCH và GENTOO: bản linux được phát triển hướng đến người dùng chuyên nghiệp muốn có sự trải nghiệm nhiều hơn.
+* Android: Phát triển bởi cộng đồng và phân phối bởi Google dùng cho các thiết bị di động
+
  
