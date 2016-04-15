@@ -6,7 +6,7 @@
 
 - Những Distro phổ biến:
  <ul>
- <li>`Debian` là một phân phối phi thương mại và là một trong những Distro ra đời sớm nhất, duy trì bởi một cộng đồng phát triển tình nguyện với một cam kết mạnh mẽ nguyên tắc phần mềm miễn phí và quản lý dự án một cách dân chủ.</li>
+ <li><b>Debian</b> là một phân phối phi thương mại và là một trong những Distro ra đời sớm nhất, duy trì bởi một cộng đồng phát triển tình nguyện với một cam kết mạnh mẽ nguyên tắc phần mềm miễn phí và quản lý dự án một cách dân chủ.</li>
  <li>`Ubuntu` Là một hệ điều hành máy tính dựa trên Debian GNU/Linux. Là một bản phân phối thông dụng của Linux.
   <ul>
   <li>`Kubuntu` là một phiên bản KDE của Ubuntu.</li>
