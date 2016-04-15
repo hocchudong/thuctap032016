@@ -662,11 +662,11 @@ Phần này là pull lên repo của team
 
 Trên Git cá nhân trên Destrop bạn chọn pull request chọn branch rồi chọn send pull request rồi đợi admin của github bạn cần pulll phê duyệt là xong
 
-<img src-[Imgur](http://i.imgur.com/rU8vsWo.png)> 
+<img src=http://i.imgur.com/rU8vsWo.png> 
 
 kết quả việc pull lên github chờ phê duyệt
 
-<img src=[Imgur](http://i.imgur.com/qztOl6X.png)>
+<img src=http://i.imgur.com/qztOl6X.png>
 
 ### Tổng kết 
 
