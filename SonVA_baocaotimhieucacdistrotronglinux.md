@@ -5,21 +5,21 @@
 [4. Một số dòng distro phổ biến](#4)  
 
 
-<a href"1"></a>
+<a name"1"></a>
 ## 1. Định nghĩa về Distro
 Distro là cách viết tắt của Distribution (Bản phân phối). Distro là từ dùng để chỉ một bản phân phối 
 hệ điều hành(thường áp dụng cụm từ cho Linux) được xây dựng dựa trên nhân (Linux Kernel) và một hệ thống quản lý
 gói đi kèm với nó (Packet management system). Người sử dụng muốn sử dụng hệ điều hành nào thì sẽ chọn một bản phân
 phối (Distro) để cài vào máy của mình.
   
-<a href"2"></a>
+<a name"2"></a>
 ## 2. Distro Linux
 Một bản Distro Linux được xây dựng từ một Nhân (Kernel), một số công cụ (GNU Tools) và thư viện (Library), Môi trường
 làm việc(GUI) có thể có hoặc không, ngoài ra còn một số phần mềm kèm theo, và các tập tin văn bản hướng dẫn. Hầu như 
 các bản phân phối của Linux đều dựa trên Unix. Các bộ phận của distro đều được lưu trữ trên các hệ thống phân phối
 (repo) khác nhau. Hiện tại có khoảng hơn 600 Distro Linux khác nhau và pahần lớn trong số đó vẫn đang được phát triển  
 
-<a href"3"></a>
+<a name"3"></a>
 ## 3. Các mục đích mà Distro linux hướng đến  
 Distro linux có nhiều loại, chúng ta có thể phân theo các tiêu chí sau:  
 
@@ -29,7 +29,7 @@ Distro linux có nhiều loại, chúng ta có thể phân theo các tiêu chí 
 * Thiết kế cho một hệ thống đặc thù nào đó, chỉ để làm các nhiệm vụ đặc biệt  
 * Thiết kế nhằm mục đích như bảo mật tối đa, tiện dụng tối đa, hoặc phân phối phổ biến chung...
 
-<a href"4"></a>
+<a name"4"></a>
 ## 4. Một số dòng Distro phổ biến  
 * Debian: là một nhân linux phi thương mại, là một trong các Distro xuất hiện sớm nhất, với một cộng đồng các lập trình viên viết và cải tiến các gói rất mạnh, được chia ra làm nhiều bản phân phối như:  
  - Ubuntu: bản phân phối phổ biến nhất được quản lý bởi Canonical Ltd (Anh). Tùy theo môi trường làm việc mà có các bản chia nhỏ như Ubuntu GNOME, Lubuntu, Kubuntu.... Linux Mint là một Distro cũng được viết dựa trên Ubuntu  
