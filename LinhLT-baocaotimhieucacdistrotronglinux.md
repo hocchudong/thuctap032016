@@ -68,3 +68,4 @@
 * Fedora hiện có các phiên bản cho **máy trạm, server và cloud**.
 * Hiện tại, 23 là phiên bản mới nhất.
 * Trang web: https://getfedora.org/
+
