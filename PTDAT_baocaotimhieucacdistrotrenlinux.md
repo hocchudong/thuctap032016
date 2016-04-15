@@ -25,11 +25,9 @@
    </ul>
   </li>
   </ul>
+ <li><b>4. openSUSE</b> là một phân phối cộng đồng chủ yếu được tài trợ bởi công tu SUSE của đức.
   <ul>
-  <li><b>4. openSUSE</b> là một phân phối cộng đồng chủ yếu được tài trợ bởi công tu SUSE của đức</li>
-   <ul>
-   <li><b>4.1 SUSE Linux Enterprise</b> có nguồn gốc từ openSUSE và được hỗ trợ thương mại bởi SUSE.
-   </li>
-   </ul>
+  <li><b>4.1 SUSE Linux Enterprise</b> có nguồn gốc từ openSUSE và được hỗ trợ thương mại bởi SUSE.</li>
   </ul>
+ <li>
  </ul>
