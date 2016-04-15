@@ -13,6 +13,7 @@
 ##1. Khái niệm về distro trong Linux.
 * Linux là một hệ điều hành máy tính dựa trên Unix được phát triển và phân phối qua mô hình phần mềm tự do mã nguồn mở. Thành phần cơ bản tạo nên Linux đó là nhân linux, một nhân hệ điều hành ra đời bản đầu tiên vào tháng 8 năm 1991 bởi Linus Torvalds.
 * Có cấu trúc uyển chuyển
+
 ----
 <a name="phan2"></a>
 ##2. Các nhóm distro phổ biến hiện nay.
