@@ -29,5 +29,5 @@
   <ul>
   <li><b>4.1 SUSE Linux Enterprise</b> có nguồn gốc từ openSUSE và được hỗ trợ thương mại bởi SUSE.</li>
   </ul>
- <li>
+ </li>
  </ul>
