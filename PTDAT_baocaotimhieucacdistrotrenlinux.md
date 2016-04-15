@@ -35,6 +35,7 @@
 <a name="phan3"></a>
  <li><b>Ubuntu</b> Là một hệ điều hành máy tính dựa trên Debian GNU/Linux. Là một bản phân phối thông dụng của Linux.
   <ul>
+  
  <a name="phan4"></a>
   <li><b>Kubuntu</b> là một phiên bản KDE của Ubuntu.</li>
  <a name="phan5"></a>
