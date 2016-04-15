@@ -38,5 +38,4 @@
 <a name="phan24"></a>
 ###2.4 Nhóm Ubuntu, Linux Mint
 * Nhóm các distro nhắm đến người dùng cuối và người mới bắt đầu sử dụng Linux. Đặc tính của các distro này là thời gian phát hành ngắn, ứng dụng liên tục các công nghệ mới với nhiều công cụ đồ họa để cấu hình hệ thống, thiết kế với mục đích dễ dùng, dễ làm quen, không cần đọc tài liệu đối với người mới.
-
 * Cung cấp những công nghệ mới nhất, những hiệu ứng đồ họa bắt mắt ngay sau khi cài đặt, không cần phải cấu hình nhiều…
