@@ -2,14 +2,14 @@
 
 ****
 
-- `Distro` là một thuật ngữ dùng để mô tả một phân phối cụ thể của Linux được phân phối cụ thể của Linux được xây dựng từ phổ biến của hệ điều hành Linux và bao gồm các ứng dụng bổ sung. Redhat, Debian và SuSE là những ví dụ của một Distro.
+- <b>Distro</b> là một thuật ngữ dùng để mô tả một phân phối cụ thể của Linux được phân phối cụ thể của Linux được xây dựng từ phổ biến của hệ điều hành Linux và bao gồm các ứng dụng bổ sung. Redhat, Debian và SuSE là những ví dụ của một Distro.
 
 - Những Distro phổ biến:
  <ul>
- <li><font color="blue">Debian</font> là một phân phối phi thương mại và là một trong những Distro ra đời sớm nhất, duy trì bởi một cộng đồng phát triển tình nguyện với một cam kết mạnh mẽ nguyên tắc phần mềm miễn phí và quản lý dự án một cách dân chủ.</li>
+ <li><b>Debian</b> là một phân phối phi thương mại và là một trong những Distro ra đời sớm nhất, duy trì bởi một cộng đồng phát triển tình nguyện với một cam kết mạnh mẽ nguyên tắc phần mềm miễn phí và quản lý dự án một cách dân chủ.</li>
  <li><b>Ubuntu</b> Là một hệ điều hành máy tính dựa trên Debian GNU/Linux. Là một bản phân phối thông dụng của Linux.
   <ul>
-  <li><font color="blue">Kubuntu</font> là một phiên bản KDE của Ubuntu.</li>
+  <li><b>Kubuntu</b> là một phiên bản KDE của Ubuntu.</li>
   <li><b>Linux Mint</b> là một bản phân phối dựa trên trên Ubuntu và sự tương thích với Ubuntu. Hỗ trợ nhiều môi trường máy tính để bàn như </li>
   <li><b>Trisquel</b> Là một phân phối dựa trên Ubuntu và Linux Kernel bao gồm toàn bộ những phần mềm miễn phí.</li>
   <li><b>Elementary OS</b> là một phần phối dựa trên Ubuntu với những tập chung mạnh vào các trải nghiệm hình ảnh mà không bị ảnh hưởng đến hiệu suất.</li>
