@@ -20,7 +20,7 @@
 
 ----
 <a name="1.2"><a>
-###1.2 5 đặc tính cốt lõi của cloud computing.
+###1.2 Năm đặc tính cốt lõi của cloud computing.
 * **Cloud computing là dịch vụ tự phục vụ theo nhu cầu**. Một cách chi tiết hơn, một khách hàng có thể đơn phương cung cấp các khả năng tính toán, ví dụ như: thời gian máy chủ, lưu trữ mạng, một cách tự động mà không cần tới tương tác giữa họ với nhà cung cấp dịch vụ
 * **Khả năng truy cập qua các mạng chuẩn**. Các khả năng của cloud có sẵn trên mạng và được truy cập thông qua các chuẩn cơ học, cái hỗ trợ cho cảc nền tảng máy khác mỏng hoặc day (thin or thick), ví dụ như điện thoại thông minh, máy tính bảng,...
 * **Chia sẻ tài nguyên**. Các tài nguyên của nhà cung cấp được tổng hợp để phục vụ cho đa khách hàng sử dụng mô hình đa thuê (multi-tenant), 
