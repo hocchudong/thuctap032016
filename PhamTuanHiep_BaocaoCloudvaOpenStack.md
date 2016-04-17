@@ -73,7 +73,7 @@ web hoặc các giao diện ứng dụng. Khách hàng không quản lý hoặc 
 
 ----
 <a name="2.3"></a>
-### 2.3 Vị trí OpenStack trong thực tế.
+* **2.3 Vị trí OpenStack trong thực tế.**
 * Hình sau sẽ minh họa cho vị trí của OpenStack:
 
 ![](https://www.openstack.org/themes/openstack/images/software/openstack-software-diagram.png)
