@@ -23,10 +23,8 @@
 - `Virtualization`(Ảo hóa) ra đời những năm 196x đề cập đến hành động phiên bảo `Virtual`(Ảo)của một cái gì đó 
 bao gồm cả các máy tính ảo với nền tảng phần cứng, hệ ddieuf hành, thiết bị lưu trữ hoặc cả một tập tài nguyên về mạng máy tính,.. nhưng không bị hạn chế
 (nguồn wiki)
-
 <a name="sosanh"></a>
 #####2.So sánh trước sau ảo hóa
-
 |Trước ảo hóa|Sau ảo hóa|
 |------------|----------|
 |- Một hệ điều hành trên 1 máy|- Phần cứng độc lập với hệ điều hành và phần mềm|
@@ -148,35 +146,108 @@ Là nền tảng mã nguồn mở sử dụng để xây dựng mô hình privat
 - Mức logic
 <img src=http://imgur.com/E24U4uy.png>
 
+<img src=http://imgur.com/T6c4JP8.png>
+
+- Kiến thiết theo từng module
+
+-Có thể lựa chọn module để triển khai
+
+-Có thể tích hợp khác với từng project
+
+-Các dịch vụ mở rộng theo chiều ngang
+
+-Các project đều có APIs mở
+
 ######4. Vai trò từng project
 
-<img src=http://imgur.com/T6c4JP8.png>
- 
-- Horizon
+- OpenStack Dashboard - Horizon
+<ul>
+<li>Cung cấp giao diện cho người dùng - tương tác OpenStack</li>
+<li>Tương tác APIs của dịch vụ</li>
+<li>Không đủ chức năng điều khiển OpenStack</li>
+</ul>
 <img src=http://imgur.com/eLR10I3.png>
 
-- Keystone
+- OpenStack Identity - Keystone
+<ul>
+<li>Dịch vụ xác thực và ủy quyền trong OpenStack</li>
+<li>Quản lý, tạo, sửa,...tài khoản ,nhòm người dùng </li>
+<li>Hỗ trợ kết hợp với LDAP,PAM,SQL</li>
+</ul>
 <img src=http://imgur.com/MR55Ef1.png>
 
-- Nova
+- OpenStack Compute - Nova
+<ul>
+<li>Lập lịch cho máy ảo. Tạo sửa máy ảo</li>
+<li>Trước có nova network, nova volume nhưng giờ đã bỏ</li>
+<li>Quản lý vòng đời máy ảo từ lúc tạo ra đến lúc xóa đi</li>
+<li>Tương tác EC2(dịch vụ cung cấp máy ảo) của AWS</li>
+<li>Hỗ trợ nhiều Hypervisor:KM,VMWare,...</li>
+<li>Hỗ trọ nhiều backend storage:iSCSl,SAN,...</li>
+</ul>
 <img src=http://imgur.com/LtdhQAG.png>
 
-- Glance
-
+- OpenStack Image Service - Glance
+<ul>
+<li>Lưu trữ, truy vấn các disk image</li>
+<li>Hỗ trợ các Hypervisor</li>
+<li>Làm việc các Storage backend:Swift, Filesystem,..</li>
+</ul>
 <img src=http://imgur.com/LtdhQAG.png>
 
-- Swift
-
+- OpenStack Object Storage - Swift
+<ul>
+<li>Đọc ghi đối tương(file) qua HTTP</li>
+<li>Tương tự dịch vụ S3(Simple Storage Service) của AWS(dịch vụ luwu trữ file)</li>
+<li>Dữ liệu có khả năng tạo bản sao</li>
+<li>Theo kiểu phân tán, có khả năng chống chịu lỗi và nhất quán</li>
+<li>Có thể triển khai độc lập về lưu trữ(swiftstack.com)</li>
+</ul>
 <img src=http://imgur.com/eiydVL9.png>
 
-- Neutron
-
+- OpenStack Network - Neutron
+<ul>
+<li>Từng có tên là Quantum</li>
+<li>Cung caaos dịch vụ mạng trong OpenStack</li>
+<li>Thay thế nova-network hướng tới SDN trong OpenStack</li>
+<li>Có nhiều dịch vụ cao cấp:FWaaS,LBaaS,VPNaaS</li>
+<li>Có cơ chế Plugin để làm việc với các hãng và giải pháp về network khác</li>
+</ul>
 <img src=http://imgur.com/wucci1k.png>
 
-- Cinder
-
+- OpenStack Block Storage - Cinder
+<ul>
+<li>Thay thế nova-volume,cấp các "block storage" gắn vào máy ảo</li>
+<li>Cung cấp volume gắn vào máy ảo</li>
+<li>Khởi tạo các máy từ Volume</li>
+<li>Có plugin để kết nồi với Storage các hãng</li>
+<li>Có thể sao lưu mở rộng volume</li>
+</ul>
 <img src=http://imgur.com/PFtyjgY.png>
 
-- Heat
-
+- OpenStack Block Orchestration - Heat
+<ul>
+<li>Thuật ngữ "Orchestration"</li>
+<li>Dùng để triển khai các ứng dụng dựa vào template được dựng sẵn</li>
+<li>tự động tính toán sử dụng tài nguyên</li> 
+<li>là tab "stack" trong Horizon</li>
+</ul>
 <img src=http://imgur.com/W4Nhtif.png>
+
+- OpenStack Block Telemetry - Ceilometer
+<ul>
+<li>Đáp ứng tính anwng "pay as you go" của cloud computing</li>
+<li>Thống kê tài nguyên người dùng sử dụng</li>
+<li>Giám sát mức đọ sử dụng tài nguyên trong OpenStack</li>
+<li>Mục tiêu: đo lường để tính xhi phí</li>
+<li>Tích hợp trong Horizon với quyền admib</li>
+</ul>
+<img src=http://imgur.com/VWGks8E.png>
+
+- OpenStack Database Service - Trove
+<ul>
+<li>Dịch vụ cung cấp về cơ sở dữ liệu có mặt trong OpenStack Icehouse</li>
+<li>Cung cấp Database không cần thông qua người quản trị</li>
+<li>Tự động backup đảm ảo an toàn</li>
+<li>Hỗ trỡ SQL và NoSQL</li>
+</ul>
