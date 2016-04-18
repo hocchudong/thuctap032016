@@ -249,5 +249,5 @@ Là nền tảng mã nguồn mở sử dụng để xây dựng mô hình privat
 <li>Dịch vụ cung cấp về cơ sở dữ liệu có mặt trong OpenStack Icehouse</li>
 <li>Cung cấp Database không cần thông qua người quản trị</li>
 <li>Tự động backup đảm ảo an toàn</li>
-<li>Hỗ trỡ SQL và NoSQL</li>
+<li>Hỗ trợ SQL và NoSQL</li>
 </ul>
