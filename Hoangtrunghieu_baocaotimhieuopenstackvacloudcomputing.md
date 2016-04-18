@@ -170,13 +170,13 @@ Là nền tảng mã nguồn mở sử dụng để xây dựng mô hình privat
 
 - Kiến thiết theo từng module
 
--Có thể lựa chọn module để triển khai
+- Có thể lựa chọn module để triển khai
 
--Có thể tích hợp khác với từng project
+- Có thể tích hợp khác với từng project
 
--Các dịch vụ mở rộng theo chiều ngang
+- Các dịch vụ mở rộng theo chiều ngang
 
--Các project đều có APIs mở
+- Các project đều có APIs mở
 <a name="project"></a>
 ######4. Vai trò từng project
 
