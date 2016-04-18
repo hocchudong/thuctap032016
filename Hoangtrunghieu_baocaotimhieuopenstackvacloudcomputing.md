@@ -13,7 +13,6 @@
 - [5.Hường tiếp cận công nghệ ảo hóa](#huong)
 
 II.Cloud Computing
-
 <a name="aohoa"></a>
 ###I.Ảo hóa(Virtualization)
 <a name="khainiem"></a>
@@ -23,11 +22,12 @@ bao gồm cả các máy tính ảo với nền tảng phần cứng, hệ ddieu
 (nguồn wiki)
 <a name="sosanh"></a>
 #####2.So sánh trước sau ảo hóa
+
 |Trước ảo hóa|Sau ảo hóa|
 |------------|----------|
-|- Một hệ điều hành trên 1 máy|- Phần cứng độc lập với hệ điều hành và phần mềm|
-|- Phần mềm và phần cứng gắn chặt nhăt|- Các máy ảo có thể được cung ứng từ mọi hệ thống|
-|- Hạ tầng không linh hoạt, tốn kém,dễ xảy ra xung đột khi chạy nhiều ứng dụng trên cùng máy ảo|- Có thể quản lý hệ điều hành va ứng dụng như một đơn vị duy nhất biowr vì chúng được đóng gói vào một máy ảo
+|-Một hệ điều hành trên 1 máy|-Phần cứng độc lập với hệ điều hành và phần mềm|
+|-Phần mềm và phần cứng gắn chặt nhăt|-Các máy ảo có thể được cung ứng từ mọi hệ thống|
+|-Hạ tầng không linh hoạt, tốn kém,dễ xảy ra xung đột khi chạy nhiều ứng dụng trên cùng máy ảo|-Có thể quản lý hệ điều hành va ứng dụng như một đơn vị duy nhất biowr vì chúng được đóng gói vào một máy ảo
 <a name="uudiem"></a>
 #####3.Ưu điểm của `Virtualization`
 <ul>
