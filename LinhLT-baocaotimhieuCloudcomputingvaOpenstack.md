@@ -125,7 +125,7 @@
 * đồng thời cho phép kết thúc sử dụng dịch vụ, giải phóng tài nguyên dễ dàng, giảm thiểu các giao tiếp với nhà cung cấp”
 
 <a name="dac_diem"></a>
-##2.1. 5 đặc điểm
+##2.1: 5 đặc điểm
 * Khả năng thu hồi và cấp phát tài nguyên (Rapid elasticity)
 * Truy nhập qua các chuẩn mạng (Broad network access)
 * Dịch vụ sử dụng đo đếm được (Measured service,) hay là chi trả theo mức độ sử dụng pay as you go.
@@ -152,7 +152,7 @@
 
 ![](https://vietstack.files.wordpress.com/2014/02/openstack-software-diagram.png?w=756&h=313)
 
-Trong đó: 
+* Trong đó: 
 	* Standard Hardware: phần cứng của bạn, đã được ảo hóa để chia sẻ cho ứng dụng, người dùng.
 	* Your Applicaions: Trên cùng là các ứng dụng của bạn, tức là các phần mềm mà bạn sử dụng
 	* OpenStack là phần ở giữa 2 phần trên. Trong OpenStack có các thành phần, module khác nhau nhưng trong hình minh họa các thành phần cơ bản: Dashboard, Compute, Networking, API, Storage …
