@@ -23,13 +23,16 @@
 - `Virtualization`(Ảo hóa) ra đời những năm 196x đề cập đến hành động phiên bảo `Virtual`(Ảo)của một cái gì đó 
 bao gồm cả các máy tính ảo với nền tảng phần cứng, hệ ddieuf hành, thiết bị lưu trữ hoặc cả một tập tài nguyên về mạng máy tính,.. nhưng không bị hạn chế
 (nguồn wiki)
+
 <a name="sosanh"></a>
 #####2.So sánh trước sau ảo hóa
+
 |Trước ảo hóa|Sau ảo hóa|
 |------------|----------|
 |- Một hệ điều hành trên 1 máy|- Phần cứng độc lập với hệ điều hành và phần mềm|
 |- Phần mềm và phần cứng gắn chặt nhăt|- Các máy ảo có thể được cung ứng từ mọi hệ thống|
-|- Hạ tầng không linh hoạt, tốn kém,dễ xảy ra xung đột khi chạy nhiều ứng dụng trên cùng máy ảo|- Có thể quản lý hệ điều hành va ứng dụng như một đơn vị duy nhất biowr vì chúng được đóng gói vào một máy ảo|
+|- Hạ tầng không linh hoạt, tốn kém,dễ xảy ra xung đột khi chạy nhiều ứng dụng trên cùng máy ảo|- Có thể quản lý hệ điều hành va ứng dụng như một đơn vị duy nhất bởi vì chúng được đóng gói vào một máy ảo|
+
 <a name="uudiem"></a>
 #####3.Ưu điểm của `Virtualization`
 <ul>
