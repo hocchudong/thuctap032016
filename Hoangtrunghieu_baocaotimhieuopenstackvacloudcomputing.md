@@ -14,7 +14,23 @@
 
 [II.Cloud Computing](#cloud)
 
+- [1.Định nghĩa](#dn)
+
+- [2.5 Yếu tố](#yeuto)
+
+- [3.4 mô hình](#mohinh)
+
+- [4.3 dịch vụ](#dichvu)
+
 [III.OpenStack](#stack)
+
+- [1.Khái niệm](#knstack)
+
+- [2.Đặc điểm](#dacdiem)
+
+- [3.Kiến trúc](#kientruc)
+
+- [4.Vai trò từng project](#project)
 
 <a name="aohoa"></a>
 ###I.Ảo hóa(Virtualization)
@@ -66,6 +82,7 @@ bao gồm cả các máy tính ảo với nền tảng phần cứng, hệ ddieu
 
 <a name="cloud"></a>
 ####II.Cloud Computing
+<a name="dn"></a>
 #####1.Định nghĩa
 >Cloud computing is a model for enabling ubiquitous
 , convenient, on-demand network access to a shared pool of 
@@ -78,7 +95,7 @@ service models, and four deployment models.<The NIST Definition of Cloud Computi
 >Điện toán đám may là mô hình phổ biến,thuân tiện, cho phép người dùng chủ động kết nối tới một số lượng 
 tài nguyên máy tính(mạng,máy chủ,bộ nhớ,ứng dụng và dịch vụ)có thể được cung cấp nhanh chóng với sự kiểm soát nhỏ nhất
 hay sự tương tác với nhà cung cấp. Mô hình đám mây là sự hợp thành của 5 yếu tố,3 mô hình dịch vụ, 4 mô hình triển khai.
-
+<a name="yeuto"></a>
 #####2. 5 yếu tố 
 <ul>
 <li>On-demand self-service(tự phục vụ theo yêu cầu): người sử dụng có thể đơn phương chủ động khởi tạo, tạm dừng dịch vụ,.. </li>
@@ -87,6 +104,7 @@ hay sự tương tác với nhà cung cấp. Mô hình đám mây là sự hợp
 <li>Rapid elasticcity(đàn hồi nhanh):Cấp phát thu hồi tài nguyên nhanh chóng, cân bằng tỉ lệ tài nguyên ra, vào với yêu cầu </li>
 <li>Mearsured service(Tính toán dịch vụ):đo lường kiểm soát thời gian sử dụng, tính toán chi phí, mức độ sử dụng</li>
 </ul>
+<a name="mohinh"></a>
 #####3. 4 mô hình:
 <ul>
 <img src=http://imgur.com/VRExyoz.png>
@@ -100,30 +118,32 @@ hay sự tương tác với nhà cung cấp. Mô hình đám mây là sự hợp
 <img src=http://imgur.com/Na6vAYg.png>
 <li>Hybrid Cloud:là sự kết hợp hạ tầng của nhiều hạ tầng điện toán đám mây( private,community,public) mà vẫn duy trì các đặc tính riêng biệt nhưng được giới hạn bởi một công nghệ tiêu chuẩn có thể cho phép dữ liệu và ứng dụng di chuyển </li>
 </ul>
+<a name="dichvu"></a>
 #####4. 3 mô hình dịch vụ:
 <ul>
 <li>Sofware as a Service(SaaS): Khả năng cung cấp cho người tiêu dùng là sử dụng các ứng dụng của nhà cung cấp chạy trên một cơ sở hạ tầng điện toán đám mây.Ứng dụng được truy cập qua các thiết bị khác nhau qua một client nhỏ như trình duyệt,...
 Người dùng không quản lý hay điều khiển hạ tầng bao gồm mạng, máy chủ,, hệ điều hành,.. với những ngoại lệ mà người dùng có thể chỉnh sửa thiết lập </li>
 <li>Platform as a Service(PaaS):Cung cấp cho khách triển khai hạ tầng điện toán đám mây được tạo ra hoặc mua ứng dụng ,thư viện, công cụ cung cấp bởi  nhà cung cấp. Người sử dụng không quản lý ,điều khiển hạ tầng nhưng có thể điều khiển ứng dụng và chỉnh sửa thiết lập cho ứng dụng lưu trữ môi trường</li>
 <li>Infasture as a Service(IaaS): Cung cấp cho người dùng khả năng xử lý , lư trữ,mạng, và các thao tác với tài nguyên máy tính ,nơi mà người dùng có thể triển khai và chạy phần mềm tùy ý, bao gồm cả hệ điều hành và ứng dụng. người dùng không quản lý, điều khiển hạ tầng điện toán nhưng điều khienr hệ điều hành, bộ nhớ, triển khai phần mềm trong giới hạn cho phép </li>
-</ul>
-#####5. 3 mô hình dịch vụ từ các góc nhìn:
+
+<li> 3 mô hình dịch vụ từ các góc nhìn:</li>
 <ul>
 <li>Từ người quản trị</li>
 <img src=http://imgur.com/frDPtOO.png>
 <li> Từ phí người dùng</li>
 <img src=http://imgur.com/y2VGKgq.png>
 </ul>
-- Uu và nhược điểm:
+<li> Uu và nhược điểm:</li>
 <img src=http://imgur.com/Cwr3b21.png>
+</ul>
 
 <a name="stack"></a>
 ####III.OpenStack
-
+<a name="knstack"></a>
 #####1.Khái niệm
 
 Là nền tảng mã nguồn mở sử dụng để xây dựng mô hình private và public cloud.
-
+<a name="dacdiem"></a>
 #####2.Đặc điểm
 
 - Thiết kế theo module
@@ -134,10 +154,10 @@ Là nền tảng mã nguồn mở sử dụng để xây dựng mô hình privat
 
 - 99.99% là mã python 2.x
 
--Tên đánh theo A,B,.. tối đa 10 kí tự là danh từ
+- Tên đánh theo A,B,.. tối đa 10 kí tự là danh từ
 
 - Tên- mã dự án: Computer-Nova, Network_NEUTRON
-
+<a name="kientruc"></a>
 #####3.Kiến trúc
 
 - Mức ý niệm
@@ -157,7 +177,7 @@ Là nền tảng mã nguồn mở sử dụng để xây dựng mô hình privat
 -Các dịch vụ mở rộng theo chiều ngang
 
 -Các project đều có APIs mở
-
+<a name="project"></a>
 ######4. Vai trò từng project
 
 - OpenStack Dashboard - Horizon
