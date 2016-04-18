@@ -21,6 +21,18 @@
 	* [2.3: 3 mô hình triển khai](#mo_hinh_trien_khai)
 * [3. OpenStack](#openstack)
 	* [3.1. Một vài thông tin vắn tắt về OpenStack](#thong_tin_openstack)
+	* [3.2 Các thành phần (project con) cơ bản](#thanh_phan_openstack)
+		* [3.2.1 Dashboard - Horizon](#horizon)
+		* [3.2.2 Identity - Keystone](#keystone)
+		* [3.2.3 Compute - Nova](#nova)
+		* [3.2.4 Image Service - Glance](#glance)
+		* [3.2.5 Object Storage - Swift](#swift)
+		* [3.2.6 Network - Neutron](#neutron)
+		* [3.2.7 Block Storage - cinder](#cinder)
+		* [3.2.8 Block Orchestration - Heat](#heat)
+		* [3.2.9 Bock Telemetry - Ceilometer](#ceilometer)
+		* [3.2.10 Database Service - Trove](#trove)
+
 
 <a name="ao_hoa"></a>
 #1. Virtualization (ảo hóa)
@@ -142,8 +154,14 @@
 <a name="mo_hinh_trien_khai"></a>
 ##2.3: 3 mô hình triển khai: tức là triển khai Cloud Computing để cung cấp:
 * Hạ tầng như một dịch vụ (Infrastructure as a Service)
+	* Cung cấp dịch vụ về hạ tầng, máy chủ, tài nguyên: RAM, CPU, Storage,...
+	* Cung cấp phần "xác" của VM, người dùng chủ động cài đặt ứng dụng.
 * Nền tảng như một dịch vụ (Platform as a Service)
+	* Cung cấp dịch vụ về nền tảng (platfrom) như database, môi trường để phát triển chương trình.
+	* Máy chủ có sẵn các môi trường để phát triển ứng dụng.
 * Phần mềm như một dịch vụ (Software as a Service)
+	* Cung cấp các dịch vụ phần mềm, bán hoặc cho thuê lâu dài.
+	* Nhà cung cấp dịch vụ gần như triển khai toàn bộ.
 
 <a name="openstack"></a>
 #3. OpenStack
@@ -161,17 +179,97 @@
 ##3.1. Một vài thông tin vắn tắt về OpenStack
 * OpenStack là một dự án  mã nguồn mở  dùng để triển khai private cloud và public cloud, nó bao gồm nhiều thành phần, do các công ty, tổ chức ,lập trình viên tự nguyện xây dựng và phát triển. Có 3 nhóm chính tham gia: Nhóm điều hành, nhóm phát triển và nhóm người dùng.
 * OpenStack hoạt động theo hướng mở: (Open) Công khai lộ trình phát triển, (Open) công khai mã nguồn …
+* Thiết kế theo hướng module, có thể lựa chọn Module để triển khai (Các module nhân bắt buộc phải có).
+* Có thể tích hợp các kỹ thuật khác với từng project.
+* Tất cả các project đều có có APIs mở.
 * Tháng 10/2010 Racksapce và NASA công bố phiên bản đầu tiên của OpenStack, có tên là OpenStack Austin, với 2 thành phần chính: Compute (tên mã là Nova) và Object Storage (tên mã là Swift)
 * Các phiên bản OpenStack có chu kỳ 6 tháng. Tức là 6 tháng một lần sẽ công bố phiên bản mới với các tính năng bổ sung.
 * Tính đến nay có 9 phiên bản của OpenStack bao gồm: Austin, Bexar, Cactus, Diablo, Essex, Folsom, Grizzly, Havana.
 * Tên các phiên bản được bắt đầu theo thứ tự A, B, C, D …trong bảng chữ cái.
-* Các thành phần (project con) có tên và có mã dự án đi kèm, với Havana gồm 9 thành phần sau:
-	* Compute (code-name Nova)
-	* Networking (code-name Neutron)
-	* Object Storage (code-name Swift)
-	* Block Storage (code-name Cinder)
-	* Identity (code-name Keystone)
-	* Image Service (code-name Glance)
-	* Dashboard (code-name Horizon)
-	* Telemetry (code-name Ceilometer)
-	* Orchestration (code-name Heat)
+
+<a name="thanh_phan_openstack"></a>
+##3.2 Các thành phần (project con) cơ bản: 
+* **Compute (code-name Nova)**
+* **Identity (code-name Keystone)**
+* **Image Service (code-name Glance)**
+* **Dashboard (code-name Horizon)**
+* Networking (code-name Neutron)
+* Object Storage (code-name Swift)
+* Block Storage (code-name Cinder)
+* Telemetry (code-name Ceilometer)
+* Orchestration (code-name Heat)
+
+*Các thành phần in đậm là các thành phần core trong OpenStack*
+
+<a name="horizon"></a>
+###3.2.1 Dashboard - Horizon
+* Cung cấp giao diện cho người dùng, tương tác với OpenStack
+* Tương tác với APIs của các dịch vụ.
+* Không đầy đủ các chức năng để điều khiển OpenStack
+
+<a name="keystone"></a>
+###3.2.2 Identity - Keystone
+* Dịch vụ xác thực và ủy quyền trong OpenStack.
+* Quản lý, tạo sủa, xóa tài khoản, nhóm người dùng, vai trò,..
+* Hỗ trợ và có thể kết hợp với LDAP, PAM, SQL,..
+
+<a name="nova"></a>
+###3.2.3 Compute - Nova
+* Lập lịch cho các mảy ảo (Instance). Tạo sửa, xóa, thay đổi máy ảo.
+* Quản lý vòng đời của các máy ảo, từ lúc "spawn" đến lúc "delete"
+* NOVA tương đương với EC2 - dịch vụ cung câp máy ảo của AWS.
+* Hỗ trợ nhiều Hypervisor: KVM, Vmware, Hyper-V, Xen, Docker
+* Hỗ trợ nhiều backend storage: iSCSI, SAN, NetAPP,...
+
+<a name="glance"></a>
+###3.2.4 Image Service - Glance
+* Lưu trữ và truy vấn các disk image (Các máy mẫu được tạo sẵn).
+* Hỗ trợ nhiều định dạng của Hypervisor: vmdk, vhd, qcow, ami,..
+* Làm việc với các storage backend: Filesystem, swift, Amazon S3,..
+
+<a name="swift"></a>
+###3.2.5 Object Storage - Swift
+* Đọc và ghi các đối tượng (file) thông qua HTTP.
+* Tương tự dịch vụ S3 của AWS.
+* Dữ liệu lưu trong Swift có khả năng tự tạo các bản sao.
+* Theo kiểu phân tán, có khả năng chống chịu lỗi và nhất quán.
+* Có thể triển khai thành dịch vụ độc lập về lưu trữ.
+
+<a name="neutron"></a>
+###3.2.6 Network - Neutron
+* Cung cấp dịch vụ về mạng trong Openstack.
+* Thay thế nova-network để hướng tới SDN trong OpenStack.
+* Có nhiều dịch vụ cao cấp: FWaas, LBaaS, VPNaaS.
+* Có cơ chế Plugin để làm việc với các hãng và giải pháp về network khác.
+
+<a name="cinder"></a>
+###3.2.7 Block Storage - cinder
+* Thay thế nova-volume, cung cấp các "block storage" gắn vào máy ảo.
+* Cung cấp các volume (partion) gắn vào các máy ảo.
+* Có thể khởi tạo các máy từ Volume.
+* Có các pugin để kết nối với Storage của các hãng.
+* Có thể sao lưu, mở rộng các volume.
+
+<a name="heat"></a>
+###3.2.8 Block Orchestration - Heat.
+* Dùng để triển khai các ưng dụng dựa vào template được dựng sẵn.
+* Tự động tính toán và sử dụng các tài nguyên: compute, network...
+* Là tab "stack" trong Horizon
+
+<a name="ceilometer"></a>
+###3.2.9 Bock Telemetry - Ceilometer
+* Đáp ứng tính năng "Pay as you go" của Cloud Computing.
+* Dung để thống kê các tài nguyên mà người dùng sử dụng.
+* Giám sát mức độ sử dụng tài nguyên trong OpenStack.
+* Đo lương để tính chi phí.
+* Tích hợp trong Horizon với quyền Admin.
+
+<a name="trove"></a>
+###3.2.10 Database Service - Trove
+* Là dịch vụ về cơ sở dữ liệu, có mặt trong bản OpenStack Icehouse.
+* Cung cấp các Database - không cần thông qua người quản trị.
+* Có khả năng tự động backup.
+* Hỗ trợ cả SQL và NoSQL.
+
+
+
