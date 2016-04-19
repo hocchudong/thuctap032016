@@ -254,7 +254,7 @@
 ####2. Openstack được sử dụng như thế nào trong môi trường điện toán đám mây.
 
 - Openstack được coi là một cơ sở hạ tầng 
-như một dịch vụ (LaaS).
+như một dịch vụ (IaaS).
 - Cung cấp cơ sở hạ tầng có nghĩa là OpenStack làm cho nó dễ dàng cho người sử dụng để nhanh chóng thêm trường hợp mới khi các hạ tầng đám mây khác có thể chạy.
 <a name="tpos"></a>
 ###II. Các thành phần của OpenStack.
