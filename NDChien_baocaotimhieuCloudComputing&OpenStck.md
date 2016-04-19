@@ -64,20 +64,31 @@ Mô hình điện toán đám mây bao gồm năm đặc điểm thiết yếu, 
 **1.3 Mô hình triển khai**
 * **Private Cloud**
 
+<img src=http://i.imgur.com/6sRN1CN.png>
+
  Các cơ sở hạ tầng được cấp phép cho sử dụng độc quyền bởi một tổ chức bao gồm nhiều người. Ít có nhu cầu bảo mật và tính pháp lý so với Public Cloud.
 * **Public Cloud**
 
+<img src=http://i.imgur.com/fxWyEUL.png>
+
 	Các cơ sở hạ tầng điện toán đám mây được cấp phép cho sử dụng mở. Nó có thể được sở hữu, quản lý và điều hành bởi một doanh nghiệp hoặc các tổ chức chính phủ, 
 	hoặc một số sự kết hợp của họ. Nó tồn tại trên cơ sở của các nhà cung cấp điện toán đám mây. Thường là thương mại hóa.
-* **Community Cloud**
 
-	Các cơ sở hạ tầng điện toán đám mây được kết hợp bởi nhiều CSP (Cloud service provider). 
-	Nó có thể được sở hữu, quản lý, và điều hành bởi một hoặc nhiều tổ chức, một bên thứ ba, hoặc một số sự kết hợp của họ.
 * **Hybrid cloud**
+
+<img src=http://i.imgur.com/58dbD3G.png
 
 	Các cơ sở hạ tầng điện toán đám mây là một thành phần của hai hoặc nhiều hơn những cơ sở hạ tầng điện toán đám mây (tư nhân, cộng đồng, hoặc công cộng)
 	mà vẫn thực thể duy nhất, nhưng đang bị ràng buộc với nhau bằng công nghệ tiêu chuẩn hóa hoặc độc quyền cho phép dữ liệu và ứng dụng di động. Nó là sự kết
 	hợp của Private Cloud và Public Cloud.
+	
+* **Community Cloud**
+
+<img src=http://i.imgur.com/89u3Tyx.png>
+
+	Các cơ sở hạ tầng điện toán đám mây được kết hợp bởi nhiều CSP (Cloud service provider). 
+	Nó có thể được sở hữu, quản lý, và điều hành bởi một hoặc nhiều tổ chức, một bên thứ ba, hoặc một số sự kết hợp của họ.
+
 
 <a name="1.4"></a>
 **1.4 Ưu, nhược điểm**
