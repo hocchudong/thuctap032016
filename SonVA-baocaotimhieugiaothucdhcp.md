@@ -1,7 +1,7 @@
 ## MỤC LỤC
 [I. Cài đặt DHCP](#I)
 - [1. Thiết lập mô hình test DHCP](#I.1)
-- [2. Thiết lập cấu hình DHCP cho server](I.2)  
+- [2. Thiết lập cấu hình DHCP cho server](#I.2)  
 
 [II. Thiết lập LAB thử nghiệm bắt gói tin DHCP](#II)
 
