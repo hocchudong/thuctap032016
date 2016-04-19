@@ -126,3 +126,13 @@ Mô hình DHCP cơ bản
 |CIAdress|4|Client IP Address: `client` đưa địa chỉ IP vào đây khi và chỉ khi có IP hay xin cấp lại, còn không thì mặc định =0.|
 |YIAddr|4|Your IP address: địa chỉ IP cấp bởi `server` cấp cho `client`
 |SIAddr|4|Server IP address:|
+
+##VI.Cách thức hoạt động của dịch DHCP
+Dịch vụ DHCP tương tác theo mô hình `client/server` nên các bước thực hiện như sau:
+- B1: máy `client` sẽ gửi gói tin DHCPDiscover yêu cầu `server` phục vụ và nố chứa địa chỉ MAC của `client`.Nếu client không liên lạc được với DHCP Server thì sau 4 lần truy vấn không thành công nó sẽ tự động phát sinh ra 1 địa chỉ IP riêng cho chính mình nằm trong dãy 169.254.0.0 đến 169.254.255.255 dùng để liên lạc tạm thời. Và client vẫn duy trì việc phát tín hiệu Broad cast sau mỗi 5 phút để xin cấp IP từ DHCP Server. 
+
+- B2:Các máy chủ nhạn tin và kiểm tra còn địa chỉ IP không nếu có sẽ gửi gói tin DHCP Ofer đề nghị cho thuê một địa chỉ IP trong một khoảng thời gian nhất định, kèm theo là một Subnet Mask và địa chỉ của Server. Server sẽ không cấp phát đia chỉ IP vừa đề nghị cho client thuê trông suốt thời gian thương thuyết.
+
+- B3:`Client sẽ chọn một DHCP ofer và sẽ gửi lại DHCP Request, các lời đề nghị từ chối bị rút lại cấp cho các máy khác
+
+- B4:`Server` sẽ gửi một gói tin DHCP ACK cho biết địa chỉ IP đó, Subnet Mask đó và thời hạn cho sử dụng đó sẽ chính thức được áp dụng. Ngoài ra server còn gửi kèm những thông tin bổ xung như địa chỉ Gateway mặc định, địa chỉ DNS Server… 
