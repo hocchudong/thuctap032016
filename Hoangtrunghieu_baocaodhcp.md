@@ -113,8 +113,9 @@ Mô hình DHCP cơ bản
 
 Định dạng gói tin
 
+
 |Trường|Kích thước(bytes)|Mô tả|
-|======|=================|=====|
+|------|-----------------|-----|
 |Op|1|Operation Code: Phân biệt các loại gói tin. 1 là gói tin yêu cầu, 2 là gói tin trả lại|
 |HType|1|Hardware Type: Chỉ định cụ thể loại phần cứng <img src=http://www.tcpipguide.com/free/aa20cf0f.png>|
 |Hlen|1|Hardware Adress Lenght: chỉ định cụ thể độ dài gói tin.|
