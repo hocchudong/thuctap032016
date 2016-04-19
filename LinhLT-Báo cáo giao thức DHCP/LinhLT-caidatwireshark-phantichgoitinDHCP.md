@@ -32,10 +32,10 @@
 
 <a name="tinh_nang_nang_cao"></a>
 ##1.2. Một số tính năng nâng cao của Wireshark:
-* Giao diện tổng quát: có 5 phần chính
 
 ![](https://farm8.staticflickr.com/7579/16011145562_eae3b825fc_o.png)
 
+* Giao diện tổng quát: có 5 phần chính
 	* Các Tùy chỉnh nằm ở phía trên của cửa sổ. Mối quan tâm của chúng ta hiện nay là các tập tin và Capture. Các menu File cho phép bạn lưu dữ liệu gói tin bị bắt hoặc mở một tập tin có chứa các gói dữ liệu bị bắt từ trước, và thoát khỏi ứng dụng Wireshark. Menu Capture cho phép bạn bắt đầu bắt gói tin.
 	* Cửa sổ danh sách gói tin hiển thị một bản tóm tắt một dòng cho mỗi gói tin bị bắt, tại thời điểm mà các gói tin bị bắt, nguồn và địa chỉ đích của gói tin, các loại giao thức, và thông tin giao thức cụ thể có trong các gói tin. Danh sách này có thể được sắp xếp theo tùy chỉnh của mỗi loại bằng cách nhấp vào một tên cột. Các loại trường giao thức liệt kê các giao thức cấp cao nhất mà gửi hoặc nhận được gói tin này.
 	* Cửa sổ chi tiết gói tin cung cấp chi tiết về các gói lựa chọn. Những chi tiết này bao gồm thông tin về các khung Ethernet (giả sử các gói đã được gửi/nhận trên một cổng Ethernet) và IP gói tin. Số lượng Ethernet và IP lớp chi tiết hiển thị có thể được mở rộng hoặc giảm thiểu bằng cách nhấp vào biểu tượng cộng hoặc trừ bên trái của khung Ethernet hoặc IP trong cửa sổ chi tiết gói tin. Nếu gói dữ liệu đã được thực hiện trên TCP hoặc UDP, chi tiết về TCP hoặc UDP cũng sẽ được hiển thị, tương tự mà có thể mở rộng hoặc thu nhỏ. Cuối cùng, chi tiết về các giao thức cấp cao nhất mà gửi hoặc nhận được gói tin này cũng được cung cấp.

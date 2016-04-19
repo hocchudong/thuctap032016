@@ -2,17 +2,17 @@
 
 #Mục lục
 
-*[1. Khái niệm DHCP](#khai_niem)
+* [1. Khái niệm DHCP](#khai_niem)
 
-*[2. Các thuật ngữ trong DHCP](#thuat_ngu)
+* [2. Các thuật ngữ trong DHCP](#thuat_ngu)
 
-*[3. Gói tin DHCP](#goi_tin)
+* [3. Gói tin DHCP](#goi_tin)
 
-*[4. Các thông điệp DHCP](#thong_diep)
+* [4. Các thông điệp DHCP](#thong_diep)
 
-*[5. Cách hoạt động DHCP](#hoat_dong)
+* [5. Cách hoạt động DHCP](#hoat_dong)
 
-*[6. Tài liệu tham khảo](#tai_lieu_tham_khao)
+* [6. Tài liệu tham khảo](#tai_lieu_tham_khao)
 
 
 <a name="khai_niem"></a>
