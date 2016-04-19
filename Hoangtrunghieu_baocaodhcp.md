@@ -126,4 +126,4 @@ Mô hình DHCP cơ bản
 - Reserved =0  không dùng tới|
 |CIAdress|4|Client IP Address: `client` đưa địa chỉ IP vào đây khi và chỉ khi có IP hay xin cấp lại, còn không thì mặc định =0.|
 |YIAddr|4|Your IP address: địa chỉ IP cấp bởi `server` cấp cho `client`
-|SIAddr|4|Server IP address:
+|SIAddr|4|Server IP address:|
