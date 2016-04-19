@@ -122,7 +122,7 @@ Mô hình DHCP cơ bản
 |Hops|1|Hops: Đặt bằng 0 bởi `client` trước khi truyền tin và dùng bởi `relay agents` để kiểm soát sự chuyển tiếp của BOOTP, gói tin DHCP|
 |XID|4|Transaction Identifier:một trường dài 32 bit tạo bởi `client` để khớp với đáp lại từ máy chủ DHCP.|
 |Secs|2|Seconds:định nghĩa thời gian trôi qua khi `client` bắt đầu thuê lại hoặc cấp lại địa chỉ IP.|
-|Flags|2|<img src=http://i.imgur.com/t3yzFDx.png> - B(1 bit) = 1  khi `client` không biết địa chỉ IP trong khi gửi yêu cầu - Reserved =0  không dùng tới|
+|Flags|2|<img src=http://i.imgur.com/t3yzFDx.png> <ul><li> B(1 bit) = 1  khi `client` không biết địa chỉ IP trong khi gửi yêu cầu</li> <li>Reserved =0  không dùng tới</li></ul>|
 |CIAdress|4|Client IP Address: `client` đưa địa chỉ IP vào đây khi và chỉ khi có IP hay xin cấp lại, còn không thì mặc định =0.|
 |YIAddr|4|Your IP address: địa chỉ IP cấp bởi `server` cấp cho `client`
 |SIAddr|4|Server IP address:|
