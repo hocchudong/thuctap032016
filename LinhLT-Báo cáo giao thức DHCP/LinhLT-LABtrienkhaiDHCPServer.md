@@ -24,6 +24,11 @@ apt-get install -y install isc-dhcp-server
 ```
 <a name="cau_hinh"></a>
 ##2.2 Cấu hình DHCP Server
+
+* Cấu hình Interface dùng cho DHCP Server: `/etc/default/isc-dhcp-server`
+![](http://i.imgur.com/f7NMWd7.png)
+
+
 * Đường dẫn file cấu hình: `/etc/dhcp/dhcpd.conf`
 * Nội dung file cấu hình
 ```sh
