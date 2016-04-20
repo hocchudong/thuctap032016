@@ -100,7 +100,10 @@
 | greater |Khi sử dụng từ khóa này, tcpdump sẽ lọc (filter) các gói tin có dung lượng  cao hơn giá trị chỉ định.|
 | (ether \|\ ip) broadcast |Capture các gói tin ip broadcast hoặc ethernet broadcast.|
 | (ether \|\ ip \|\ ip6) multicast |Capture các gói tin ethernet, ip , ipv6 multicast.|
-| Ngoài ra, tcpdump còn có thể capture các gói tin theo các protocol như : udp, tcp, icmp, ipv6  (chỉ cần gõ trực tiếp các từ khóa vào là được). Ví dụ: tcpdump icmp|
+
+Ngoài ra, tcpdump còn có thể capture các gói tin theo các protocol như : udp, tcp, icmp, ipv6  (chỉ cần gõ trực tiếp các từ khóa vào là được).
+
+Ví dụ: `tcpdump icmp`
 
 <a name="ket_hop"></a>
 #5. Một số kết hợp trong tcpdump:
