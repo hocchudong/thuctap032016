@@ -88,3 +88,8 @@ Client hardware address | 16 bytes | Địa chỉ lớp 2 của client, dùng đ
 Server host name | 64 bytes | Khi server gửi gói tin offer hay ack thì sẽ đặt tên của nó vào trường này, nó có thể là nickname hoặc tên miền dns |
 Boot filename | 128 bytes | Sử dụng bời client để yêu cầu loại tập tin khởi động cụ thể trong gói tin discover.Sử dụng bởi server để chỉ rõ toàn bộ đường dẫn, tên file của file khởi động trong gói tin offer |
 
+##Tài liệu tham khảo
+
+- http://www.tcpipguide.com/free/t_DHCPMessageFormat.htm
+- https://github.com/kieulam141/DHCP/blob/master/README.md
+- http://vdo.vn/cong-nghe-thong-tin/cac-khai-niem-co-ban-ve-dhcp.html
