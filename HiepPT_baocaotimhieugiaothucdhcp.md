@@ -16,6 +16,7 @@ máy tính trong hệ thống mạng, điều này làm tránh việc trùng đ�
 * Hiện nay DHCP có 2 version: cho IPv4 và IPv6.
 * Mô hình DHCP cơ bản:
 ![] (http://vdo.vn/wp-content/uploads/2013/03/model_dhcp_server.png)
+
 ----
 <a name="2"></a>
 ## 2. Các thuật ngữ cơ bản trong DHCP.
