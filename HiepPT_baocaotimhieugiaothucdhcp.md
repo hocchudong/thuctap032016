@@ -15,6 +15,7 @@ máy tính trong hệ thống mạng, điều này làm tránh việc trùng đ�
 * Nếu không có DHCP, các máy có thể cấu hình IP thủ công. Ngoài ra DHCP còn cung cấp thông tin cấu hình khác, cụ thể như DNS.
 * Hiện nay DHCP có 2 version: cho IPv4 và IPv6.
 * Mô hình DHCP cơ bản:
+
 ![] (http://vdo.vn/wp-content/uploads/2013/03/model_dhcp_server.png)
 
 ----
@@ -25,7 +26,7 @@ máy tính trong hệ thống mạng, điều này làm tránh việc trùng đ�
 * **Scope**: phạm vi liên tiếp của các địa chỉ IP có thể cho một mạng.
 * **Exclusion Scope**: là dải địa chỉ nằm trong Scope không được cấp phát động cho Clients.
 * **Reservation**: Địa chỉ đặt trước dành riêng cho máy tính hoặc thiết bị chạy các dịch vụ (tùy chọn này thường được thiết lập để cấp phát địa chỉ cho các Server, Printer,…..)
-* **Scope Options**: các thông số được cấu hình thêm khi cấp phát IP động cho Clients như DNS Server(006), Router(003)  ![] 
+* **Scope Options**: các thông số được cấu hình thêm khi cấp phát IP động cho Clients như DNS Server(006), Router(003)  
 
 ----
 <a name="3"></a>
