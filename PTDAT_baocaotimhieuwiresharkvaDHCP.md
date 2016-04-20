@@ -56,6 +56,7 @@
 - DHCP offer : Là gói tin được gửi lại cho máy trạm khi DHCP server nhận được Discover đến từ máy trạm. Nội dung của gói tin bao gồm địa chỉ IP mà máy trạm được cấp phát, subnet,....
 - DHCP request : Broadcast từ Client khi nhận được gói DHCP offer. Nội dung gói tin sẽ là có đồng ý chấp nhận đia chỉ IP đó nữa không để máy chủ DHCP không cấp cho máy trạm khác địa chỉ IP đó khi có yêu cầu.
 <a name="thuchien"></a>
+
 ####2. Thực hiện.
 
 > Thực hiện trên máy chủ Ubuntu Server 14.04-64bit.
