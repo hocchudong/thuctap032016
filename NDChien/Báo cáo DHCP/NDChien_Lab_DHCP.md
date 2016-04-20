@@ -1,4 +1,4 @@
-#Dựng LAB DHCP Server là ubuntu 14.04, bắt và phân tích gói tin DHCP
+#Dựng LAB DHCP Server, bắt và phân tích gói tin DHCP
 **Mục Lục**:
 
 [1. Triển khai DHCP Server](#1)
@@ -13,9 +13,9 @@ Mô hình:
 
 <img src=http://i.imgur.com/H1iI8nx.png>
 
-Máy chủ DHCP có 2 card mạng.
+Máy chủ DHCP (Ubuntu Server 10.04) có 2 card mạng.
 - eth0 kết nối internet.
-- eth1 kết nối client-PC.
+- eth1 kết nối client-PC (Windows7).
 
 Máy client-PC chưa có địa chỉ IP và yêu cầu cấp phát từ DHCP Server.
 
