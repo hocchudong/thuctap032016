@@ -75,6 +75,7 @@
 * **Cửa sổ đồ thị IO**
   * Cách tốt nhất để hình dung hướng giải quyết là xem chúng dưới dạng hình ảnh. Cửa sổ đồ thị IO của Wireshark cho phép bạn vẽ đồ thị lưu lượng dữ liệu trên mạng.
 	* Để sử dụng tính năng này, bạn chọn menu Statistics > IO Graph
+	
 ----
 <a name="2"></a>
 ##2. Dùng WireShark để bắt gói tin.
