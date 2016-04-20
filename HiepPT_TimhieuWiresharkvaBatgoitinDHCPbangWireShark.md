@@ -6,7 +6,7 @@
   * [1.2 Giao diện tổng quan của WireShark] (#1.2)
   * [1.3 Một số tính năng nâng cao của WireShark] (#1.3)
 * [2. Bắt gói tin DHCP] (#2)
-  * [2.1 Khởi động WireShark.] (#2,1)
+  * [2.1 Khởi động WireShark.] (#2.1)
   * [2.2 Giải phóng và cấp phát IP mới.] (#2.2)
   * [2.3 Lọc các gói tin DHCP.] (#2.3)
   * [2.4 Phân tích các gói tin DHCP.] (#2.4)
