@@ -22,7 +22,8 @@ Máy client-PC chưa có địa chỉ IP và yêu cầu cấp phát từ DHCP Se
 <a name="1"></a>
 ##1. Triển khai DHCP Server
 Bước 1: Tải và cài đặt dịch vụ isc-dhcp-server
-	`sudo apt-get install isc-dhcp-server`
+
+`sudo apt-get install isc-dhcp-server`
 	
 Bước 2: Chọn card mạng cấp IP
 
