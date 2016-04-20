@@ -1,4 +1,4 @@
-#TCPDUMP và các thủ thuật sử dụng
+#TCPDUMP
 
 #Mục lục
 * [1. Giới thiệu](#gioi_thieu)
