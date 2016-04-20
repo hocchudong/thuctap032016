@@ -1,6 +1,19 @@
 #Báo cáo tìm hiểu DHCP
+##Mục lục
+- [I.Giới thiệu](#gioithieu)
 
-##I.Giới thiệu
+- [II.Khái niêm](#khainiem)
+
+- [III.Chức năng](#chucnang)
+
+- [IV.Các loại gói tin DHCP](#goitin) 
+
+- [V.DHCP Header](#header)
+
+- [VI.Cách thức hoạt đông DHCP](#dhcp)
+
+<a name="gioithieu"></a>
+##I.Giới thiệu 
 
 Thông thường trong một mô hình mạng, người quản trị có thể cấu hình IP cho các máy client theo 2 cách là cấu hình thủ công (static) và sử dụng dịch vụ DHCP để cấp phát IP động (dynamic).
 
@@ -26,6 +39,7 @@ Việc cấp phát IP động dạng này có ưu điểm hơn so với cơ ch�
 
 – Kết hợp với hệ thống mạng không dây (Wireless) cung cấp các điểm Hostpot như: nhà ga, sân bay, trường học,…
 
+<a name="khainiem"></a>
 ##II.Khái niệm
 
 Dynamic Host Configuration Protocol (DHCP - giao thức cấu hình động máy chủ) là một giao thức cấu hình tự động địa chỉ IP để làm giảm thời gian chỉnh cấu hình cho mạng TCP/IP bằng cách tự động gán các địa chỉ IP cho khách hàng khi họ vào mạng. 
@@ -59,7 +73,7 @@ Nói một cách tổng quan hơn DHCP là dich vụ mang đến cho chúng ta n
 Mô hình DHCP cơ bản
 <img src=http://vdo.vn/wp-content/uploads/2013/03/model_dhcp_server.png>
 
-
+<a name="chucnang"></a>
 ##III.Chức năng
 
 - Cấu hình động các máy.
@@ -70,6 +84,7 @@ Mô hình DHCP cơ bản
 
 - DHCP còn cung cấp thông tin cấu hình khác, cụ thể như DNS.
 
+<a name="goitin"></a>
 ##IV.Các loại bản tin DHCP
 
 - DHCP Discover:
@@ -108,6 +123,7 @@ Mô hình DHCP cơ bản
 <li>Được gửi bởi DHCP client khi client bỏ địa chỉ IP và hủy thời gian sử dụng còn lại.</li>
 <li>Đây là gói tin unicast gửi trực tiếp đến DHCP server cung cấp IP đó.</li>
 
+<a name="header"></a>
 ##V.DHCP Header
 <img src=http://www.tcpipguide.com/free/diagrams/dhcpformat.png>
 
@@ -127,6 +143,7 @@ Mô hình DHCP cơ bản
 |YIAddr|4|Your IP address: địa chỉ IP cấp bởi `server` cấp cho `client`
 |SIAddr|4|Server IP address:|
 
+<a name="dhcp"></a>
 ##VI.Cách thức hoạt động của dịch DHCP
 Dịch vụ DHCP tương tác theo mô hình `client/server` nên các bước thực hiện như sau:
 - B1: máy `client` sẽ gửi gói tin DHCPDiscover yêu cầu `server` phục vụ và nố chứa địa chỉ MAC của `client`.Nếu client không liên lạc được với DHCP Server thì sau 4 lần truy vấn không thành công nó sẽ tự động phát sinh ra 1 địa chỉ IP riêng cho chính mình nằm trong dãy 169.254.0.0 đến 169.254.255.255 dùng để liên lạc tạm thời. Và client vẫn duy trì việc phát tín hiệu Broad cast sau mỗi 5 phút để xin cấp IP từ DHCP Server. 
