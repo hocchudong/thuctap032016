@@ -78,6 +78,7 @@
 ![Scr2](http://i.imgur.com/aDZOB6H.png)
 
 - Ở đây chúng ta đã nhận được 4 gói tin như những gì đã tìm hiểu từ phần 1.
+- Kích đúp vào gói tin cần xem để xem chi tiết của gói tin đó.
 
 <a name="dhcplab"></a>
 ###III. Làm lab cài đặt và cấu hình DHCP server.
