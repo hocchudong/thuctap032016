@@ -11,7 +11,13 @@
 
 Mô hình:
 
-<img src=http://i.imgur.com/NCp2MLw.png>
+<img src=http://i.imgur.com/H1iI8nx.png>
+
+Máy chủ DHCP có 2 card mạng.
+- eth0 kết nối internet.
+- eth1 kết nối client-PC.
+
+Máy client-PC chưa có địa chỉ IP và yêu cầu cấp phát từ DHCP Server.
 
 <a name="1"></a>
 ##1. Triển khai DHCP Server
@@ -28,7 +34,7 @@ Chọn card
 
 ```sh
 [...]
-INTERFACES="eth0"
+INTERFACES="eth1"
 ```
 	
 Bước 3: Cấu hình DHCP
@@ -113,3 +119,6 @@ Gói tin broadcast gửi từ client đến các servers. Có thêm trường Cl
 <img src=http://i.imgur.com/qi7ERDB.png>
 
 Gói tin unicast gửi từ server đến client để xác nhận lại các thông tin đã cấp cho client.
+
+##Tài liệu tham khảo
+- https://github.com/kieulam141/DHCP/blob/master/Capture_wireshark.md
