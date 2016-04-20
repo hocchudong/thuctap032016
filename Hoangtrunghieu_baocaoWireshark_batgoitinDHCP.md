@@ -50,9 +50,9 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 <li>Phân giải địa chỉ để file dữ liệu dễ đọc</li>
 <li> 3 công cụ phân giải<li>
 <ul>
-<li>MAC Name Resolution: phân giải địa chỉ MAC tầng 2 sang IP tầng 3, nếu lỗi chuyển 3 byte đầu của dịa chỉ MAC sang tên hãng sản xuất được IEEE đặt ra</li>
-<li>Network Name Resolution: chuyển đổi địa chỉ tầng 3 sang một bên DNS dễ đọc</li>
-<li>Transport Name Resolution:chuyển đổi một cổng sang một tên dịch vụ tương ứng</li>
+ <li>MAC Name Resolution: phân giải địa chỉ MAC tầng 2 sang IP tầng 3, nếu lỗi chuyển 3 byte đầu của dịa chỉ MAC sang tên hãng sản xuất được IEEE đặt ra</li>
+ <li>Network Name Resolution: chuyển đổi địa chỉ tầng 3 sang một bên DNS dễ đọc</li>
+ <li>Transport Name Resolution:chuyển đổi một cổng sang một tên dịch vụ tương ứng</li>
 </ul>
 </ul>
 <li>Protocol Dissection: một protocol dissector cho phép WireShark phân chia giao thức thành một số thành phần để phân tích.ICMP protocol dissector phân chia, định dạng dữ bắt đươcnhiw là một gói ICMP</li>
