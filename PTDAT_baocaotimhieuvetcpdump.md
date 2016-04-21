@@ -53,6 +53,7 @@
 - `-L` Hiển thị danh sách các datalink type mà interface hỗ trợ.
 - `-y` Lựa chọn datalinktype khi bắt các gói tin.
 <a name="ddc"></a>
+
 ###3. Định dạng chung của một dòng giao thức tcpdump.
 
 Định dạng chung của một dòng giao thức tcpdump là :
