@@ -81,7 +81,7 @@ Trong đó:
 
 Ví dụ khi bắt gói tin khi kết nối FTP vào trong máy ảo.
 
-![scr2]()
+![scr2](http://i.imgur.com/C4ZzLmn.png)
 <a name="boloc"></a>
 ###4. Một số bộ lọc cơ bản.
 
