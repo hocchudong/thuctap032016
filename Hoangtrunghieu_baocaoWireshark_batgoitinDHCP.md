@@ -4,19 +4,19 @@
 
 [I.Giới thiệu](#gtws)
 
--[1.Giới thiệu](#gt)
+- [1.Giới thiệu](#gt)
 
--[2.Các tiện ích, đặc điểm của phần mềm Wireshark](#tienich)
+- [2.Các tiện ích, đặc điểm của phần mềm Wireshark](#tienich)
 
--[3.Giao diện](#giaodien)
+- [3.Giao diện](#giaodien)
 
--[4.Tính năng nâng cao](#tinhnang)
+- [4.Tính năng nâng cao](#tinhnang)
 
 [II.Thực hành bắt phân tích gói tin bằng WireShark](#goitin)
 
--[1.Bắt gói tin](#bat)
+- [1.Bắt gói tin](#bat)
 
--[2.Phân tích gói tin](#phantich)
+- [2.Phân tích gói tin](#phantich)
 
 <a name="gtws"></a>
 ##I.Giới thiệu Wireshark
