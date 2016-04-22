@@ -2,17 +2,17 @@
 
 ##Mục lục
 
--[I.Giới thiệu](#gioithieu)
+- [I.Giới thiệu](#gioithieu)
 
--[II.Khái niêm](#khainiem)
+- [II.Khái niêm](#khainiem)
 
--[III.Chức năng](#chucnang)
+- [III.Chức năng](#chucnang)
 
--[IV.Các loại gói tin DHCP](#goitin) 
+- [IV.Các loại gói tin DHCP](#goitin) 
 
--[V.DHCP Header](#header)
+- [V.DHCP Header](#header)
 
--[VI.Cách thức hoạt đông DHCP](#dhcp)
+- [VI.Cách thức hoạt đông DHCP](#dhcp)
 
 <a name="gioithieu"></a>
 ##I.Giới thiệu 
