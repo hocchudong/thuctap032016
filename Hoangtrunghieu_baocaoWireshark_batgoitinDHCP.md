@@ -77,9 +77,32 @@ II.Thực hành bắt phân tích gói tin bằng WireShark
 <li>2.Phân tích gói tin DHCP</li>
 <ul>
 <li>DHCP Discovery</li>
-<img src=http://i.imgur.com/VZJudEF.png>
+<img src=http://imgur.com/ZdWGK4D.png>
 <ul>
-<li></li>
+<li>1.source mac(client) des mac(servers)</li>
+<li>2.source ip (client) = 0.0.0.0 do lúc này client chưa có ip, des ip servers =255.255.255.255 do đây là bản tin broadcast.</li>
+<li>3.source port=68(client) và des port=67(server)</li>
+<li>4.Loại gói tin:DHCP discovery</li>
+<li>5.IP được client yêu cầu cấp phát</li>
+<li>6.Hostname của client</li></li>
+</ul>
+<li>DHCP offer</li>
+<img src=http://imgur.com/bWCElmE.png>
+<ul>
+<li>1.source mac(server) des mac(client).</li>
+<li>2.source ip (server) và des ip(client).</li>
+<li>3.source port=67(server) des port=68(client).</li>
+<li>4.ip client trong gói tin header</li>
+<li>5.Loại gói tin:DHCP offer</li>
+<li>6.Định danh dhcp server:chính là ip của server</li>
+<li>7.Subnet mask cấp cho client</li>
+<li>8.default gateway cấp cho client</li>
+<li>9.Tên miền</li>
+</ul>
+<li>DHCP Request</li>
+<img src=http://imgur.com/8pUL04S.png>
+<li>DHCP ACK</li>
+<img src=http://imgur.com/8pUL04S.png>
 </ul>
 </ul>
 </ul>
