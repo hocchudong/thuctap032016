@@ -22,12 +22,13 @@
 ##I.Giới thiệu Wireshark
 <ul>
 <a name="gt"></a>
-###<li>1.Giới thiệu </li>
+
+###1.Giới thiệu 
 Wireshark là một công cụ kiểm tra, theo dõi và phân tích thông tin mạng được phát triển bởi Gerald Combs. 
 Phiên bản đầu tiên của Wireshark mang tên Ethereal được phát hành năm 1988. 
 Đến nay, WireShark vượt trội về khả năng hỗ trợ các giao thức (khoảng 850 loại), từ những loại phổ biến như TCP, IP đến những loại đặc biệt như là AppleTalk và Bit Torrent. 
 <a name="tienich"></a>
-###<li>2.Các tiện ích, đặc điểm của phần mềm Wireshark </li>
+###2.Các tiện ích, đặc điểm của phần mềm Wireshark 
 <ul>
 <li>Giao diện đẹp thân thiện, dễ dùng.</li>
 
@@ -46,7 +47,7 @@ Phiên bản đầu tiên của Wireshark mang tên Ethereal được phát hàn
 <li>Lọc, tìm gói tin theo nhiều tiêu chuẩn</li>
 </ul>
 <a name="giaodien"></a>
-###<li>3.Giao diện WireShark</li>
+###3.Giao diện WireShark
 <ul>
 <img src=https://farm8.staticflickr.com/7579/16011145562_eae3b825fc_o.png>
 <li>Các Tùy chỉnh nằm ở phía trên của cửa sổ. 
@@ -67,7 +68,7 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 <li>Phía trên cùng của giao diện người dùng đồ họa Wireshark, là màn hình hiển thị kỹ thuật lọc gói tin, mà trong đó một tên giao thức hoặc các thông tin khác có thể được nhập vào đặt để lọc các thông tin hiển thị trong cửa sổ (và do đó các gói tiêu đề và gói nội dung cửa sổ).</li>
 </ul>
 <a name="tinhnang"></a>
-###<li>4.Tính năng nâng cao</li>
+###4.Tính năng nâng cao
 <ul>
 <li>Name Resolution</li>
 <ul>
@@ -90,7 +91,7 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 ##II.Thực hành bắt phân tích gói tin bằng WireShark
 <ul>
 <a name="bat"></a>
-###<li>1.Bắt gói tin</li>
+###1.Bắt gói tin
 <ul>
 <img src=http://i.imgur.com/LsAkS3x.png>
 - Mô hình mạng
@@ -101,7 +102,7 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 - Trên bộ lọc chọn bootp.
 </ul>
 <a name="phantich"></a>
-###<li>2.Phân tích gói tin DHCP</li>
+###2.Phân tích gói tin DHCP
 <ul>
 <li>DHCP Discovery</li>
 <img src=http://imgur.com/ZdWGK4D.png>
