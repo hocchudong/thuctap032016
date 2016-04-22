@@ -20,7 +20,7 @@
 
 <a name="gtws"></a>
 ##I.Giới thiệu Wireshark
-<ul>
+
 <a name="gt"></a>
 
 ###1.Giới thiệu 
@@ -90,7 +90,7 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 <li>Xem các Endpoints:Endpoint là chỗ kết nối kết thúc trên giao thức cụ thể, chỉ ra mỗi thống kê hữu ích cho mỗi Endpoint gồm địa chỉ từng máy , số lượng gói tin, dung lượng truyền nhận mỗi máy</li>
 <li>Cửa sổ đồ thị IO:vẽ đồ thị lưu lượng dữ liệu</li>
 </ul>
-</ul>
+
 <a name="goitin"></a>
 
 ##II.Thực hành bắt phân tích gói tin bằng WireShark
@@ -139,4 +139,4 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 <img src=http://imgur.com/8pUL04S.png>
 </ul>
 </ul>
-</ul>
+
