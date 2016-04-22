@@ -21,7 +21,6 @@
 <a name="gtws"></a>
 ##I.Giới thiệu Wireshark
 <ul>
-
 <a name="gt"></a>
 ###1.Giới thiệu 
 <li>Wireshark là một công cụ kiểm tra, theo dõi và phân tích thông tin mạng được phát triển bởi Gerald Combs. 
@@ -61,7 +60,6 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 <li>Phía trên cùng của giao diện người dùng đồ họa Wireshark, là màn hình hiển thị kỹ thuật lọc gói tin, mà trong đó một tên giao thức hoặc các thông tin khác có thể được nhập vào đặt để lọc các thông tin hiển thị trong cửa sổ (và do đó các gói tiêu đề và gói nội dung cửa sổ).</li>
 </ul>
 <a name="tinhnang"></a>
-
 ###4.Tính năng nâng cao
 <ul>
 <li>Name Resolution</li>
