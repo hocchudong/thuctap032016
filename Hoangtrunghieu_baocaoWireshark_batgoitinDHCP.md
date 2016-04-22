@@ -21,8 +21,8 @@
 <a name="gtws"></a>
 ##I.Giới thiệu Wireshark
 <ul>
-<a name="gt"></a>
 
+<a name="gt"></a>
 ###1.Giới thiệu 
 
 Wireshark là một công cụ kiểm tra, theo dõi và phân tích thông tin mạng được phát triển bởi Gerald Combs. 
@@ -48,8 +48,9 @@ Phiên bản đầu tiên của Wireshark mang tên Ethereal được phát hàn
 
 <li>Lọc, tìm gói tin theo nhiều tiêu chuẩn</li>
 </ul>
-<a name="giaodien"></a>
 
+
+<a name="giaodien"></a>
 ###3.Giao diện WireShark
 <ul>
 <img src=https://farm8.staticflickr.com/7579/16011145562_eae3b825fc_o.png>
