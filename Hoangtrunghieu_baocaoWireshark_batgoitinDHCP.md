@@ -101,17 +101,17 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 <ul>
 <img src=http://i.imgur.com/LsAkS3x.png>
 
-- Mô hình mạng
+<li>Mô hình mạng</li>
 
-- Khởi động 2 máy ảo và cài đặt wireshark trên máy ảo win 7
+<li> Khởi động 2 máy ảo và cài đặt wireshark trên máy ảo win 7</li>
 
-- Trên máy ảo UbuntuServer gõ lệnh sudo dhclient.
+<li> Trên máy ảo UbuntuServer gõ lệnh sudo dhclient.</li>
 
-- Máy ảo win7 khởi động wireshark với quyền admin, trong wireshark chọn Local Network Connection 
+<li> Máy ảo win7 khởi động wireshark với quyền admin, trong wireshark chọn Local Network Connection </li>
 
 <img src=http://i.imgur.com/Dqv4pbc.png>
 
-- Trên bộ lọc chọn bootp.
+<li>Trên bộ lọc chọn bootp.</li>
 </ul>
 <a name="phantich"></a>
 
