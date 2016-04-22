@@ -100,14 +100,21 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 ###1.Bắt gói tin
 <ul>
 <img src=http://i.imgur.com/LsAkS3x.png>
-- Mô hình mạng
-- Khởi động 2 máy ảo và cài đặt wireshark trên máy ảo win 7
-- Trên máy ảo UbuntuServer gõ lệnh sudo dhclient.
-- Máy ảo win7 khởi động wireshark với quyền admin, trong wireshark chọn Local Network Connection 
-<img src=http://i.imgur.com/Dqv4pbc.png>
-- Trên bộ lọc chọn bootp.
 
+- Mô hình mạng
+
+- Khởi động 2 máy ảo và cài đặt wireshark trên máy ảo win 7
+
+- Trên máy ảo UbuntuServer gõ lệnh sudo dhclient.
+
+- Máy ảo win7 khởi động wireshark với quyền admin, trong wireshark chọn Local Network Connection 
+
+<img src=http://i.imgur.com/Dqv4pbc.png>
+
+- Trên bộ lọc chọn bootp.
+</ul>
 <a name="phantich"></a>
+
 ###2.Phân tích gói tin DHCP
 <ul>
 <li>DHCP Discovery</li>
