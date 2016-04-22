@@ -22,12 +22,12 @@
 ##I.Giới thiệu Wireshark
 <ul>
 <a name="gt"></a>
-###1.Giới thiệu 
+### 1.Giới thiệu 
 <li>Wireshark là một công cụ kiểm tra, theo dõi và phân tích thông tin mạng được phát triển bởi Gerald Combs. 
 Phiên bản đầu tiên của Wireshark mang tên Ethereal được phát hành năm 1988. 
 Đến nay, WireShark vượt trội về khả năng hỗ trợ các giao thức (khoảng 850 loại), từ những loại phổ biến như TCP, IP đến những loại đặc biệt như là AppleTalk và Bit Torrent. </li>
 <a name="tienich"></a>
-###2.Các tiện ích, đặc điểm của phần mềm Wireshark 
+### 2.Các tiện ích, đặc điểm của phần mềm Wireshark 
 <ul>
 <li>Giao diện đẹp thân thiện, dễ dùng.</li>
 <li> Là phần mềm miễn phí </li>
@@ -39,7 +39,7 @@ Phiên bản đầu tiên của Wireshark mang tên Ethereal được phát hàn
 <li>Lọc, tìm gói tin theo nhiều tiêu chuẩn</li>
 </ul>
 <a name="giaodien"></a>
-###3.Giao diện WireShark
+### 3.Giao diện WireShark
 <ul>
 <img src=https://farm8.staticflickr.com/7579/16011145562_eae3b825fc_o.png>
 <li>Các Tùy chỉnh nằm ở phía trên của cửa sổ. 
