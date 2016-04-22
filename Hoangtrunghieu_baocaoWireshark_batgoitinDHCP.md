@@ -1,25 +1,13 @@
 #Báo cáo tim hiểu cài đặt wireshark
 ##Mục lục
 [I.Giới thiệu](#gtws)
-<ul>
-
-<li>[1.Giới thiệu](#gt)</li>
-
-<li>[2.Các tiện ích, đặc điểm của phần mềm Wireshark](#tienich)</li>
-
-<li>[3.Giao diện](#giaodien)</li>
-
-<li>[4.Tính năng nâng cao](#tinhnang)</li>
-
-</ul>
+-[1.Giới thiệu](#gt)
+-[2.Các tiện ích, đặc điểm của phần mềm Wireshark](#tienich)
+-[3.Giao diện](#giaodien)
+-[4.Tính năng nâng cao](#tinhnang)
 [II.Thực hành bắt phân tích gói tin bằng WireShark](#goitin)
-<ul>
-
-<li>[1.Bắt gói tin](#bat)</li>
-
-<li>[2.Phân tích gói tin](#phantich)</li>
-
-</ul>
+-[1.Bắt gói tin](#bat)
+-[2.Phân tích gói tin](#phantich)
 
 <a name="gtws"></a>
 ##I.Giới thiệu Wireshark
