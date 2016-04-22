@@ -27,7 +27,7 @@ trong file chọn eth0 :
 
 `sudo vi /etc/dhcp/dhcpd.conf` để ghi file có nội dung như hình
  
- <img src=sudo vi /etc/dhcp/dhcpd.conf.png>
+ <img src=http://imgur.com/e7gJc9M.png>
  
  -B5: chạy lệnh `ifdown -a && ifup -a` để cấu hính lại mạng và lệnh `sudo service isc-dhcp-server start` để chạy server
 
