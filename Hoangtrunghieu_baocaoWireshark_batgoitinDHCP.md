@@ -48,11 +48,11 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 <li>Name Resolution</li>
 <ul>
 <li>Phân giải địa chỉ để file dữ liệu dễ đọc</li>
-<li> 3 công cụ phân giải<li>
+<li>3 công cụ phân giải<li>
 <ul>
- <li>MAC Name Resolution: phân giải địa chỉ MAC tầng 2 sang IP tầng 3, nếu lỗi chuyển 3 byte đầu của dịa chỉ MAC sang tên hãng sản xuất được IEEE đặt ra</li>
- <li>Network Name Resolution: chuyển đổi địa chỉ tầng 3 sang một bên DNS dễ đọc</li>
- <li>Transport Name Resolution:chuyển đổi một cổng sang một tên dịch vụ tương ứng</li>
+<li>MAC Name Resolution: phân giải địa chỉ MAC tầng 2 sang IP tầng 3, nếu lỗi chuyển 3 byte đầu của dịa chỉ MAC sang tên hãng sản xuất được IEEE đặc ra</li>
+<li>Network Name Resolution: chuyển đổi địa chỉ tầng 3 sang một bên DNS dễ đọc</li>
+<li>Transport Name Resolution:chuyển đổi một cổng sang một tên dịch vụ tương ứng</li>
 </ul>
 </ul>
 <li>Protocol Dissection: một protocol dissector cho phép WireShark phân chia giao thức thành một số thành phần để phân tích.ICMP protocol dissector phân chia, định dạng dữ bắt đươcnhiw là một gói ICMP</li>
@@ -60,5 +60,26 @@ trong cả hai định dạng mã ASCII và định dạng mã Hex.</li>
 <li>Cửa sổ thống kê phân cấp giao thức:Khi bắt được một file kích thước lớn ta cần biết phân bố giao thức file đó, thay vì đếm từng fiel ta dùng cửa sổ thông kê phân cấp giao thức</li>
 <li>Xem các Endpoints:Endpoint là chỗ kết nối kết thúc trên giao thức cụ thể, chỉ ra mỗi thống kê hữu ích cho mỗi Endpoint gồm địa chỉ từng máy , số lượng gói tin, dung lượng truyền nhận mỗi máy</li>
 <li>Cửa sổ đồ thị IO:vẽ đồ thị lưu lượng dữ liệu</li>
+</ul>
+</ul>
+II.Thực hành bắt phân tích gói tin bằng WireShark
+<ul>
+<li>1.Bắt gói tin</li>
+<ul>
+<img src=http://i.imgur.com/LsAkS3x.png>
+- Mô hình mạng
+- Khởi động 2 máy ảo và cài đặt wireshark trên máy ảo win 7
+- Trên máy ảo UbuntuServer gõ lệnh sudo dhclient.
+- Máy ảo win7 khởi động wireshark với quyền admin, trong wireshark chọn Local Network Connection 
+<img src=http://i.imgur.com/Dqv4pbc.png>
+- Trên bộ lọc chọn bootp.
+</ul>
+<li>2.Phân tích gói tin DHCP</li>
+<ul>
+<li>DHCP Discovery</li>
+<img src=http://i.imgur.com/VZJudEF.png>
+<ul>
+<li></li>
+</ul>
 </ul>
 </ul>
