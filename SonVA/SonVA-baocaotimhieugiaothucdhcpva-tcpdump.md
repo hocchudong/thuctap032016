@@ -4,7 +4,7 @@
 - [2. Thiết lập cấu hình DHCP cho server](#I.2)  
 - [3. Thiết lập mô hình DHCP Relay Server](#I.3)
 
-[II. Thiết lập LAB thử nghiệm bắt gói tin DHCP](#II)
+[II. Thiết lập LAB thử nghiệm bắt gói tin DHCP](#II)  
 [III. Tìm hiểu TCP Dump](#III)
 
 <a name="I"></a>
@@ -148,7 +148,7 @@ shared-network 25-50{
 }
 
     ```  
-    - 
+    - DHCP relay srv cài isc-dhcp-relay và config 
 
         
     
