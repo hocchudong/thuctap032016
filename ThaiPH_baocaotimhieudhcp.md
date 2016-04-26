@@ -19,7 +19,6 @@
 <li><h4><a href="#demo">3.3. Hình ảnh demo IP được cấp phát trên các DHCP client</a></h4></li>
 </ul>
 
-<h3><a href="#wireshark">4. Bắt và phân tích các bản tin DHCP trên wireshark</a></h3>
 ---
 
 <h3><a name="conceptnbenefit">1. Khái niệm DHCP và vai trò</a></h3>
@@ -177,13 +176,16 @@ B, broadcast: 1 bits = 1 nếu client không biết được ip trong khi đang 
 </ul>
 <br>
 <img src="http://i.imgur.com/kPh6qPD.png"/>
+<br><br>
 </li>
 <li>Thiết lập network: mỗi máy ảo thiết lập hai card mạng như sau
 <ul>
 <li>Một card chế độ bridge</li>
 <li>Một card chế độ Host only (trong bài lab này là dải 10.10.10.0/24)</li>
 <li>Thiết lập cấu hình ip tĩnh cho card host-only của máy DHCP server với địa chỉ 10.10.10.1
+<br><br>
 <img src="http://i.imgur.com/PRjuTVt.png" />
+<br><br>
 </li>
 </ul>
 <div><i>Chú ý: </i>Hai máy client có thể cấu hình chỉ cần một card chế độ host-only, riêng máy DHCP-server cấu hình 2 card mạng (một card bridge đóng vai trò kết nối mạng để cài đặt DHCP server, card còn lại để cấu hình hệ thống DHCP, chi tiết nói rõ hơn ở phần sau).</div>
@@ -199,7 +201,9 @@ Bước này thực hiện trên máy DHCP-Server
 </li>
 <li>Bước 3: Sau khi cài đặt xong, thực hiện cấu hình gán interface của DHCP server, chỉnh sửa file sau: <code>sudo vi /etc/default/isc-dhcp-server</code>
 <br>Ở đây chọn card eth1(địa chỉ 10.10.10.1/24).
+<br><br>
 <img src="http://i.imgur.com/mzgLaan.png" />
+<br><br>
 </li>
 <li>Bước 4: Cấu hình dải IP cấp cho client. Mở và cấu hình file: <code>sudo vi /etc/dhcp/dhcpd.conf</code>
 <div>Tìm tới dòng "slightly" và uncomment, chỉnh sửa lại như sau:<br>
@@ -219,9 +223,11 @@ subnet 10.10.10.0 netmask 255.255.255.0 {
 </pre>
 </div>
 <img src="http://i.imgur.com/0bFuVsl.png"/>
+<br><br>
 </li>
 <li>Bước 5: Khởi động lại dịch vụ: <code>sudo service isc-dhcp-server restart</code>
 <div><i>Chú ý: </i>Sau khi cài đặt và cấu hình xong DHCP server, cần phải tắt DHCP server ảo của VMware đi (do bản chất khi tạo một dải vmnet chế độ host-only có một DHCP ảo cấp IP cho các máy ảo nên ta phải tắt đi để sử dụng DHCP server được cài đặt trên máy ubuntu theo bài lab này)
+<br><br>
 <img src="http://i.imgur.com/x2x2gfX.png?1"/>
 </div>
 </li>
@@ -231,15 +237,18 @@ subnet 10.10.10.0 netmask 255.255.255.0 {
 Như trong bài lab cấu hình cài đặt ở trên, dải IP cấp cho các client là: 10.10.10.150 - 10.10.10.160. Sau khi khởi động các máy client (mininet và Windows XP), địa chỉ của chúng đã được cấp phát lại theo dải trên. Cụ thể như hình minh họa dưới
 <ul>
 <li>Máy mininet trước và sau khi khởi động lại địa chỉ thay đổi từ: 10.10.10.137 (do DHCP server ở chế độ Host-only cấp) sang 10.10.10.150 (do DHCP server được cài đặt trên máy DHCP server là ubuntu)
+<br><br>
 <img src="http://i.imgur.com/VzR3s7F.png"/>
 <img src="http://i.imgur.com/ulReZQs.png"/>
+<br><br>
 </li>
 <li>IP của máy Windows XP sau khi khởi động lại và được cấp phát từ DHCP server: 10.10.10.151
+<br><br>
 <img src="http://i.imgur.com/3JQQIyz.png" />
+<br><br>
 </li>
 </ul>
 </li>
 </ul>
 
-<h3><a name="wireshark">4. Bắt và phân tích các bản tin DHCP trên wireshark</a></h3>
 
