@@ -8,6 +8,7 @@ OpenStack là một nền tảng điện toán đám mây mã nguồn mở tạo
 - 2.Dịch vụ
 
 <ul>
+
 |Dịch vụ|Tên Project|Mô tả|
 |-------|-----------|-----|
 |Dashboard|Horizon|Tạo 1 giao diện trên web để sử dụng|
@@ -29,3 +30,4 @@ Dịch vụ cấp cao
 
 |Orchestratiom|Heat|Điều phối tài nguyên và ứng dụng bằng sử dụng HOT,triển khai dựa vào templates dựng sẵn,tự động tính toán tài nguyên, là stack tab Horizon	|
 |Database Service|Trove|Dịch vụ cơ sở dữ liệu, cung cấp database,tự backup đảm bảo an toàn|
+</ul
