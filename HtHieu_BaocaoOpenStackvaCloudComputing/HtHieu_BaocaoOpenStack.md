@@ -27,6 +27,6 @@ OpenStack là một nền tảng điện toán đám mây mã nguồn mở tạo
 
 <li>Dịch vụ cấp cao</li>
 
-|Orchestratiom|Heat|Điều phối tài nguyên và ứng dụng bằng sử dụng HOT,triển khai dựa vào templates dựng sẵn,tự động tính toán tài nguyên, là stack tab Horizon	|
+|Orchestratiom|Heat|Điều phối tài nguyên và ứng dụng bằng sử dụng HOT,triển khai dựa vào templates dựng sẵn,tự động tính toán tài nguyên, là stack tab Horizon|
 |Database Service|Trove|Dịch vụ cơ sở dữ liệu, cung cấp database,tự backup đảm bảo an toàn|
 </ul>
