@@ -15,7 +15,7 @@ OpenStack là một nền tảng điện toán đám mây mã nguồn mở tạo
 |Compute|Nova|Quản lý vòng đời máy ảo trên môi trường OpenStack bao gồm tạo, lập lịch, hủy máy ảo theo yêu cầu|
 |Networking|Neutron|Cung cấp dịch mạng cho các dịch vụ khác OpenStack, cung cấp APIs để người dùng tạo ra và đưa vào dịch vụ và hỗ trợ nhiều loại mạng và công nghệ|
 
-<li>Storge</li>
+<li>Storage</li>
 
 |Object Storage|Swift|Lưu trữ và lấy các đối tượng dữ liệu qua một RESTful,API gốc HTTP,tạo bản sao,theo kiểu phân tán, có khả năng chống chịu lỗi,có thể triển khai thành dịch vu độc lập|
 |Block Storage|Cinder|Cung cấp các khối dữ liệu để chạy máy ảo.Cung cấp volume,khởi tạo máy từ volume,có plugin để kết nố,có thể sao lưu, mở rộng volume|
