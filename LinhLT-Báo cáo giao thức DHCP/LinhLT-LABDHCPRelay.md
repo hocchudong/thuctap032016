@@ -1,4 +1,4 @@
-#DHCP Relay Agent
+#LAB DHCP Relay Agent
 #Mục lục
 * [1. Giới thiệu](#gioi_thieu)
 * [2. Mô hình](#mo_hinh)
@@ -23,10 +23,10 @@
 
 * DHCP server, dùng để cấp phát địa chỉ ip cho client.
 * DHCP relay, dùng để chuyển yêu request ip của client đến với DHCP server và chuyển câu trả lời của DHCP server đến client.
-* DHCP server và DHCP relay cùng dải mạng: 10.10.20.0/24
-* DHCP relay nằm cùng dải mạng với client: 10.10.30.0/24
-* DHCP server: eth1: 10.10.20.2
-* DHCP relay: eth1: 10.10.20.3. eth2: 10.10.30.3
+* DHCP server và DHCP relay cùng dải mạng: `10.10.20.0/24`
+* DHCP relay nằm cùng dải mạng với client: `10.10.30.0/24`
+* DHCP server: eth1: `10.10.20.2`
+* DHCP relay: eth1: `10.10.20.3`. eth2: `10.10.30.3`
 
 
 <a name="dhcp_server"></a>
@@ -109,6 +109,11 @@ apt-get install isc-dhcp-relay
 	* SERVERS: Địa chỉ ip DHCP server
 	* INTERFACES: interfaces tiếp nhận request dhcp.
 	* OPTIONS: một số tùy chọn
+
+* Khởi động lại dịch vụ dhcp relay
+```sh
+service isc-dhcp-relay restart
+```
 
 * Cấu hình file `/etc/sysctl.conf`: Xóa comment dòng `net.ipv4.ip_forward=1`
 
