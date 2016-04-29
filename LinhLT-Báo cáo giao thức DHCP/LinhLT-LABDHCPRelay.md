@@ -21,6 +21,8 @@
 <a name="mo_hinh"></a>
 #2. Mô hình
 
+![](http://i.imgur.com/Tvr0EGB.jpg)
+
 * DHCP server, dùng để cấp phát địa chỉ ip cho client.
 * DHCP relay, dùng để chuyển yêu request ip của client đến với DHCP server và chuyển câu trả lời của DHCP server đến client.
 * DHCP server và DHCP relay cùng dải mạng: `10.10.20.0/24`
