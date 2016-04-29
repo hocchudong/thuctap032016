@@ -12,13 +12,13 @@
     * [3.1 Chức năng chính](#glance_chuc_nang)
     * [3.2 Thành phần chính](#glance_thanh_phan)
     * [3.3 Hỗ trợ các định dạng](#glance_dinh_dang)
-* [4. Identity Service - Keysotne](#identity)
+* [4. Identity Service - Keystone](#identity)
     * [4.1 Các chức năng chính](#identity_chuc_nang)
     * [4.2 Các thành phần chính](#identity_thanh_phan)
 * [5 Web based UI Service - Horizon](#horizon)
 
 <a name="nova"></a>
-#* [1. Compute (NOVA)](#nova)
+#1. Nova
 * Là phần cơ bản của OpenStack
 * Điều khiển, phân phối các tài nguyên hệ thống cho các máy ảo
 * Cung cấp cho người dùng khả năng chạy máy ảo, giao diện để quản lý các máy ảo trên nên phàn cứng.
@@ -148,7 +148,7 @@ Có 3 kiểu cấu hình cho Fixed IPs:
 |ami| This indicates what is stored in Glance is an Amazon machine image|
 
 <a name="identity"></a>
-#4. Identity Service - Keysotne
+#4. Identity Service - Keystone
 Cung cấp khả năng chứng thực, đặt các chính sách phân quyền cho các project.
 
 <a name="identity_chuc_nang"></a>
@@ -184,6 +184,73 @@ Cung cấp cho quản trị viên và người dùng giao điện đồ họa đ
 ##5.2 Horizon API
 API Cho phép chúng ta phát triển những chức năng tốt hơn so với OpenStack Dashborad cung cấp.
 
+#6. Block storage - Cinder
+* Block storage (volume storage): Được gán vào các VMs dưới dạng các volumes.
+* Các volume này là "persistent", nghĩa là các storage volume này có thể gán cho 1 instance, rồi gỡ bỏ (detached) và gán cho 1 instance khác mà vẫn giữ nguyên dữ liệu. Các block storage drivers cho phép instance truy cập trực tiếp đến phần cứng storage của thiết bị thật, việc này giúp tăng hiệu suất đọc ghi (IO).
 
+##6.1 Kiến trúc của Cinder
+![](http://4.bp.blogspot.com/-onbO2eMISfk/VEwBuGLkOvI/AAAAAAAAAHM/ryp2OhRTcBE/s1600/cinder_architecture.png)
 
+|||
+|:---:|:---:|
+|Cinder-api| Xác nhận và yêu cầu tìm đường cho dịch vụ Block Storge.Gửi yêu cầu đến Cinder-Scheduler.|
+|Cinder-scheduler|Dựa trên các request đến Cinder Volume Service, gửi qua AMPQ(RabbitMQ or Qpid). Có thể sử dụng thuật toán round-robin. Ở chế độ mặc định, Filter Scheduler xác định các thông số: năng lực, khu sẵn có, loại volume, khả năng và bộ lọc tùy chỉnh.|
+|Cinder-volume:| Quản lý các storage back-ends khác nhau. Tương tác trực tiếp với phần cứng, phần mềm  các block storage. Cung cấp cho người dùng khung nhìn về volume.|
+|Cinder-backup| Cung cấp dịch vụ sao lưu volumes đến OpenStack Swift|
 
+#7. Networking Service - Neutron
+Cung cấp dịch vụ về mạng trong Openstack.
+Thay thế nova-network để hướng tới SDN trong OpenStack.
+
+![](http://1.bp.blogspot.com/-Y2nFB5BI5Xw/VEyH2C5MaZI/AAAAAAAAAIU/ZbkJ2LEexbo/s1600/Neutron-PhysNet-Diagram.png)
+##7.1 Các thành phần trong Networking của OpenStack
+| Thành phần | Mô tả |
+|:----------:|:-----:|
+|neutron server (neutron-server and neutron-*-plugin)|Chạy trên các node mạng, nhằm phục vụ các API Mạng. Nó cũng thực thi các mô hình mạng và địa chỉ IP của mỗi cổng. neutron-server và plugin yêu cầu quyền truy cập vào một cơ sở dữ liệu cho lưu trữ liên tục và truy cập vào một hàng đợi thông điệp để liên lạc.|
+
+|plugin agent (neutron-*-agent)|Chạy trên node compute để quản lý mạng ảo. Dịch vụ này yêu cầu truy cập hàng đợi thông điệp.|
+
+|DHCP agent (neutron-dhcp-agent)|Cung cấp dịch vụ DHCP cho mạng thuê. Cấu hình nnày là như nhau trên tất cả các plug-in và chịu trách nhiệm cho việc duy trì cấu hình DHCP. Các neutron-dhcp-agent yêu cầu truy cập hàng đợi thông điệp.|
+
+|L3 agent (neutron-l3-agent)|Cung cấp L3 / NAT chuyển tiếp để truy cập mạng bên ngoài của máy ảo trên mạng người thuê. Yêu cầu truy cập hàng đợi thông điệp. Tùy chọn tùy thuộc vào plug-in.|
+
+|network provider services (SDN server/services)|Cung cấp các dịch vụ mạng bổ sung cho mạng lưới thuê. Những dịch vụ SDN có thể tương tác với neutron-server, neutron-plugin, và hoặc plugin-agent thông qua các API REST hoặc các kênh truyền thông khác.|
+
+##Neutron API Extension
+Với API extension, Người dùng có thể bổ sung thêm các chức năng thông qua Neutron Plug-ins.
+##Neutron Plug-ins:
+* Có cơ chế Plugin để làm việc với các hãng và giải pháp về network khác: SDN, Cisco, VMware NSX,...
+* Một số plug-ins phổ biến
+    * Open vSwitch
+    * Cisco UCS/Nexus
+    * Linux Bridge
+    * Nicira Network Virtualization Platform
+    * Ryu OpenFlow Controller
+    * NEC OpenFlow
+#8.Database Service - Trove    
+Là dịch vụ về cơ sở dữ liệu, có mặt trong bản OpenStack Icehouse.
+
+Cung cấp các Database - không cần thông qua người quản trị.
+
+Có khả năng tự động backup.
+
+Hỗ trợ cả SQL và NoSQL.
+
+#9. Block Orchestration - Heat.
+
+Dùng để triển khai các ưng dụng dựa vào template được dựng sẵn.
+
+Tự động tính toán và sử dụng các tài nguyên: compute, network...
+
+Là tab "stack" trong Horizon
+
+#10. Bock Telemetry - Ceilometer
+Đáp ứng tính năng "Pay as you go" của Cloud Computing.
+
+Dung để thống kê các tài nguyên mà người dùng sử dụng.
+
+Giám sát mức độ sử dụng tài nguyên trong OpenStack.
+
+Đo lương để tính chi phí.
+
+Tích hợp trong Horizon với quyền Admin.
