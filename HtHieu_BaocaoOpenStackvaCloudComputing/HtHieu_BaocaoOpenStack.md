@@ -90,6 +90,62 @@ Keystone chỉ định quyền hạn tới người dùng. người dùng có nh
 <li>Trình điều khiien thiết lập chế độ tối thiểu và có thể không hoạt động bất cứ lúc nào</li>
 <li>Bao gồm:baremetal, docker, Xen via libvirt, LXC via libvirt </li>
 </ul>
-       
+ </ul>
 
+- 7 thành phần chính:
+<ul>
+<li>Cloud Controller :thành phần  đại diện cho hệ thống và làm việc với thnhaf phần khác</li>
+<li>API Server: như là một dịch vụ web của ự điều khiển đám may</li>
+<li>Compute Controller: cung cấp tài nguyên máy chủ</li>
+<li>Object Store: cung cấp dịch vụ lưu reuwx</li>
+<li>Auth Manager : cung cấp dịch vụ xác thực và uye quyền</li>
+<li>Volume Controller: cung cấp nhanh, vĩnh viễn khối dữ liệu cho cụm máy chủ</li>
+<li>Network Controller:cung cấp mạng</li>
+</ul>
+- Scheduler:chọn hệ thống tính toán phù hợp .
+
+- Mối quan hệ thành phần trong Nova
+<img src=http://2.bp.blogspot.com/-bYd9cxoncgs/VErn5ECWjZI/AAAAAAAAAF8/gYMkUCD51FQ/s1600/Nova_architecture.png>
+
+##VI.Glance - Dịch vụ image
+
+- Cung cấp, lưu trữ thu hồi phân chia siêu dữ liệu cho image sử dụng bởi Nova.
+
+- Cho phép người dùng lấy image qua một giao diện web đơn giản
+
+- Làm việc với Nova hỗ trợ dự phòng cho máy ảo, tương tác Keystone xác thực API.
+<img src=http://4.bp.blogspot.com/-8BGR7XSvuSw/VEr6NqccUKI/AAAAAAAAAGc/PP4yLwUYzpI/s1600/glance.png>
+
+- Các tiến trình trong Glance
+<ul>
+<li>glance-api: chấp nhận lơi gọi của image api đẻ tìm,truy xuất,luuw trữ image</li>
+<li>glance-registry:lưu trữ ,xử lý, nhận siêu dữ liệu về image</li>
+<li>glance database: cơ sở dữ liệu </li>
+<li>Một kho lưu trữ cho các tập tin hình ảnh thực tế. Glance hỗ trợ hệ thống tập tin bình thường,thiết bị khối RADOS , Amazon S3, HTTP và Swift</li>
+</ul>
+
+- Glance chấp nhân yêu cầu API cho image từ người dùng hoặc thành phần của Nova và lưu trữ trong dịch vụ đối tượng lưu trữ, Swift hoặc kho lưu trữ khác.
+
+- Định dang đĩa
+<ul>
+<li>raw:Đây là một định dạng ảnh đĩa không có cấu trúc</li>
+<li>vhd:là định dạng đĩa thông thường được sử dụng bởi các màn hình máy ảo từ VMware, Xen, Microsoft, VirtualBox, và những người khác</li>
+<li>vmdk:định dạng đĩa phổ biến được hỗ trợ bởi nhiều máy ảo phổ biến</li>
+<li>vdi:định dạng đĩa hỗ trợ bởi máy ảo VirtualBox và mô phỏng QEMU</li>
+<li>iso: định dạng lưu trữ cho các nội dung dữ liệu của một đĩa quang học </li>
+<li>qcow2:định dạng hỗz trợ bởi QEMU  mà có thể mở rộng hỗ trợ sao chép và viết</li>
+<li>aki:lưu trữ trong Glance là một nhân Amazone Kernel image</li>
+<li>ari:lưu trữ trong Glance là một  Amazon ramdisk image</li>
+<li>ami: lưu trữ trong Glance  là một Amazon machine image</li>
+
+- Định dạng container : image của máy ảo trong môt jđịnh dạng file chưa siêu dữ liệu về hoạt động máy ảo
+<ul>
+<li>bare:không có container hay siêu dữ liệu trong image</li>
+<li>ovf: định dạng OVF</li>
+<li>ova: chỉ những thứ lưu trữ trong Glance là một file nén OVA</li>
+
+- oVirt liên kết vơi Glance
+
+- Glance API:Có 2 phiên bản của Glance API - phiên bản 1 và phiên bản 2.Phiên bản 2 cung cấp một số chuẩn hóa của một số thuộc tính của image.Glance phụ thuộc vào Keystone và sự xác thực của OpenStack API.Glance sẽ truyền đạt lại cho Keystone để xác minh tính hợp lệ token và có được các thông tin nhận dạng của bạn.
+ 
  
