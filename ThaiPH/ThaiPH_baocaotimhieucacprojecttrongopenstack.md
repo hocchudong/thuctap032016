@@ -27,20 +27,25 @@
 ---
 
 <h3><a name="architecture">A. Kiến trúc của OpenStack</a></h3> 
+<hr>
 <ul>
 <li><h4><a name="concept">I - Kiến trúc mức khái niệm</a></h4>
+<hr>
 Kiến trúc mức khái niệm hể hiện mối quan hệ giữa các dịch vụ trong OpenStack, như sơ đồ dưới đây.
 <img src="http://docs.openstack.org/admin-guide/_images/openstack_kilo_conceptual_arch.png"/>
 </li>
 <li><h4><a name="logical">II - Kiến trúc mức logic</a></h4>
+<hr>
 Kiến trúc mức logic thể hiện rõ ràng mối quan hệ giữa các tiến trình trong mỗi project và quan hệ của chúng với tiến trình của các project khác trong OpenStack. Người quản trị cloud OpenStack muốn thiết kế, triển khai, cấu hình hệ thống của mình cần phải hiểu sơ đồ này. Dưới đây là kiến trúc mức logic của một cloud OpenStack. (Cập nhật theo phiên bản Mitaka). 
 <img src="http://docs.openstack.org/admin-guide/_images/openstack-arch-kilo-logical-v1.png"/>
 </li>
 </ul>
-
+---
 <h3><a name="project">B. Các project trong OpenStack</a></h3>
+<hr>
 <ul>
 <li><h4><a name="keystone">I - Keystone - Identity Service</a></h4>
+<hr>
 <ul>
 <li>Cung cấp dịch vụ xác thực cho toàn bộ hạ tầng OpenStack
 <ul>
@@ -105,6 +110,7 @@ Từ bản Juno, Keystone có tính năng mới là federation of identity servi
 
 
 <li><h4><a name="nova">II - Nova - Compute Service</a></h4>
+<hr>
 <ul style="list-style: decimal">
 <li>Chức năng
 <ul>
@@ -158,6 +164,7 @@ Từ bản Juno, Keystone có tính năng mới là federation of identity servi
 
 
 <li><h4><a name="glance">III - Glance - Image Service</a></h4>
+<hr>
 <ul>
 <li>OpenStack Image Service cung cấp dịch vụ quản lý các disk image của các máy ảo. Dịch vụ này cung cấp dịch vụ tìm kiếm, đăng ký, chuyển các disk image tới Compute service và cũng dùng vào mục đích dự phòng các máy ảo.
 <img src="http://4.bp.blogspot.com/-8BGR7XSvuSw/VEr6NqccUKI/AAAAAAAAAGc/PP4yLwUYzpI/s1600/glance.png"/>
@@ -218,6 +225,7 @@ Glance tiếp nhận các API request về images (hoặc metadata của images)
 
 
 <li><h4><a name="cinder">IV - Cinder - Block Storage Service</a></h4>
+<hr>
 <ul>
 <li>Sơ lược về Cinder
 <ul>
@@ -290,9 +298,10 @@ Lưu trữ vật lý hỗ trợ Cinder có thể là ổ vật lý HDD hoặc SS
 
 
 <li><h4><a name="cinder">V - Swift - Object Storage Service</a></h4></li>
-
+<hr>
 
 <li><h4><a name="neutron">VI - Neutron - Networking Service</a></h4>
+<hr>
 <ul>
 <li>NEUTRON - Networking Service
 <ul>
@@ -349,6 +358,7 @@ Cung cấp dịch vụ mạng nâng cao cho tenant network. Các dịch vụ SDN
 
 
 <li><h4><a name="horizon">VII - Horizon - Dashboard Service</a></h4>
+<hr>
 Cung cấp giao diện nền web cho người dùng cuối và người quản trị cloud để tương tác với các dịch vụ khác của OpenStack, ví dụ như vận hành các instance, cấp phát địa chỉ IP và kiểm soát cấu hình truy cập các dịch vụ. Một số thông tin mà giao diện người dùng cung cấp cho người sử dụng:
 <ul>
 <li>Thông tin về quota và cách sử dụng</li>
@@ -370,13 +380,54 @@ Cung cấp giao diện nền web cho người dùng cuối và người quản t
 
 
 <li><h4><a name="heat">VIII - Heat - Orchestration Service</a></h4></li>
+<hr>
 
 
 <li><h4><a name="ceilometer">IX - Ceilometer - Monitoring and Metering Service</a></h4></li>
+<hr>
 
 
-<li><h4><a name="trove">X - Trove - Database Service</a></h4></li>
+<li><h4><a name="trove">X - Trove - Database Service</a></h4>
+<hr>
+<ul>
+<li>Giới thiệu Trove
+<br>
+Trove là dịch vụ cho phép người dùng sử dụng database quan hệ hoặc phi quan hệ (Relational database và Non-Relational database - NoSQL) mà không cần quan tâm tới hạ tầng database. Nó tạo ra lớp abstract giữa người dùng và database, thực hiện dự phòng, mở rộng và quản lý database trên hạ tầng OpenStack.
+</li>
+<li>Kiến trúc của Trove
+<br><br>
+<img src="http://2.bp.blogspot.com/-MuunxQO3w-0/VE8kV7B-Z0I/AAAAAAAAAK0/XCAJBVPuF04/s1600/trove_arch.jpg"/>
+<br><br>
+Trove tương tác với các thành phần khác trong OpenStack để cung cấp dịch vụ Database
+<br><br>
+<img src="http://3.bp.blogspot.com/-DnAwBEIXMr0/VE8nnAZ_pLI/AAAAAAAAALA/bg1wKms9VrU/s1600/trove_arch2.png"/>
+<br><br>
+</li>
+<li>Các thành phần của Trove
+<br>
+Các thành phần chủ đạo của Trove:
+<ul>
+<li>API server</li>
+<li>Message Bus</li>
+<li>Task Manager</li>
+<li>Guest Agent</li>
+<li>Conductor</li>
+</ul>
+Cụ thể hơn:
+<ul>
+<li>Trove-api service là một WSGI thực hiện REST API mà dựa vào đó người dùng có thể dự phòng database instance, để mở rộng tài nguyên cpu và memory của databas instance cũng như không gian lưu trữ.
+API cũng có thể sử dụng để quản lý các database instance. Như hình vẽ trên, một database (có thê là MySQL hoặc PosgreSQL) và một Message Bus(RabbitMQ, Qpid) được sử dụng cho trove api server để giao tiếp với trove-taskmanager - tại đó mọi hành động sẽ được thực thi.</li>
+<li>Trove-taskmanager nói chuyện với Nova, Cinder, Glance khi database image được lưu trữ. Khi database instance chạy, Guest Agent - một thành phần của database instance sẽ thực hiện health check và tương tác trở lại với health status của database instance thông qua trove-conductor</li>
+<li>Trove cũng tương tác với Keystone để xác thực cũng như Neutron để sử dụng dịch vụ mạng</li>
+<li>Trove hỗ trợ các hệ quản trị csdl sau: MySQL, MongoDB, Cassandra, Redis, CouchDB, PostgreSQL</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
 
 
 <li><h4><a name="queue">XI - Messaging and Queuing System in OpenStack</a></h4></li>
+<hr>
 </ul>
