@@ -30,7 +30,7 @@
 <ul>
 <li><h3><a name="concept">I - Kiến trúc mức khái niệm</a></h3>
 <hr>
-Kiến trúc mức khái niệm hể hiện mối quan hệ giữa các dịch vụ trong OpenStack, như sơ đồ dưới đây.
+Kiến trúc mức khái niệm thể hiện mối quan hệ giữa các dịch vụ trong OpenStack, như sơ đồ dưới đây.
 <img src="http://docs.openstack.org/admin-guide/_images/openstack_kilo_conceptual_arch.png"/>
 </li>
 <li><h3><a name="logical">II - Kiến trúc mức logic</a></h3>
