@@ -15,7 +15,7 @@
 <li><a href="#nova">II - Nova - Compute Service</a></li>
 <li><a href="#glance">III - Glance - Image Service</a></li>
 <li><a href="#cinder">IV - Cinder - Block Storage Service</a></li>
-<li><a href="#cinder">V - Swift - Object Storage Service</a></li>
+<li><a href="#swift">V - Swift - Object Storage Service</a></li>
 <li><a href="#neutron">VI - Neutron - Networking Service</a></li>
 <li><a href="#horizon">VII - Horizon - Dashboard Service</a></li>
 <li><a href="#heat">VIII - Heat - Orchestration Service</a></li>
@@ -295,7 +295,7 @@ Lưu trữ vật lý hỗ trợ Cinder có thể là ổ vật lý HDD hoặc SS
 </li>
 
 
-<li><h3><a name="cinder">V - Swift - Object Storage Service</a></h3>
+<li><h3><a name="swift">V - Swift - Object Storage Service</a></h3>
 <hr>
 <ul style="list-style: decimal">
 <li><h4>Giới thiệu</h4>
