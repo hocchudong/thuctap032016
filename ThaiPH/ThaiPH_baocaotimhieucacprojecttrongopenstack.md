@@ -292,7 +292,60 @@ Lưu trữ vật lý hỗ trợ Cinder có thể là ổ vật lý HDD hoặc SS
 <li><h4><a name="cinder">V - Swift - Object Storage Service</a></h4></li>
 
 
-<li><h4><a name="neutron">VI - Neutron - Networking Service</a></h4></li>
+<li><h4><a name="neutron">VI - Neutron - Networking Service</a></h4>
+<ul>
+<li>NEUTRON - Networking Service
+<ul>
+<li>Ban đầu khi OpenStack mới ra mắt, dịch vụ network được cung cấp trong Nova - nova-networking.  Sau này, khi OpenStack ngày càng trưởng thành, yêu cầu đặt a là phải có module networking mạnh mẽ và khả chuyển (powerful & flexible). </li>
+<li>Nova-networking bị hạn chế trong các network topo, và gần như không hỗ trợ các giải pháp của bên thứ ba. Nova-network chỉ có thể sử dụng Linux-bridge, hạn chế network type và iptable để cung cấp dịch vụ mạng cho hypervisor trong Nova. Do đó project network thay thế nova-networking ra đời - ban đầu đặt tên Quantum sau đổi tên lại thành Neutron</li>
+</ul>
+</li>
+
+<li>Các thành phần của neutron
+<ul>
+<li>neutron server (neutron-server là neutron-*-plugin)<br>
+Dịch vụ này chạy trên các network node để phục vụ Networking API và các mở rộng của nó. Nó cũng tạo ra network model và đánh địa chỉ IP cho mỗi port. neutron-server và các plugin agent yêu cầu truy cập vào database để lưu trữ thông tin
+lâu dài và truy cập vào message queue (RabbitMQ) để giao tiếp nội bộ (giữa các tiến trình và với các tiến trình của các project khác)</li>
+<li>plugin agent (neutron-*-agent)<br>
+Chạy trên các Compute node để quản lý cấu hình các switch ảo cục bộ (vSwitch). Các plugin này xác định xem những agent nào đang chạy. Dịch vụ này yêu cầu truy cập vào message queue.</li>
+<li>DHCP agent (neutron-dhcp-agent)<br>
+Cung cấp dịch vụ DHCP cho tenant networks. Agent này chịu trách nhiệm duy trì cấu hình DHCP. neutron-dhcp-agent yêu cầu truy cập message queue</li>
+<li> L3 agent (neutron-l3-agent)<br>
+Cung cấp kết nối ra mạng ngoài (internet) cho các VM trên các tenant networks nhờ L3/NAT forwarding. </li>
+<li>network provider service (SDN server/services)<br>
+Cung cấp dịch vụ mạng nâng cao cho tenant network. Các dịch vụ SDN này có thể tương tác với neutron-server, neutron-plugin, plugin-agents thông qua REST APIs hoặc các kênh kết nối khác.
+ <img src="http://1.bp.blogspot.com/-Y2nFB5BI5Xw/VEyH2C5MaZI/AAAAAAAAAIU/ZbkJ2LEexbo/s1600/Neutron-PhysNet-Diagram.png"/>
+</li>
+</ul>
+ </li>
+
+<li> Neutron API: cho phép người dùng định nghĩa:
+<ul>
+<li> Network: người dùng có thể tạo ra một L2 segment tách biệt, tương tự như VLAN </li>
+<li>Subnet: người dùng có thể định nghĩa ra được một tập các địa chỉ IP v4 hoặc v6 và các tham số cấu hình liên quan</li>
+<li>Port: là điểm kết nối cho phép attach  một thiết bị đơn lẻ (ví dụ như card mạng của server ảo) vào mạng ảo (Virtual network) cũng như các thông số cấu hình network liên quan như địa chỉ MAC và IP được sử dụng trên port đó.</li>
+</ul>
+ </li>
+
+<li>Neutron API extension<br>
+ Với API extension. user có thể định nghĩa nên các chức năng mạng bổ sung thông qua Neutron plugins. Sơ đồ dưới đây biểu diễn mối quan hệ giữa Neutron API, Neutron API extension và Neutron plugin - plugin interface để giao tiếp với SDN Controller - OpenDaylight.
+ <img src="http://2.bp.blogspot.com/-pKluO0upSZw/VEyI9UaO5CI/AAAAAAAAAIc/iNJb13K9de8/s1600/SDN-diagram.jpg"/>
+ </li>
+<li>Neutron plugins<br>
+ Là giao diện kết nối giữa Neutron và các công nghệ back-end như SDN, Cisco, VMware NSX. Nhờ đó người dùng Neutron có thể tận dụng được các tính năng nâng cao của các thiết bị mạng hoặc phần mềm mạng của bên thứ ba.
+ Các plugin này bao gồm: Open vSwitch, Cisco UCS/Nexus, Linux Bridge, Nicira Network Virtualization Platform,  Ryu OpenFlow Controller, NEC OpenFlow.
+ <br>
+ Một trong các plugin không trực tiếp liên quan tới công nghệ bên thứ ba nhưng là 1 plugin quan trọng đó là ML2 (Modular Layer 2) plugin. Plugin này cho phép hoạt động đồng thời của nhiều công nghệ mạng hỗn hợp trong Neutron.<br><br>
+ <img src="http://2.bp.blogspot.com/-USeyydbptFo/VFp8P06ST_I/AAAAAAAAAQo/uBz-go8sVz4/s1600/neutron_ML2.jpg"/><br>
+ Không có ML2 driver, Neutron chỉ có thể cung cấp dịch vụ lớp 2. Hai khái niệm về driver trong ML2 là Type và Mechanism:
+ <ul>
+<li>Type Manager: GRE, VLAN, VXLAN</li>
+<li>Mechanism Manager: Cisco APIC, Cisco Nexus, Linux Bridge, OvS  </li>
+</ul>
+ </li>
+</ul>
+
+</li>
 
 
 <li><h4><a name="horizon">VII - Horizon - Dashboard Service</a></h4></li>
