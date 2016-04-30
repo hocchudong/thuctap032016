@@ -259,23 +259,28 @@ Glance tiếp nhận các API request về images (hoặc metadata của images)
 <li>Một số khái niệm quan trọng trong Cinder
 <ul>
 <li>Back-end Storage Devices
-* Mặc định là LVM (Logical Volume Manager) trên nhóm các volume cục bộ - "cinder-volumes"
-* Hỗ trợ các thiết bị khác như RAID ngoài hoặc các thiết bị lưu trữ
-* Kích thước khối lưu trữ được điều chỉnh sử dụng hypervisor như KVM hoặc QEMU 
+<ul>
+<li>Mặc định là LVM (Logical Volume Manager) trên nhóm các volume cục bộ - "cinder-volumes"</li>
+<li>Hỗ trợ các thiết bị khác như RAID ngoài hoặc các thiết bị lưu trữ</li>
+<li> Kích thước khối lưu trữ được điều chỉnh sử dụng hypervisor như KVM hoặc QEMU </li>
+</ul>
 </li>
 <li>Users và Tenants/Projects
-* Sử dụng cơ chế Role-based Access Control (RBAC) cho multi-tenants
-* Sử dụng file "policy.json" để duy trì rule cho mỗi role
-* Volume truy cập bởi mỗi người dùng riêng biệt
-* Định ra Quotas để kiểm soát mức độ tiêu tốn tài nguyên thông qua tài nguyên phần cứng sẵn sàng cho mỗi tenants
-* Quota có thể được sử dụng để kiểm soát: số lượng volume và snapshots có thể tạo ra cũng như tổng dung lượng (theo GBs) cho phép đối với mỗi tenants
+<ul>
+<li>Sử dụng cơ chế Role-based Access Control (RBAC) cho multi-tenants</li>
+<li>Sử dụng file "policy.json" để duy trì rule cho mỗi role</li>
+<li>Volume truy cập bởi mỗi người dùng riêng biệt</li>
+<li>Định ra Quotas để kiểm soát mức độ tiêu tốn tài nguyên thông qua tài nguyên phần cứng sẵn sàng cho mỗi tenants</li>
+<li>Quota có thể được sử dụng để kiểm soát: số lượng volume và snapshots có thể tạo ra cũng như tổng dung lượng (theo GBs) cho phép đối với mỗi tenants</li>
+</ul>
 </li>
-<li>Volumes, Snapshots và Backups:
-Tài nguyên mà dịch vụ Block Storage service cung cấp là volumes và snapshots
-* Volumes: Cấp phát các khối lưu trữ có thể attach vào các instance như một khối lưu trữ thứ hai hoặc có thể sử dụng đẻ boot các instances. Volume là các khối lưu trữ đọc/ghi bên vững được attach trên compute node thông qua iSCSI
-* Snapshots: có thể được khởi tạo từ 1 volume đang sử dụng (bằng việc sử dụng tùy chọn --force True) hoặc trong trạng thái sẵn sàng. Snapshot sau đó có thể sử dụng để tạo volume mới.
-* Backups: là bản dự phòng của 1 volume lưu trữ trong OpenStack Object Storage
-
+<li>Volumes, Snapshots và Backups:<br>
+Tài nguyên mà dịch vụ Block Storage service cung cấp là volumes và snapshots:
+<ul>
+<li>Volumes: Cấp phát các khối lưu trữ có thể attach vào các instance như một khối lưu trữ thứ hai hoặc có thể sử dụng đẻ boot các instances. Volume là các khối lưu trữ đọc/ghi bên vững được attach trên compute node thông qua iSCSI</li>
+<li>Snapshots: có thể được khởi tạo từ 1 volume đang sử dụng (bằng việc sử dụng tùy chọn --force True) hoặc trong trạng thái sẵn sàng. Snapshot sau đó có thể sử dụng để tạo volume mới.</li>
+<li> Backups: là bản dự phòng của 1 volume lưu trữ trong OpenStack Object Storage</li>
+</ul>
 Lưu trữ vật lý hỗ trợ Cinder có thể là ổ vật lý HDD hoặc SSD. NÓ cũng có thể là hệ thống lưu trữ ngoài cung cấp bởi giải pháp lưu trữ của bên thứ ba như NetApp hoặc EMC 
 </li>
 </ul>
