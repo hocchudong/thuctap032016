@@ -241,7 +241,9 @@ Với API extension, Người dùng có thể bổ sung thêm các chức năng 
 <a name="trove"></a>
 #8.Database Service - Trove    
 Cung cấp các Database - không cần thông qua người quản trị.
+
 Có khả năng tự động backup.
+
 Hỗ trợ cả SQL và NoSQL.
 
 <a name="trove_thanh_phan"></a>
@@ -268,6 +270,9 @@ Hỗ trợ cả SQL và NoSQL.
 * Giám sát mức độ sử dụng tài nguyên trong OpenStack.
 * Đo lương để tính chi phí.
 * Tích hợp trong Horizon với quyền Admin.
+
+##9.1 Các thành phần trong Ceilometer
+
 
 <a name="heat"></a>
 #10. Orchestration Service - Heat
