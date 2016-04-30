@@ -65,6 +65,7 @@ Keystone chỉ định quyền hạn tới người dùng. người dùng có nh
 <li>LDAP:kết nối thông qua LDPA tới các thư mục ở cơ sở dữ liệu</li>
 </ul>
 </ul>
+
 ##III.Nova-Dịch vụ tính toán
 
 - Nova là modun quản lý máy ảo trong hạ tầng OpenStack bằng cách trở thành tầng ảo có giao diện hỗ trợ ảo hóa
