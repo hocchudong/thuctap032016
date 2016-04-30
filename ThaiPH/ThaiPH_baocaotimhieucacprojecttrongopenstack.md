@@ -2,8 +2,11 @@
 # Mục lục
 <h4><a href="#architecture">A. Kiến trúc của OpenStack</a></h4> 
 <ul>
-<li><a href="#concept">I - Kiến trúc mức khái niệm</a></li>
-<li><a href="#logical">II - Kiến trúc mức logic</a></li>
+<li><a href="#concept">I - Kiến trúc mức khái niệm</a>
+</li>
+<li><a href="#logical">II - Kiến trúc mức logic</a>
+
+</li>
 </ul>
 
 <h4><a href="#project">B. Các project trong OpenStack</a></h4>
@@ -25,8 +28,14 @@
 
 <h3><a name="architecture">A. Kiến trúc của OpenStack</a></h3> 
 <ul>
-<li><h4><a name="concept">I - Kiến trúc mức khái niệm</a></h4></li>
-<li><h4><a name="logical">II - Kiến trúc mức logic</a></h4></li>
+<li><h4><a name="concept">I - Kiến trúc mức khái niệm</a></h4>
+Kiến trúc mức khái niệm hể hiện mối quan hệ giữa các dịch vụ trong OpenStack, như sơ đồ dưới đây.
+<img src="http://docs.openstack.org/admin-guide/_images/openstack_kilo_conceptual_arch.png"/>
+</li>
+<li><h4><a name="logical">II - Kiến trúc mức logic</a></h4>
+Kiến trúc mức logic thể hiện rõ ràng mối quan hệ giữa các tiến trình trong mỗi project và quan hệ của chúng với tiến trình của các project khác trong OpenStack. Người quản trị cloud OpenStack muốn thiết kế, triển khai, cấu hình hệ thống của mình cần phải hiểu sơ đồ này. Dưới đây là kiến trúc mức logic của một cloud OpenStack. (Cập nhật theo phiên bản Mitaka). 
+<img src="http://docs.openstack.org/admin-guide/_images/openstack-arch-kilo-logical-v1.png"/>
+</li>
 </ul>
 
 <h3><a name="project">B. Các project trong OpenStack</a></h3>
@@ -60,9 +69,12 @@ Keystone gán một tenant và một role cho user. Một user có thể có nhi
 Keystone được tổ chức theo nhóm các nội dịch vụ (internal services)tương tác với một hoặc nhiều endpoints. Các nội dịch vụ đó là:
 <ul>
 <li> Identity: 
-* Cung cấp dịch vụ chứng thực và dữ liệu về Users, Groups, Projects, Domains Roles, metadata, etc.
-* Về cơ bản, tất cả các dữ liệu này được quản lý bởi dịch vụ, cho phép các dịch vụ quản lý các thao tác CRUD (Create - Read - Update - Delete) với dữ liệu
-* Trong nhiều trường hợp khác, dữ liệu bị thu thập từ các dịch vụ backend được ủy quyền khác như LDAP</li>
+<ul>
+<li>Cung cấp dịch vụ chứng thực và dữ liệu về Users, Groups, Projects, Domains Roles, metadata, etc.</li>
+<li>Về cơ bản, tất cả các dữ liệu này được quản lý bởi dịch vụ, cho phép các dịch vụ quản lý các thao tác CRUD (Create - Read - Update - Delete) với dữ liệu</li>
+<li>Trong nhiều trường hợp khác, dữ liệu bị thu thập từ các dịch vụ backend được ủy quyền khác như LDAP</li>
+</ul>
+ </li>
 <li>Token: Xác nhận và quản lý các tokens được sử dụng để xác thực yêu cầu khi thông tin của người dùng đã được xác minh</li>
 <li>Catalog: cung cấp một endpoint registry sử dụng để phát hiện endpoint</li>
 <li>Policy: cung cấp engine để ủy quyền dựa trên rule và kết nối với giao diện quản lý rule</li>
