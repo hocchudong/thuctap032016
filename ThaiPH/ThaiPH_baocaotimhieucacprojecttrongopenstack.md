@@ -296,7 +296,7 @@ Lưu trữ vật lý hỗ trợ Cinder có thể là ổ vật lý HDD hoặc SS
 <ul>
 <li>NEUTRON - Networking Service
 <ul>
-<li>Ban đầu khi OpenStack mới ra mắt, dịch vụ network được cung cấp trong Nova - nova-networking.  Sau này, khi OpenStack ngày càng trưởng thành, yêu cầu đặt a là phải có module networking mạnh mẽ và khả chuyển (powerful & flexible). </li>
+<li>Ban đầu khi OpenStack mới ra mắt, dịch vụ network được cung cấp trong Nova - nova-networking.  Sau này, khi OpenStack ngày càng trưởng thành, yêu cầu đặt ra là phải có module networking mạnh mẽ và khả chuyển (powerful & flexible). </li>
 <li>Nova-networking bị hạn chế trong các network topo, và gần như không hỗ trợ các giải pháp của bên thứ ba. Nova-network chỉ có thể sử dụng Linux-bridge, hạn chế network type và iptable để cung cấp dịch vụ mạng cho hypervisor trong Nova. Do đó project network thay thế nova-networking ra đời - ban đầu đặt tên Quantum sau đổi tên lại thành Neutron</li>
 </ul>
 </li>
@@ -348,7 +348,25 @@ Cung cấp dịch vụ mạng nâng cao cho tenant network. Các dịch vụ SDN
 </li>
 
 
-<li><h4><a name="horizon">VII - Horizon - Dashboard Service</a></h4></li>
+<li><h4><a name="horizon">VII - Horizon - Dashboard Service</a></h4>
+Cung cấp giao diện nền web cho người dùng cuối và người quản trị cloud để tương tác với các dịch vụ khác của OpenStack, ví dụ như vận hành các instance, cấp phát địa chỉ IP và kiểm soát cấu hình truy cập các dịch vụ. Một số thông tin mà giao diện người dùng cung cấp cho người sử dụng:
+<ul>
+<li>Thông tin về quota và cách sử dụng</li>
+<li>Instances để vậy hành các máy ảo cloud</li>
+<li>Volume Management điều khiển khởi tạo, hủy kết nối tới các block storage</li>
+<li>Images and Snapshots để up load và điều khiển các virtual images, các virtual images được sử dụng để back up hoặc boot một instance mới</li>
+<li>Mục addition cũng cung cấp giao diện cho hệ thống cloud:
+<ul>
+<li>Project: cung cấp các group logic của các user</li>
+<li>User: quản trị các user</li>
+<li>System Info: Hiển thị các dịch vụ đang chạy trên cloud</li>
+<li>Flavors: định nghĩa các dịch vụ catalog yêu cầu về CPU, RAM và BOOT disk storage</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
 
 
 <li><h4><a name="heat">VIII - Heat - Orchestration Service</a></h4></li>
