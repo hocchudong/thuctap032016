@@ -28,6 +28,8 @@
 
 [10. Trove - Database Service](#10)
 
+[11. Manila - Shared File Systems](#11)
+
 ===============
 
 <a name="1"></a>
@@ -365,7 +367,22 @@ Các thành phần chính:
 <li>Trove-taskmanager: Hỗ trợ các dự phòng các trường hợp, quản lý vòng đời và thực hiện các hoạt động trên các trường.</li>
 <li>Trove-guestagent: Chạy trên trường khách. Quản lý và thực hiện các hoạt động trên cơ sở dữ liệu riêng của mình.</li>
 </ul>
-	
+
+<a name="11"></a>
+##11. Manila - Shared File Systems 
+
+Cung cấp lưu trữ tập tin vào một máy ảo. Các dịch vụ hệ thống tập chung cung cấp một cơ sở hạ tầng cho việc quản lý và dự phòng của file chia sẻ. Dịch vụ này cũng cho phép quản lý các loại kiểu chia sẻ cũng như chia sẻ những bức ảnh nếu trình điều khiển hỗ trợ.
+
+Các thành phần: 
+<ul>
+<li>Manila-api: Một ứng dụng WSGI xác nhận và định tuyến các yêu cầu cho Shared File Systems service.</li>
+<li>Manila-data: Một dịch vụ độc lập. Nhận các yêu cầu, quá trình hoạt động dữ liệu và gửi phản hồi sau khi hoạt động hoàn thành.</li>
+<li>Manila-scheduler: Lập lịch và định tuyến các yêu cầu tới các dịch vụ chia sẻ thích hợp.</li>
+<li>Manila-share: Quản lý các thiết bị đầu cuối mà cung cấp chia sẻ tập tin hệ thống.</li>
+<li>Messaging queue: Định tuyến thông tin giữa các tiến trình Shared File Systems.</li>
+</ul>
+
+
 	
 	
 	
