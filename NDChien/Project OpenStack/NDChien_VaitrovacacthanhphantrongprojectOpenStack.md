@@ -4,15 +4,15 @@
 
 ###Mục lục:
 
-[1. Keystone](#1)
+[1. Keystone - Identity](#1)
 
-[2. Nova](#2)
+[2. Nova - Compute](#2)
 
 [3. Glance – Image Service](#3)
 
-[4.Cinder – Block Storage Service](#4)
+[4. Cinder – Block Storage Service](#4)
 
-[5.Swift – Object Storage Service](#5)
+[5. Swift – Object Storage Service](#5)
 
 [6. Neutron – Networking Service](#6)
 
@@ -33,7 +33,7 @@
 ===============
 
 <a name="1"></a>
-###1. Keystone
+###1. Keystone - Identity
 - Cung cấp các dịch vụ nhận dạng và xác thực
 - Theo dõi và cho phép người dùng
 - Cung cấp một danh mục các dịch vụ sẵn có với endpoints
@@ -69,7 +69,7 @@ Các thành phần:
 </ul>
 
 <a name="2"></a>
-##2. Nova
+##2. Nova - Compute
 - Là một module dùng để quản lý các trường máy ảo, nó là một lớp trừu tượng có giao diện và hỗ trợ siêu giám sát
 - Hypervisors: KVM, ESx của VMware, Hyper-VMware
 
@@ -78,9 +78,9 @@ Các thành phần:
 <li>Nova-api service: Chấp nhận và phản hồi các yêu cầu API của người dùng cuối. Hỗ trợ Compute API, Amazon EC2 API, và API quản trị đặc biệt.</li>
 <li>Nova-api-metadata service: Chấp nhận các yêu cầu siêu dữ liệu từ các trường. Dịch vụ được sử dụng ở chế độ đa máy chủ với nova-network.</li>
 <li>Nova-compute service: Tạo và xóa máy ảo thông qua các API hypervisor
-	XenAPI for XenServer/XCP
-	libvirt for KVM or QEMU
-	VMwareAPI for VMware</li>
+- XenAPI for XenServer/XCP
+- libvirt for KVM or QEMU
+- VMwareAPI for VMware</li>
 <li>Nova-scheduler service: Lấy một yêu cầu về máy ảo ở hàng đợi và quyết định máy chủ sẽ chạy nó.
 <li>Nova-conductor module: Là trung gian giữa nova-compute và dữ liệu. 
 <li>Nova-cert module: Máy chủ phục vụ cho dịch vụ Nova Cert cho chứng thực X509. Tạo các giấy chứng nhận cho euca-bundle-image. Chỉ cần thiết cho EC2 API.
