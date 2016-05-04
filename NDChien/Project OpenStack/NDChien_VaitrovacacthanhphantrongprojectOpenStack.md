@@ -22,6 +22,10 @@
 
 [9. Ceilometer - Bock Telemetry](#9)
 
+[- 9.1 Telemetry Data Collection service](#9.1)
+
+[- 9.2 Telemetry Alarming service](#9.2)
+
 [10. Trove - Database Service](#10)
 
 ===============
@@ -55,11 +59,11 @@ Các dịch vụ:
 Các thành phần:
 
 <ul>
-<li>Key Value Store:`  Một giao diện hỗ trợ tra cứu khóa chính, như một từ điển trong bộ nhớ</li>
-<li>Memcached:` Hệ thống phân phối bộ nhớ đệm bộ nhớ</li>
-<li>Structured Query Language (SQL):` Sử dụng SQLAlchemy (một bộ công cụ Python SQL và Object Relational Mapper) để lưu trữ dữ liệu liên tục</li>
-<li>Pluggable Authentication Module (PAM):` Sử dụng dịch vụ PAM hệ thống địa phương để xác thực</li>
-<li>Lightweight Directory Access Protocol (LDAP):` Kết nối thông qua LDAP vào một thư mục back-end, như Active Directory, để xác thực người sử dụng và có được thông tin vai trò</li>
+<li>Key Value Store:  Một giao diện hỗ trợ tra cứu khóa chính, như một từ điển trong bộ nhớ</li>
+<li>Memcached: Hệ thống phân phối bộ nhớ đệm bộ nhớ</li>
+<li>Structured Query Language (SQL): Sử dụng SQLAlchemy (một bộ công cụ Python SQL và Object Relational Mapper) để lưu trữ dữ liệu liên tục</li>
+<li>Pluggable Authentication Module (PAM): Sử dụng dịch vụ PAM hệ thống địa phương để xác thực</li>
+<li>Lightweight Directory Access Protocol (LDAP): Kết nối thông qua LDAP vào một thư mục back-end, như Active Directory, để xác thực người sử dụng và có được thông tin vai trò</li>
 </ul>
 
 <a name="2"></a>
@@ -67,15 +71,32 @@ Các thành phần:
 - Là một module dùng để quản lý các trường máy ảo, nó là một lớp trừu tượng có giao diện và hỗ trợ siêu giám sát
 - Hypervisors: KVM, ESx của VMware, Hyper-VMware
 
-Các thành phần chính:
+Các thành phần:
 <ul>
-<li>Cloud Controller: Thành phần chính tương tác với các thành phần khác</li>
-<li>API Server acts: Đóng vai trò như các dịch vụ Web front end để điều khiển Cloud</li>
-<li>Compute Controller: Cung cấp các máy chỉ tài nguyên</li>
-<li>Object Store: Cung cấp dịch vụ lưu trữ</li>
-<li>Auth Manager: Cung cấp dịch vụ xác thực và ủy quyền</li>
-<li>Volume Controller: Cung cấp nhanh chóng và vĩnh viễn các khối lưu trữ cho các máy chủ tính toán</li>
-<li>Network Controller: Cung cấp mạng ảo để các máy chủ tương tác với nhau và với mạng công cộng</li>
+<li>Nova-api service: Chấp nhận và phản hồi các yêu cầu API của người dùng cuối. Hỗ trợ Compute API, Amazon EC2 API, và API quản trị đặc biệt.</li>
+<li>Nova-api-metadata service: Chấp nhận các yêu cầu siêu dữ liệu từ các trường. Dịch vụ được sử dụng ở chế độ đa máy chủ với nova-network.</li>
+<li>Nova-compute service: Tạo và xóa máy ảo thông qua các API hypervisor
+	XenAPI for XenServer/XCP
+	libvirt for KVM or QEMU
+	VMwareAPI for VMware</li>
+<li>Nova-scheduler service: Lấy một yêu cầu về máy ảo ở hàng đợi và quyết định máy chủ sẽ chạy nó.
+<li>Nova-conductor module: Là trung gian giữa nova-compute và dữ liệu. 
+<li>Nova-cert module: Máy chủ phục vụ cho dịch vụ Nova Cert cho chứng thực X509. Tạo các giấy chứng nhận cho euca-bundle-image. Chỉ cần thiết cho EC2 API.
+<li>Nova-network worker daemon: Chấp nhận nhiệm vụ kết nối mạng từ hàng đợi và vận hành mạng. Thực hiện thiết lập cầu nối giao diện hoặc thay đổi quy tắc IPtables.
+<li>Nova-consoleauth daemon: 
+<li>Nova-novncproxy daemon: Cung cấp một proxy để truy cập các trường hợp chạy qua một kết nối VNC. Hỗ trợ khách hàng novnc dựa trên trình duyệt.
+<li>Nova-spicehtml5proxy daemon: Cung cấp một proxy để truy cập các trường hợp thông qua kết nối SPICE. Hỗ trợ khách hàng qua trình duyệt HTML5.
+<li>Nova-xvpvncproxy daemon: Cung cấp một proxy để truy cập các trường hợp thông qua kết nối VNC. Hỗ trợ khách hàng qua OpenStack-specific Java.
+<li>Nova-cert daemon: Chứng thực X509
+<li>Nova client: Cho phép người dùng sử dụng commands như một quản trị hoặc người dùng cuối.
+<li>The queue: Một vòng trung tâm để thông qua các tin nhắn giữa các daemon. Thường được thực hiện với RabbitMQ hoặc hàng đợi thông điệp AMQP như Zera MQ.
+<li>SQL database: Chứa các build-time và run-time cho một cơ sở hạ tầng Cloud, bao gồm:
+	Available instance types
+	Instances in use
+	Available networks
+	Projects
+Trên lý thuyết OpenStack Compute có thể hỗ trợ cơ sở dữ liệu SQL-Alchemy, SQLite3, MySQL và PostgreSQL.</li>
+
 </ul>
 
 <img src=http://i.imgur.com/YHTilCQ.png>
@@ -92,15 +113,14 @@ Back-end database: sqlite3, MySQL or PostgreSQL.
 - OpenStack Object Storage cho phép người dùng  lưu trữ và lấy hình ảnh thông qua một dịch vụ web đơn giản.
 - Glance bắt tay với Nova để cung cấp hỗ trợ cho dự phòng máy ảo. Nó cũng có sự tương tác với Keystone để xác thực API.
 
-Quy trình và chức năng của Glance
-	
-<img src=http://i.imgur.com/dehONjB.png>
-```sh
-Glance-api :  Chấp nhận các yêu cầu của Image API để phát hiện image, truy xuất là lưu trữ image.
-Glance-registry : Lưu trữ, xử lý và lấy siêu dữ liệu về images( kích thước, loại...).
-Glance database : Cơ sở dữ liệu lưu trữ siêu dữ liệu image.
-A storage repository: Lưu trữ các file image thực, Glance hỗ trợ tập tin hệ thống bình thường, thiết bị khối RADOS, Amazon S3, HTTP, Swift
-```
+Các thành phần:
+<ul>
+<li>Glance-api :  Chấp nhận các yêu cầu của Image API để phát hiện image, truy xuất là lưu trữ image.</li>
+<li>Glance-registry : Lưu trữ, xử lý và lấy siêu dữ liệu về images( kích thước, loại...).</li>
+<li>Glance database : Cơ sở dữ liệu lưu trữ siêu dữ liệu image.</li>
+<li>A storage repository: Lưu trữ các file image thực, Glance hỗ trợ tập tin hệ thống bình thường, thiết bị khối RADOS, Amazon S3, HTTP, Swift.</li>
+<li>Metadata definition service: API phổ biến cho các nhà cung cấp, quản trị, dịch vụ, người dùng... có ý nghĩa xác định siêu dữ liệu tùy chỉnh của riêng họ. Metadata có thể được sử dụng trên các loại khác nhau của các nguồn tài nguyên.</li>
+</ul>
 Danh sách định dạng disk và container được hỗ trợ:
 
 Disk format: 
@@ -130,6 +150,7 @@ API: có một vai trò quan trọng với Glance để xử lý hình ảnh.
 Có 2 phiên bản của Glance API - Version 1 và Version 2. 
 Glance API phiên bản 2 cung cấp tiêu chuẩn một số thuộc tính tùy chỉnh của image.
 ```
+
 <a name="4"></a>	
 ##4.Cinder – Block Storage Service
 
@@ -159,10 +180,15 @@ Kiến trúc Cinder
 <li>Cung cấp cái nhìn về volume cho người sử dụng.</li>
 </ul>
 **Cinder-backup**
-
-	- Cung cấp dịch vụ sao lưu của Cinder volumes cho OpenStack Swift
+<ul>
+<li>Cung cấp dịch vụ sao lưu của Cinder volumes cho OpenStack Swift.</li>
+</ul>
+**Messaging queue**
+<ul>
+<li>Định tuyến thông tin giữa các tiến trình của Block Storage</li>
+</ul>
 	
-Thành phần Cinder
+Thành phần Cinder:
 
 **Back-end Storage Devices**
 <ul>
@@ -188,7 +214,7 @@ Thành phần Cinder
 
 <a name="5"></a>
 ##5.Swift – Object Storage Service
-OpenStack documentation xác định Object Storage như là một nền tảng mạnh mẽ, khả năng mở rộng và lưu trữ chịu lỗi cho dữ liệu phi cấu trúc như các đối tượng. Đối tượng được lưu trữ bit, truy cập thông qua một giao diện dựa trên HTTP. Bạn không thể truy cập dữ liệu ở các khối hoặc tập tin cấp. Object Storage thường được sử dụng để lưu trữ và sao lưu dữ liệu, với trường hợp sử dụng trong virtual machine image, hình ảnh, video và âm nhạc.
+Object Storage như là một nền tảng mạnh mẽ, khả năng mở rộng và lưu trữ chịu lỗi cho dữ liệu phi cấu trúc như các đối tượng. Đối tượng được lưu trữ bit, truy cập thông qua một giao diện dựa trên HTTP. Bạn không thể truy cập dữ liệu ở các khối hoặc tập tin cấp. Object Storage thường được sử dụng để lưu trữ và sao lưu dữ liệu, với trường hợp sử dụng trong virtual machine image, hình ảnh, video và âm nhạc.
 	
 Kiến trúc OpenStack Swift
 
@@ -199,20 +225,18 @@ Proxy Nodes: Là điểm tương tác với "Swift clients" và xử lý các y�
 Storage Nodes: Là điểm mà máy chủ lưu trữ các objects.
 ```
 
-Các thuật ngữ của Swift
+Các thành phần:
 <ul>
-<li>Partitions: Cài đặt hoàn chỉnh và không chồng lặp các dải khóa giống như các object, container và tài khoản người dùng ở đúng phân cùng theo giá trị của mình</li>
-<li>Ring: Kết nối các phân vùng thành một thiết bị vậy lý</li>
-<li>Objects: Khóa, danh sách giá trị trong object store</li>
-<li>Containers: Nhóm objects</li>
-<li>Accounts: Nhóm Containers</li>
-<li>Object/Storage Server: Lưu trữ, lấy và xóa các objects được lưu trữ trên các thiết bị cục bộ</li>
-<li>Container Server: Lưu trữ danh sách của các đối tượng bằng cơ sở dữ liệu SQLite</li>
-<li>Account Server: Lưu trữ danh sách các container</li>
-<li>Proxy Server:  Khả năng mở rộng xử lý yêu cầu API, xác định phân phối nút lưu trữ các đối tượng dựa trên URL</li>
-<li>Replicator: Quá trình tiện ích để xử lý các bản sao dữ liệu</li>
-<li>Updater: Xử lý cập nhật không được thực hiện thành công để duy trì tính toàn vẹn của dữ liệu trong cụm Swift</li>
-<li>Auditor: Chạy trên mỗi nút để kiểm tra tính toàn vẹn của các object, container và các thông tin tài khoản</li>
+<li>Proxy servers : Chấp nhận các OpenStack Object Storage API và các yêu cấu HTTP để upload dữ liệu, chỉnh sửa siêu dữ liệu, tạo các container.</li>
+<li>Account servers : Quản lý các tài khoản của Object Storage.</li>
+<li>Container servers : Quản lý kết nối của các container hoặc thư mục trong Object Storage.</li>
+<li>Object servers: Quản lý đối tượng thực tế như các file trên các nút lưu trữ.</li>
+<li>Various periodic processes: Thực hiện nhiệm vụ thu dọn trên các store dữ liệu lớn. </li>
+<li>WSGI middleware: Xử lý xác thực, thường là OpenStack Identity. </li>
+<li>Swift client: Cho phép user dùng trình lệnh để REST API thông qua command-line.</li>
+<li>Swift-init: Các Script khởi tạo kiến trúc kết nối của file.</li>
+<li>Swift-recon: Công cụ li để thu thập các dữ liệu khác nhau và các thông tin từ xa về một cụm đã được thu thập bởi các swift-recon trung gian.</li>
+<li>Swift-ring-builder: Vòng lưu trữ xây dựng và tái cân bằng tiện ích.
 </ul>
 
 <a name="6"></a>	
@@ -271,15 +295,14 @@ Nếu không có trình điều khiển ML2, Neutron chỉ có thể cung cấp 
 <li>Khả năng tính toán, mở rộng hoặc thu hồi tài nguyên</li>
 <li>Là tab "stack" ở trong Horizon</li>
 </ul>
+
 Các thành phần
 
 <ul>
-<li>Heat</li>
-<li>Heat-apiheat</li>
-<li>Heat-api-cfn</li>
-<li>Heat-engine</li>
-<li>Api-heat-cloudwatch</li>
-<li>Heat-cfntools</li>
+<li>Heat command-line client: CLI giao tiếp với Heat-Api để chạy AWS CloudFormation APIs.</li>
+<li>Heat-api: Một OpenStack-native REST API xử lý các yêu cầu API bằng cách gửi chúng tới heat-engine qua Remote Procedure Call.</li>
+<li>Heat-api-cfn: Một  AWS Query API tương thích với AWS CloudFormation. Nó xử lý yêu cầu API bằng cách gửi tới heat-engine.</li>
+<li>Heat-engine: Cung cấp các mẫu và sự kiện lại cho người dùng API</li>
 </ul>
 
 <a name="9"></a>
@@ -291,9 +314,37 @@ Cung cấp cở sở hạ tầng để thu thập mọi thông tin cần thiết
 <ul>
 <li>Metering</li>
 <li>Multi-Publishing</li>
-<li> Alarming</li>
+<li>Alarming</li>
 </ul>
 
+<a name="9.1"></a>
+**9.1 Telemetry Data Collection service**
+Tính năng:
+
+- Thu thập các dữ liệu liên quan tới dịch vụ OpenStack 
+- Thu thập sự kiện, đo dữ liệu bằng cách giám sát các thông báo.
+- Cung cấp các dữ liệu được thu thập cho các mục tiêu khác nhau gồm kho lưu trữ và hàng đợi tin nhắn.
+
+Các thành phần:
+<ul>
+<li>A compute agent: Chạy trên các compute node và thống kê sử dụnh các nguồn lực.</li>
+<li>A central agent: Chạy trên máy chủ quản lý tập trung để thống kê sử dụng các nguồn tài nguyên không gắn với các trường hợp hoặc các compute node.</li>
+<li>A notification agent: Chạy trên máy chủ quản lý tập trung và sử dụng các thông điệp từ hàng đợi thông điệp để xây dựng sự kiện và định lượng dữ liệu.</li>
+<li>An API server: Chạy trên một hoặc nhiều máy chủ quản lý để cung cấp truy cập dữ liệu từ kho dữ liệu. </li>
+</ul>
+
+<a name="9.2"></a>
+**9.2 Telemetry Alarming service**
+
+Dịch vụ báo động từ xa khi các quy định bị phá vỡ.
+
+Các thành phần:
+<ul>
+<li>An API server (aodh-api): Cung cấp truy cập vào các thông tin báo động lưu trữ trong kho dữ liệu.</li>
+<li>An alarm evaluator (aodh-evaluator):	</li>
+<li>A notification listener (aodh-listener): Quyết định khi nào kich hoạt báo động.</li>
+<li>An alarm notifier (aodh-notifier): Cho phép báo động được thiết lập dựa trên các ngưỡng đánh giá với mẫu thu thập.</li>
+</ul>
 <a name="10"></a>
 10. Trove - Database Service
 
@@ -307,11 +358,11 @@ Mô hình :
 
 Các thành phần chính:  
 <ul>
-<li>API Server</li>
-<li>Message Bus</li>
-<li>Task Manager</li>
-<li>Guest Agent</li>
-<li>Conductor</li>
+<li>Python-troveclient: CLI giao tiếp với các thành phần trove-api.</li>
+<li>Trove-api: Cung cấp OpenStack-native RESTful API hỗ trợ JSON để cung cấp và quản lý các trường Trove. </li>
+<li>Trove-conductor: Chạy trên máy chủ và nhận tin nhắn từ các trường khách muốn truy cập thông tin trên máy chủ.</li>
+<li>Trove-taskmanager: Hỗ trợ các dự phòng các trường hợp, quản lý vòng đời và thực hiện các hoạt động trên các trường.</li>
+<li>Trove-guestagent: Chạy trên trường khách. Quản lý và thực hiện các hoạt động trên cơ sở dữ liệu riêng của mình.</li>
 </ul>
 	
 	
