@@ -1,5 +1,5 @@
 
-#Vai trò và các thành phần trong các project trong OpenStack
+#Vai trò và các thành phần của các project trong OpenStack
 =====================
 
 ###Mục lục:
@@ -78,9 +78,9 @@ Các thành phần:
 <li>Nova-api service: Chấp nhận và phản hồi các yêu cầu API của người dùng cuối. Hỗ trợ Compute API, Amazon EC2 API, và API quản trị đặc biệt.</li>
 <li>Nova-api-metadata service: Chấp nhận các yêu cầu siêu dữ liệu từ các trường. Dịch vụ được sử dụng ở chế độ đa máy chủ với nova-network.</li>
 <li>Nova-compute service: Tạo và xóa máy ảo thông qua các API hypervisor
-- XenAPI for XenServer/XCP
-- libvirt for KVM or QEMU
-- VMwareAPI for VMware</li>
+XenAPI for XenServer/XCP
+libvirt for KVM or QEMU
+VMwareAPI for VMware</li>
 <li>Nova-scheduler service: Lấy một yêu cầu về máy ảo ở hàng đợi và quyết định máy chủ sẽ chạy nó.
 <li>Nova-conductor module: Là trung gian giữa nova-compute và dữ liệu. 
 <li>Nova-cert module: Máy chủ phục vụ cho dịch vụ Nova Cert cho chứng thực X509. Tạo các giấy chứng nhận cho euca-bundle-image. Chỉ cần thiết cho EC2 API.
