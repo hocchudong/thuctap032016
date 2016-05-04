@@ -145,7 +145,148 @@ Keystone chỉ định quyền hạn tới người dùng. người dùng có nh
 <li>ova: chỉ những thứ lưu trữ trong Glance là một file nén OVA</li>
 
 - oVirt liên kết vơi Glance
+<img src=http://1.bp.blogspot.com/-8_hta2MsdqE/VEvpGcz_n1I/AAAAAAAAAGs/ekV15QqyzWo/s1600/discovery_glance_provider_small.png>
 
 - Glance API:Có 2 phiên bản của Glance API - phiên bản 1 và phiên bản 2.Phiên bản 2 cung cấp một số chuẩn hóa của một số thuộc tính của image.Glance phụ thuộc vào Keystone và sự xác thực của OpenStack API.Glance sẽ truyền đạt lại cho Keystone để xác minh tính hợp lệ token và có được các thông tin nhận dạng của bạn.
+ 
+##VII.Cinder- Dịch vụ lưu trữ khối dữ liệu
+ 
+ - Kiểu lưu trữ: lưu tữu khối, lưu trữ tệp tin, lưu trữ đối tượng.
+ 
+ - Từng là một phần của Nova sau đó tách ra khi Folson ra đơig
+ 
+ - Có thể triển khai độc lộ không cần OpenStack
+ 
+ - Cindẻ giống Amazon Web Services S3 khi cung cấp khối dữ liệu chắc chắn cho máy tính.
+ 
+ - Cấu trúc Cinder
+ <ul>
+ <img src=http://4.bp.blogspot.com/-onbO2eMISfk/VEwBuGLkOvI/AAAAAAAAAHM/ryp2OhRTcBE/s1600/cinder_architecture.png>
+ 
+ <li> Cinder API:Ứng dụng WSGI sẽ định hướng yêu cầu qua dịch vụ lưu trữ khối dữ liệu. Yêu cầu sẽ được gửi tới cinder-schelduler để điều phối dung lượng thích hợp</li>
+ <li> Cinder-scheduler: dựa trên yêu cầu thích hợp dến dịch vụ cinder-volume qua AMPQ(RabbitMQ hoặc Qpid).Có thể được cấu hình để sử dụng round-robin</li>
+ <li> Cinder-volume: lưu trữ backends khác nhau, tương tác trực tiếp phần mềm và phần cứng cung cấp khối lưu trữ, cho người dùng biết dung lượng cho </li>
+ <li Cinder-backup:cung cấp dịch vụ sao lưu Cinder volume tới OpenStack Swift</li>
+ </ul>
+ 
+ - Thành phần Cinder
+ <ul>
+ <li> Back-end Storage Devices:Mặc định là để sử dụng LVM(Logical Volume Manager) trên một nhóm dung lượng là"cinder-volums', hỗ trợ các thiết bị khác, kích thước khối có thể điều chỉnh bằng cách dùng KVM hoặc QEMU như sự ảo hóa</li>
+ <li>Người sử dụng và người thuê / Dự án:</li>
+ <ul>
+ <li> Dùng RBAC(Role-based Access Control) cho nhiều người thuê</li>
+ <li> Sử dụng "policy.json" để duy trì các quy tắc cho mỗi vai trò</li>
+ <li> truy cập khối lượng cho mỗi người dùng</li>
+ <li> Hạn ngach để kiemr soát mức tiêu thụ mỗi người dùng</li>
+ li> Hạn ngạch có thể được sử dụng để kiểm soát: số lượng và bức ảnh chụp mà có thể được tạo ra cũng như tổng số GBs phép cho mỗi người thuê(chia sẻ giữa khối lượng và ảnh chụp)</li>
+ </ul>
+ <li>Volumes, Snapshots and Backups </li>
+ <ul>
+ <li>Volumes:phân bổ tài nguyên lưu trữ, là khối R/W bền vững đính kèm vào nút tính toán qua iSCSI</li>
+ <li>Snapshots:điểm chỉ có thể đọc trong lúc sao luwu volume</li>
+ <li>Backups:Một bản sao lưu trữ của một khối lượng hiện đang được lưu trữ trong OpenStack</li>
+ </ul>
+ </ul>
+ 
+ ##VIII.Swift
+ 
+ - Giống Cinder ở kiểu lưu trữ
+ 
+ - So sánh 3 kiểu lưu trữ:
+ 
+ <img src=http://2.bp.blogspot.com/-RccNUOyTSYc/VEwv4sviZuI/AAAAAAAAAHc/V7oUuQQko00/s1600/sidebyside_comparisonOfStorage.jpg>
+ 
+ - Kiến trúc OpenStack Swift : Swift là dịch vụ lưu trữ đối tượng trong OpenStack	
+ <img src=http://4.bp.blogspot.com/-ZfFbYCyMoeI/VFsE5cHEUOI/AAAAAAAAAQ4/YBCM4Bt5ddE/s1600/swift_2-Tier.png>
+
+- Swift is composed of two types of nodes:     
+<ul>
+<li>Proxy Nodes:nút tiếp xúc với khách hàng Swift và xử lý mọi yêu cầu và tiến trình.Khách hàng chỉ tương tác với các nút Proxy</li>
+<li>Storage Nodes.:Đây là nút mà host lưu trữ cho các đối tượng</li>
+</ul>
+
+- Thuật ngữ OpenStack Swift 
+<img src=http://4.bp.blogspot.com/-0X0BEzbWHFg/VExD6_tPBoI/AAAAAAAAAHs/DGd2mmzD5ko/s1600/Swift_cluster_Architecture.jpg>
+<ul>
+<li>Partition: một dãy khóa hoàn chỉnh không chồng chéo như mỗi đối tượng,gói và tài khoản là một thành phần chính xác của một phân vùng như là mỗi giá trị khóa của nó</li>
+<li>Ring:kết nối phân vùng theo một bản đồ tạo nên thiết bị vật lý </li>
+<liObject: giá trị khóa ghi vào vùn lưu trữ đối trượng</li>
+<li>Containers :nhóm đối tượng</li>
+<li>Accounts :nhóm tài khoản</li>
+<li>Object/Storage Server:lưu trữ, lấy và xóa các đối tượng được lưu trữ trên các thiết bị địa phương</li>
+<li>Container Server : lưu trữ anh sách các đối tượng sử dụng cơ sở dữ liệu SQLite.</li>
+<li>Account Server:tương tự như Container Server nhưng nó lưu trữ danh sách các container.</li>
+<li>Proxy Server:có khả năng mở rộng API yêu cầu xử lý, xác định phân phối nút lưu trữ các đối tượng dựa trên URL</li>
+<li>Replicator:	trình tiện ích để xử lý các bản sao dữ liệu</li>
+<li>Updater :xử lý các bản cập nhật mà không phải thực hiện thành công để duy trì tính toàn vẹn của dữ liệu trong cụm Swift</li>
+<li>Auditor :chạy trên mỗi nút để kiểm tra tính toàn vẹn của thông tin đối tượng, container và tài khoản.</li>
+Từ đó ta có4 loại:
+<li>Truy cập dữ liệu : ring và partition
+<li>Trình chiếu dữ liệu: account, container và objects</li>
+<li>Loại máy chủ:proxy, object, container và account server </li>
+<li>Tiện ích: replicator, updater và auditor</li>
+<img src=http://3.bp.blogspot.com/-1yp878OVa80/VFvVuafBqPI/AAAAAAAAASA/aMrBTQMaZIU/s1600/Swift_proxyServer_Arch.png>
+</ul>
+
+-Tất cả các đối tượng trong Swift có thể được truy cập thông qua các API RESTful.Định dạng API:
+<ul>
+<li>/account</li>
+<ul>
+<li>Các vị trí lưu trữ tài khoản là một khu vực lưu trữ tên duy nhất có chứa các siêu dữ liệu về tài khoản của nó cũng như danh sách gói dữ liệu trong tài khoản.</li>
+<li>Chú ý  trong Swift, một tài khoản không phải là danh tính người dùng mà là khu vực lưu trữ</li>
+</ul>
+<li>/accounts/containers:khu vực lưu trữ gói dữ liệu trong kho lưu trữ định danh người dùng với ột tài khoản mà siêu dữ liệu về chính nó và danh sách các đối tượng được lưu trũ</li>
+<li>/account/container/object:lưu trữ đối tượng và siêu dữ liệu</li>
+<img src=http://3.bp.blogspot.com/-jI-4cWuMF9c/VExGQlxo1JI/AAAAAAAAAH4/jtWYQ5ZwvzQ/s1600/swift_URL_format.jpg>
+</ul>
+
+##XI.Neutron - Dịch vụ mạng
+
+- Ban đầu mạng được cung cấp bởi Nova nhưng sau đó tách ra thành dự án tên là Quantumn và sau đổi tên thành Neutron.
+
+- Thành phần Neutron:
+<ul>
+<li>Máy chủ neutron: chạy trên nút mạng cung cấp API mạng các mở rộng, tạo các mô hình mạng và địa chỉ IP mỗi cổng, yêu cầu truy cập cơ sở dữ liệu cho việc lưu trữ liên tục và hàng đợi thông điệp cho việc giao tiếp</li>
+<li>Plugin agent:chạy trên nút máy để cấu hình switch ảo trên mỗi máy, yêu cầu truy cập hàng đợi thông điệp.</li>
+<li>DHCP agent:cung cấp dịch vụ DHCP, bình đẳng trên mọi plugin và thực hiện duy trì cấu hình DHCP, yêu cầu truy cập hàng đợi thông điệp.</li>
+<li>L3 agent: cung cấp mạng NAT để truy cập mạng, yêu cầu truy cập hàng đọi thông điệp.</li>
+<li>Dịch vụ cung cấp mạng:cung cấp thêm dịch vụ mạng, tương tác neutron-server,plugin qua REST API hoặc qua kênh tương tác khác</li>
+<img src=http://1.bp.blogspot.com/-Y2nFB5BI5Xw/VEyH2C5MaZI/AAAAAAAAAIU/ZbkJ2LEexbo/s1600/Neutron-PhysNet-Diagram.png>
+</ul>
+
+- Neutron API: định nghĩa
+<ul>
+<li>Network: đoan L2 biệt lập, tương tự VLAN trong mạng vật lý</li>
+<li>Mạng con: khối địa chỉ IPv4,v6 và trạng thái cấu hình</li>
+<li>Cổng: điểm kết nối để gắn một thiết bị,mô tả cấu hình ạng</li>
+</ul>
+
+- Neutron API Extension: người dùng thêm chức năng mạng thông qua Neutron plugins.
+
+<img src=http://2.bp.blogspot.com/-pKluO0upSZw/VEyI9UaO5CI/AAAAAAAAAIc/iNJb13K9de8/s1600/SDN-diagram.jpg>
+ 
+ - Mô tả mối liên kết giữa Neutron API,Neutron API Extension, Neutron plugins.
+ 
+ - Neutron plugins: giao diên giữa Neutron và công nghệ backends,ví dụ:Open vSwitch, Linux Bridge,...
+ 
+ ##X.Horizon - Dịch vụ giao diện
+ 
+ - Cung cấp giao diện dịch vụ Nova, Swift, Keystone,...
+ 
+ - Thư mục Horizon lưu trữ thư viện chung có thể dùng cho bât kì dự án Django.
+ 
+ - Thư mục Dashboard chứa một dự án Django mẫu dùng Horizon.
+ 
+ - Horizon API Reference: triển khai cụm Apache Hoop nhanh chóng, giúp người dùng dễ dàng mở rộng bộ dữ liệu, mở rông hệ thống RBAC
+ 
+ - Dashboard
+ <ul>
+ <li>Ứng dụng web hỗ trợ kiểm soát tính toán ,lưu trữ , dịch vụ mạng</li>
+ <li> Nếu có quyền quản trị, cung cấp kích thước và trạng thái của cloud. Tạo người dùng và dự án, phân người dùng vào dự án và phân bổ tài nguyên cho dữ án.</li>
+ <li> Cung cấp cổng dịch vụ để cung cấp tài nguyên trong giới hạn </li>
+ 
+
+ 
+
  
  
