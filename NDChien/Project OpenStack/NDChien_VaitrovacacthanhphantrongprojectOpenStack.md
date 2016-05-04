@@ -319,6 +319,7 @@ Cung cấp cở sở hạ tầng để thu thập mọi thông tin cần thiết
 
 <a name="9.1"></a>
 **9.1 Telemetry Data Collection service**
+
 Tính năng:
 
 - Thu thập các dữ liệu liên quan tới dịch vụ OpenStack 
@@ -346,7 +347,7 @@ Các thành phần:
 <li>An alarm notifier (aodh-notifier): Cho phép báo động được thiết lập dựa trên các ngưỡng đánh giá với mẫu thu thập.</li>
 </ul>
 <a name="10"></a>
-10. Trove - Database Service
+##10. Trove - Database Service
 
 <ul>
 <li>Là một dịch vụ cho phép người dùng sử dụng cơ sở dữ liệu mà không cần quản lý cơ sở hạ tầng cơ sở dữ liệu.</li>
