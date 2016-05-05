@@ -162,7 +162,7 @@ Keystone chỉ định quyền hạn tới người dùng. người dùng có nh
 <img src=http://1.bp.blogspot.com/-8_hta2MsdqE/VEvpGcz_n1I/AAAAAAAAAGs/ekV15QqyzWo/s1600/discovery_glance_provider_small.png>
 
 - Glance API:Có 2 phiên bản của Glance API - phiên bản 1 và phiên bản 2.Phiên bản 2 cung cấp một số chuẩn hóa của một số thuộc tính của image.Glance phụ thuộc vào Keystone và sự xác thực của OpenStack API.Glance sẽ truyền đạt lại cho Keystone để xác minh tính hợp lệ token và có được các thông tin nhận dạng của bạn.
- 
+ </ul>
  <a name="cinder"></a>
 ##V.Cinder- Dịch vụ lưu trữ khối dữ liệu
  
