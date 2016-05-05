@@ -1,6 +1,17 @@
 #Báo cáo OpenStack
 ##Mục Lục
+###[I.Tổng quan](#tq)
+###[II.Keystone](#keystone)
+###[III.Nova](#nova)
+###[IV.Glance](#glance)
+###[V.Cinder](#cinder)
+###[VI.Swift](#swift)
+###[VII.Neutron](#neutron)
+###[VIII.Horizon](#horizon)
+###[IX.Heat](#heat)
+###[X.Ceilometer](#ceilometer)
 
+<a name="tq"></a>
 ##I.Tổng quan OpenStack
 - 1.Khái niệm
 OpenStack là một nền tảng điện toán đám mây mã nguồn mở tạo nên bởi nhiều dịch vụ và mỗi dich vụ thực hiện một chức năng nhưng chúng có mối liên hệ với nhau.
@@ -30,6 +41,7 @@ OpenStack là một nền tảng điện toán đám mây mã nguồn mở tạo
 <img src=http://docs.openstack.org/icehouse/install-guide/install/apt-debian/content/figures/1/figures/installguide_arch-neutron.png>
 </ul>
 
+<a name="keystone></a>
 ##II.Keystone - Dịch vụ xác thực
 - Định nghĩa: 
 <ul>
@@ -66,6 +78,7 @@ Keystone chỉ định quyền hạn tới người dùng. người dùng có nh
 </ul>
 </ul>
 
+<a name="nova"></a>
 ##III.Nova-Dịch vụ tính toán
 
 - Nova là modun quản lý máy ảo trong hạ tầng OpenStack bằng cách trở thành tầng ảo có giao diện hỗ trợ ảo hóa
@@ -107,7 +120,8 @@ Keystone chỉ định quyền hạn tới người dùng. người dùng có nh
 - Mối quan hệ thành phần trong Nova
 <img src=http://2.bp.blogspot.com/-bYd9cxoncgs/VErn5ECWjZI/AAAAAAAAAF8/gYMkUCD51FQ/s1600/Nova_architecture.png>
 
-##VI.Glance - Dịch vụ image
+<a name="glance"></a>
+##IV.Glance - Dịch vụ image
 
 - Cung cấp, lưu trữ thu hồi phân chia siêu dữ liệu cho image sử dụng bởi Nova.
 
@@ -149,7 +163,8 @@ Keystone chỉ định quyền hạn tới người dùng. người dùng có nh
 
 - Glance API:Có 2 phiên bản của Glance API - phiên bản 1 và phiên bản 2.Phiên bản 2 cung cấp một số chuẩn hóa của một số thuộc tính của image.Glance phụ thuộc vào Keystone và sự xác thực của OpenStack API.Glance sẽ truyền đạt lại cho Keystone để xác minh tính hợp lệ token và có được các thông tin nhận dạng của bạn.
  
-##VII.Cinder- Dịch vụ lưu trữ khối dữ liệu
+ <a name="cinder"></a>
+##V.Cinder- Dịch vụ lưu trữ khối dữ liệu
  
  - Kiểu lưu trữ: lưu tữu khối, lưu trữ tệp tin, lưu trữ đối tượng.
  
@@ -188,7 +203,8 @@ Keystone chỉ định quyền hạn tới người dùng. người dùng có nh
  </ul>
  </ul>
  
- ##VIII.Swift
+ <a name="swift"></a>
+ ##VI.Swift
  
  - Giống Cinder ở kiểu lưu trữ
  
@@ -240,7 +256,8 @@ Từ đó ta có4 loại:
 <img src=http://3.bp.blogspot.com/-jI-4cWuMF9c/VExGQlxo1JI/AAAAAAAAAH4/jtWYQ5ZwvzQ/s1600/swift_URL_format.jpg>
 </ul>
 
-##XI.Neutron - Dịch vụ mạng
+<a name="neutron"></a>
+##VII.Neutron - Dịch vụ mạng
 
 - Ban đầu mạng được cung cấp bởi Nova nhưng sau đó tách ra thành dự án tên là Quantumn và sau đổi tên thành Neutron.
 
@@ -269,7 +286,8 @@ Từ đó ta có4 loại:
  
  - Neutron plugins: giao diên giữa Neutron và công nghệ backends,ví dụ:Open vSwitch, Linux Bridge,...
  
- ##X.Horizon - Dịch vụ giao diện
+ <a name="horizon"></a>
+ ##VIII.Horizon - Dịch vụ giao diện
  
  - Cung cấp giao diện dịch vụ Nova, Swift, Keystone,...
  
@@ -284,6 +302,70 @@ Từ đó ta có4 loại:
  <li>Ứng dụng web hỗ trợ kiểm soát tính toán ,lưu trữ , dịch vụ mạng</li>
  <li> Nếu có quyền quản trị, cung cấp kích thước và trạng thái của cloud. Tạo người dùng và dự án, phân người dùng vào dự án và phân bổ tài nguyên cho dữ án.</li>
  <li> Cung cấp cổng dịch vụ để cung cấp tài nguyên trong giới hạn </li>
+ 
+ <a name="heat"></a>
+ ##IX.HEAT- Dịch vụ Orchestration
+ 
+ - Cung cấp và quản lý tài nguyên của cloud
+ 
+ - Là một yếu tố chỉ rõ mô hình ứng dụng
+ 
+ - 	Thành phần Orchestration:
+ <ul>
+ </li>heat: Công cụ CLI giao tiếp với heat-api để xử lý AWS CloudFormation APIs.</li>
+ <li>heat-api: là  ReST API xử lý yếu cầu cảu API bằng cách gửi tới heat-engine qua RPC.</li>
+ <li>heat-api-cfn: cung cấp AWS-Query trương thích với AWS CloudFormation và xử lý yêu cầu API bằng việc gửi tới heat-engine qua RPC</li>
+ <li>heat-engine: chạy các mẫu và trả lại sự kiện cho người dùng</li>
+ <li>api-heat-cloudwatch:thu thập số liệu cho dịch vụ Orchestration</li>
+ <li>heat-cfntools: gói các script hỗ trợ</li>
+ </ul>
+ 
+ - Heat Template:giúp mà người dùng có hạ tầng OpenStack như ý, tích hợp với công cụ quản trị, các cấu trúc:Description,Parameters,Mappings,Resources,Outputs.
+ 
+ - Heat Engine:phương tiện từ người dùng thực hiện các công việc orchestation, gồm 2 tập API:API - OpenStack và REST API and AWS Query API, có thể mở rộng thu hẹp tài nguyên
+ <img src=http://2.bp.blogspot.com/-me47JZk6Y44/VE3bwYfRHII/AAAAAAAAAJY/Qt22PGnFt7A/s1600/Heat_autoscaling.png>
+ 
+ <a name="ceilometer"></a>
+ ##X.Ceilometer - Dịch vụ giám sát và đo lường
+ 
+ - Hạ tầng để thu thập thông tin cần thiết với OpenStack, thiết kế cho các công cụ đánh giá có thể tính tiền 
+ 
+ - Công việc chính: đo lường, cảnh báo, đa xuất bản
+ 
+ - Đo lường:
+ <ul>
+ <img src=http://3.bp.blogspot.com/-AutqWZ8U5zY/VFcAk1asIWI/AAAAAAAAAO0/t3ZW2RtSCTQ/s1600/ceilometer-options-push-pull.png>
+ <li>Kiến trúc Ceilometer</li>
+ <li>Bus-Listener Agent:tích hợp với dự án OpenStack Oslo </li>
+ <li>Push Agent: đẩy dữ liệu lên Ceilometer, hỗ trợ phục hồi, có hiệu lục cao</li>
+ <li>Polling Agent: thăm dò đối tượng và yêu cầu dữ liệu, hoàn thành trong lúc cấu hình, không hỗ trợ phục hồi
+ </ul>
+ <img src=http://2.bp.blogspot.com/-lKW1sHFMerU/VFcEQGe1m8I/AAAAAAAAAPA/9l9F2lCSw_E/s1600/ceilometer-workflow.jpg>
+ <img src=http://2.bp.blogspot.com/-DpTb0y45Qcc/VFcEvJCh7rI/AAAAAAAAAPM/9hNPX2lldwE/s1600/ceilometer_dataRetrieval.png>
+	
+ - Đa xuất bản
+ <ul>
+ <img src=http://1.bp.blogspot.com/-CmY4SINTFr0/VFcHzrkPXDI/AAAAAAAAAPU/UO--BsUGssE/s1600/ceilometer_publisher.png>
+ <li>Công bố thường xuyên:như một máy đo bạn dùng bao nhiêu trả bấy nhiêu, cập nhật mỗi 30 phút</li>
+ <li>Vận chuyển:Trong trường hợp dữ liệu dành cho hệ thống giám sát mất một bản cập nhật hoặc không đảm bảo an ninh lúc đó đồng hồ sẽ cần cả an ninh và đảm bảo vận chuyển trong trường hợp các dữ liệu dành cho hệ thống đánh giá và thanh toán.</li>
+ <li>notifier :	thông báo mà đẩy vào hàng đợi thông điệp</li>
+ <li>rpc : RPC cơ bản và an toàn</li>
+ <li>udp:xuất bản mẫu sử dụng các gói tin UDP.</li>
+ <img src=http://4.bp.blogspot.com/-rnUgEP6iHCo/VFcIfM8kw4I/AAAAAAAAAPc/4z72VKQu8fw/s1600/ceilometer_multi-publish.png>
+ 
+<li> Biểu đồ này cho thấy một mẫu duy nhất được gửi tới 2 phuong tiện vận chuyể là RPC và UDP mà lần lượt công bố các dữ liệu cùng với 2 mục tiêu khác nhau</li>
+ </ul>
+ 
+ - Cảnh báo:cho phép người dùng thiết lập báo động dựa trên đánh giá ngưỡng cho một bộ sưu tập các mẫu, có thể là một máy đo hoặc tổ hợp nhiều máy.
+ <ul>
+ <li>HTTPCallback:bạn đưa một URL khi báo động được đặt,tải trọng của yêu cầu có chứa tất cả các thông tin chi tiết về việc tại sao các báo động được kích hoạt.</li>
+ <li>Log:chủ yếu là hữu ích để gỡ lỗi</li>
+ </ul>
+ 
+ 
+
+ 
+
  
 
  
