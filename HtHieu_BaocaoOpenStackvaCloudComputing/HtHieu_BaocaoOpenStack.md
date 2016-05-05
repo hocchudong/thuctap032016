@@ -302,7 +302,7 @@ Từ đó ta có4 loại:
  <li>Ứng dụng web hỗ trợ kiểm soát tính toán ,lưu trữ , dịch vụ mạng</li>
  <li> Nếu có quyền quản trị, cung cấp kích thước và trạng thái của cloud. Tạo người dùng và dự án, phân người dùng vào dự án và phân bổ tài nguyên cho dữ án.</li>
  <li> Cung cấp cổng dịch vụ để cung cấp tài nguyên trong giới hạn </li>
- 
+ </ul>
  <a name="heat"></a>
  ##IX.HEAT- Dịch vụ Orchestration
  
