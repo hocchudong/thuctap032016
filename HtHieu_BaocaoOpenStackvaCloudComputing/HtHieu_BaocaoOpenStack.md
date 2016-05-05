@@ -41,7 +41,7 @@ OpenStack là một nền tảng điện toán đám mây mã nguồn mở tạo
 <img src=http://docs.openstack.org/icehouse/install-guide/install/apt-debian/content/figures/1/figures/installguide_arch-neutron.png>
 </ul>
 
-<a name="keystone></a>
+<a name="keystone"></a>
 ##II.Keystone - Dịch vụ xác thực
 - Định nghĩa: 
 <ul>
