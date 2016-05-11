@@ -7,7 +7,7 @@
 2.[Cài đặt SSH trên Ubuntuserver và cấu hình dùng putty](#cd)
 
 <a name="tq"></a>
-##Tổng quan và đặc điểm
+##1.Tổng quan và đặc điểm
 
 - GIT – SSH (Secure Shell) là một giao thức mạng dùng để thiết lập kết nối mạng một cách bảo mật.
 SSH hoạt động ở lớp trên trong mô hình phân lớp TCP/IP. Các công cụ SSH (như là OpenSSH, …) cung cấp cho người dùng cách thức để thiết lập kết nối mạng được mã hoá để tạo một kênh kết nối riêng tư. 
@@ -67,7 +67,7 @@ SSH hỗ trợ 3 kiểu chuyển tiếp:
 </ul>
 
 <a name="cd"></a>
-##Cài đặt SSH trên Ubuntuserver và cấu hình dùng putty
+##2.Cài đặt SSH trên Ubuntuserver và cấu hình dùng putty
 
 - Chạy lệnh `sudo apt-get update` rồi lệnh `sudo apt-get install ssh`
 
