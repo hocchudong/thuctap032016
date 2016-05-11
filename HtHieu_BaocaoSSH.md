@@ -13,7 +13,7 @@ Các chương trình trước đây: telnet, rlogin không sử dụng phương 
 <ul>
 <li>Shared secrets: dùng password để mã hóa hoặc giải mã ở cả hai bên</li>
 <li>Public keys :có một cặp khóa để giải mã những thứ ở 2 bên, thông thường một cái sẽ bị ẩn còn 1 cái sẽ công khai</li>
-
+</ul>
 - Phiên bản ssh:
 <ul>
 <li>Giao thức:Phiên bản 2 có nhiều tính năng đặc biệt là không dễ bị tổn thương khi có lỗi bảo mật như phiên bản 1</li>
