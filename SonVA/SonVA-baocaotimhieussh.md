@@ -51,6 +51,7 @@ user@host's password:
 host$
 ```
 
+
 Nếu như bạn gõ ssh user@host thì sẽ truy cập ssh dưới user gõ vào, còn nếu chỉ ```ssh host``` thì sẽ truy cập với user giống như user trên local
 
 <a name="II.b"></a>
