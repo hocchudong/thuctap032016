@@ -1,6 +1,12 @@
 #Báo cáo tìm hiểu giao thức SSH
+
 ##Mục lục
 
+1.[Tổng quan](#tq)
+
+2.[Cài đặt SSH trên Ubuntuserver và cấu hình dùng putty](#cd)
+
+<a name="tq"></a>
 ##Tổng quan và đặc điểm
 
 - GIT – SSH (Secure Shell) là một giao thức mạng dùng để thiết lập kết nối mạng một cách bảo mật.
@@ -13,7 +19,7 @@ Các chương trình trước đây: telnet, rlogin không sử dụng phương 
 <ul>
 <li>Shared secrets: dùng password để mã hóa hoặc giải mã ở cả hai bên</li>
 <li>Public keys :có một cặp khóa để giải mã những thứ ở 2 bên, thông thường một cái sẽ bị ẩn còn 1 cái sẽ công khai</li>
-</ul>
+
 - Phiên bản ssh:
 <ul>
 <li>Giao thức:Phiên bản 2 có nhiều tính năng đặc biệt là không dễ bị tổn thương khi có lỗi bảo mật như phiên bản 1</li>
@@ -45,7 +51,7 @@ SSH hỗ trợ 3 kiểu chuyển tiếp:
 <li>v TCP port forwarding:SSH dùng TCP/IP làm cơ chế truyền, thường dùng port 22 trên máy server khi nó mã hoá và giải mã lưu lượng đi trên mạng. Ở đây chúng ta nói đến một đặc điểm mã hoá và giải mã lưu lựong TCP/IP thuộc về ứng dụng khác, trên cổng TCP khác dùng SSH. Tiến trình này gọi là port forwarding, nó có tính trong suốt cao va khá mạnh. Telnet, SMTP, NNTP, IMAP và những giao thức không an toàn khác chạy TCP có thể được bảo đảm bằng việc chuyển tiếp kết nối thông qua SSH. Port forwarding đôi khi được gọi là tunneling bởi vì kết nối SSH cung cấp một “đường hầm” xuyên qua để kết nối TCP khác có thể đi qua.Tuy nhiên, SSH port forwarding chỉ hoạt động trên giao thức TCP và không làm việc được trên các giao thức khác như UDP hay AppleTalk </li>
 <li>v X forwarding:X là một hệ thống window phổ biến đối với các trạm làm việc Unix, một trong những đặc điểm tốt nhất của nó là tính trong suốt. Sử dụng X bạn có thể chạy ứng dụng X từ xa để mở các cửa sổ của chúng trên màn hình hiển thị cục bộ của bạn</li>
 <li>v Agent forwarding:SSH client có thể làm việc với một SSH agent trên cùng một máy. Sử dụng mọt đặc trưng gọi là agent forwarding, client cũng có thể liên lạc với các agent trên những máy từ xa. Điều thuận lợi là nó cho phép client trên nhiều máy làm việc với một agent và có thể tránh vấn đề liên quan đến tường lửa.</li>
-</ul>
+
 - Kiến trúc chung của giao thức SSH:
 <ul>
 <li>Server :Một chương trình cho phép đi vào kết nối SSH với một bộ máy, trình bày xác thực, cấp phép, … Trong hầu hết SSH bổ sung của Unix thì server thường là sshd.</li>
@@ -60,6 +66,29 @@ SSH hỗ trợ 3 kiểu chuyển tiếp:
 </ul>
 </ul>
 
+<a name="cd></a>
+##Cài đặt SSH trên Ubuntuserver và cấu hình dùng putty
 
-##Cài đặt SSH trên Ubuntuserver
+- Chạy lệnh `sudo apt-get update` rồi lệnh `sudo apt-get install ssh`
+
+- Cấu trúc /etc/ssh:
+<ul>
+<li>moduli: Chứa một nhóm Diffie-Hellman được sử dụng cho việc trao đổi khóa Diffie-Hellman, nó thực sự quan trọng để xây dựng một lớp bảo mật ở tầng vận chuyển dữ liệu.Khi các khóa được trao đổi với nhau bắt đấu ở một phiên kết nối SSH, một share secret value được tạo ra và không thể xác định bởi một trong hai bên kết nối, giá trị này sau đó sẽ được dùng để cung cấp chứng thực cho host.</li>
+<li>ssh_config: file cấu hình mặc định cho SSH client của hệ thống.</li>
+<li>sshd_config: File cấu hình cho sshd deamon.</li>
+<li>ssh_host_dsa_key: DSA private key được sử dụng với sshd deamon.</li>
+<li>ssh_host_dsa_key.pub: DSA public key được sử dụng bởi sshd deamon.</li>
+<li>ssh_host_key: RSA private key được sử dụng bởi sshd deamon cho phiên bản 1 của giao thức SSH.</li>
+<li>ssh_host_key.pub: RSA public key được sử dụng bởi sshd deamon cho phiên bản 1 của giao thức SSH.</li>
+<li>ssh_host_rsa_key: RSA private key được sử dụng bởi sshd deamon cho phiên bản 2 của giao thức SSH.</li>
+<li>ssh_host_rsa_key.pub: RSA public key được sử dụng bởi sshd deamon cho phiên bản 2 của giao thức SSH.</li>
+</ul>
+
+- Dùng lệnh `vi /etc/ssh/sshd_config` để có thể dùng putty
+
+- Tại dòng số 28 <img src=http://i745.photobucket.com/albums/xx96/vnlamp/1-2.jpg>
+
+- Chạy lênh `service ssh restart`
+
+
 
