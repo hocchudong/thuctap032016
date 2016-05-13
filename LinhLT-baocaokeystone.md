@@ -89,23 +89,44 @@ Là một chuỗi các ký tự, đã được mã hóa nhằm bảo đảm an n
 |Keystone load|Big	|small	|small|	Big|
 |Stored in the database	|Yes|	Yes|	Yes	|no|
 |Carry information	|no	|user, catalog, etc.|	user, catalog, etc.|	user, etc.|
-|Involving encryption	|no	Asymmetric encryption|	Asymmetric encryption|	Symmetric encryption (AES)|
+|Involving encryption	|no	|Asymmetric encryption|	Asymmetric encryption|	Symmetric encryption (AES)|
 |Compress	|no	|no	|Yes|	no|
 |Supported	|D	|G	|J	|K|
 
-###3.4.1 Key format
+###4.4.1 Key format
 ```sh
 Signing-key ‖ Encryption-key
 ```
 * Signing-key, 128 bits
 * Encryption-key, 128 bits
 
-###3.4.2 Các loại key
+###4.4.2 Các loại key
 * Primary key: Sử dụng cho mã hóa và giải mã token fernet. (Chỉ số khóa cao nhất)
 * Secondary key: Giải mã token. (chỉ số khóa nằm giữa primary key và secondary key)
 * Staged key: Tương tự Sencondary key. Khác ở chỗ là Stage key sẽ trở thành primary key ở lần xoay khóa tiếp theo. (Chỉ số khóa thấp nhất).
 
-###3.4.3 Rotation Key
+###4.4.3 Generate key
+Dưới đây là đoạn mã đến sinh ra key
+
+```sh
+>>> import base64
+>>> import os
+>>>
+>>> b_key = os.urandom(32) # the fernet key in binary
+>>> b_key
+'2g\x06\xb3O\xe2D\x7f\x86\xc9\xb0\xb8\xd4\x071v\xd8/\x80\x88\xb8\x92M\xd3\xf7\x86\xc0\xaa\x82\xfb\x97\xe9'
+>>>
+>>> b_key[:16] # signing key is the first 16 bytes of the fernet key
+'2g\x06\xb3O\xe2D\x7f\x86\xc9\xb0\xb8\xd4\x071v'
+>>>
+>>> b_key[16:] # encrypting key is the last 16 bytes of the fernet key
+'\xd8/\x80\x88\xb8\x92M\xd3\xf7\x86\xc0\xaa\x82\xfb\x97\xe9'
+>>>
+>>> key = base64.urlsafe_b64encode(b_key) # base64 encoded fernet key
+>>> key
+'MmcGs0_iRH-GybC41AcxdtgvgIi4kk3T94bAqoL7l-k='
+```
+###4.4.4 Rotation Key
 
 ![](http://www.mattfischer.com/blog/wp-content/uploads/2015/05/fernet-rotation1.png)
 
@@ -118,7 +139,7 @@ Signing-key ‖ Encryption-key
 	* Khóa Staged key 0 trở thành khóa Primary key.
 	* Khóa Secondary key 1 có thể giữ nguyên hoặc bị xóa đi. Vậy khi nào xóa đi, đó là khi mình cấu hình có tối đa bao nhiêu key trong file `/etc/keystone/`. Nếu cấu hình là 3 key thì Secondary key 1 sẽ bị xóa đi.
 
-###3.4.4 Token format
+###4.4.4 Token format
 ```sh
 Version ‖ Timestamp ‖ IV ‖ Ciphertext ‖ HMAC
 ```
@@ -133,31 +154,31 @@ Version ‖ Timestamp ‖ IV ‖ Ciphertext
 Cuối cùng Fernet Token sử dụng Base64 URL safe để encoded các thành phần trên.
 
 
-###3.4.5 Generating token
+###4.4.5 Generating token
 
 Given a key and message, generate a fernet token with the following steps, in order:
 
-* Record the current time for the timestamp field.
-* Choose a unique IV.
-* Construct the ciphertext:
-	* Pad the message to a multiple of 16 bytes (128 bits) per RFC 5652, section 6.3. This is the same padding technique used in PKCS #7 v1.5 and all versions of SSL/TLS (cf. RFC 5246, section 6.2.3.2 for TLS 1.2).
-	* Encrypt the padded message using AES 128 in CBC mode with the chosen IV and user-supplied encryption-key.
-* Compute the HMAC field as described above using the user-supplied signing-key.
-* Concatenate all fields together in the format above.
-* base64url encode the entire token.
+* Ghi lại thời gian hiện tại ở trường timestamp.
+* Chọn một giá trị IV.
+* Xây dựng ciphertext:
+	* Pad các tin nhắn là bội số của 128bit (16byte).
+	* mã hóa các thông điệp sử dụng AES128-CBC, với tùy chọn IV ở trên và sử dụng encryption-key (trong keyformat).
+* Tính HMAC bằng cách sử dụng Signing-key
+* Ghép tất cả các trường trên lại với nhau.
+* Token được tạo ra bằng cách mã hóa base64url các trường trên
 
 
 
-###3.4.6 Verifying token
-Given a key and token, to verify that the token is valid and recover the original message, perform the following steps, in order:
+###4.4.6 Verifying token
+* Giải mã base64url token.
+* Đảm bảo các bye đầu tiên của mã thông bảo là 0x80 (phiên bản token).
+* Nếu người dùng quy định time-to-live cho token thì phải đảm bảo timestamp không phải trong quá khứ.
 
-* base64url decode the token.
-* Ensure the first byte of the token is 0x80.
-* If the user has specified a maximum age (or "time-to-live") for the token, ensure the recorded timestamp is not too far in the past.
-* Recompute the HMAC from the other fields and the user-supplied signing-key.
-* Ensure the recomputed HMAC matches the HMAC field stored in the token, using a constant-time comparison function.
-* Decrypt the ciphertext field using AES 128 in CBC mode with the recorded IV and user-supplied encryption-key.
-* Unpad the decrypted plaintext, yielding the original message.
+* Recompute HMAC từ các trường, sử dụng signing-key
+* Đảm bảo HMAC được recompute lại phù hợp với trường HMAC lưu trong token
+* Giải mã ciphertext sử dụng thuật toán AES/128-CBC với chế độ IV và sử dụng Encryption key.
+* Thông điệp ban đầu được giải mã
+
 
 ##5. Các Backend: Là nơi để lưu trữ, xử lý các yêu cầu.
 
