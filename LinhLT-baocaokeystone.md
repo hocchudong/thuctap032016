@@ -40,35 +40,41 @@
 ##1.4 Roles
 * Chỉ ra vai trò của người dùng trong project hoặc trong domain,...
 
+![](https://open.ibmcloud.com/documentation/_images/UserManagementWithGroups.gif)
+
+
 #2. Các thành phần trong Keystone
-##2.1 Identity
-* Dùng để nhận dạng, xác thực user.
+|Thành phần|Chức năng|
+|:--------:|:--------:|
+|Identity|Nhận dạng, xác thực user, project, role, metadata|
+|Token| Là một chuỗi các ký tự, thẩm định yêu cầu của user đã được indentity|
+|Catalog| Chứa danh sách các dịch vụ. Endpoint: Điểm truy cập tới các dịch vụ, thường là địa chỉ url.|
+|Policy | Là các chính sách, quy định, quy tắc về project, user,...|
 
-##2.2 Token
-* Dùng để cấp quyền cho user. Xác định user đã được xác thực ở trên có những quyền gì.
+#3. Các phương pháp xác thực
+##3.1 Xác thực bằng mật khẩu
+![](http://i.imgur.com/fXzFnnH.png)
 
-##2.3 Catalog
-* Chưa danh sách các dịch vụ
-* Endpoint: : Điểm truy cập tới các dịch vụ. Thường là một URL 
+##3.2 Xác thực bằng token
+Là một chuỗi các ký tự, đã được mã hóa nhằm bảo đảm an ninh an toàn thông tin.
 
-##2.4 Policy
-* Chứa quy định, quy tắc.
+![](http://i.imgur.com/ZAK7w99.png)
 
-##2.5 Các loại Token
-###2.5.1 UUID:
+#4. Các loại Token
+##4.1 UUID:
 * Độ dài 32 byte, lưu vào database. Không nén.
 * Tuy nhiên, cứ mỗi lần xác thực là phải gửi đến Keystone nên Keystone phải xử lý nhiều, làm giảm hiệu năng.
 
-###2.5.2 PKI:
+##4.2 PKI:
 * Mã hóa bằng Private Key, kết hợp Public key để giải mã, lấy thông tin. Token chứa nhiều thông tin như Userid, project id, service catalog,...
 * Tuy nhiên, Header của HTTP chỉ giới hạn 8kb, nên sẽ gặp lỗi.
 * Xác thực ngay tại user, không cần phải gửi yêu cầu xác thực đến Keystone.
 
-###2.5.3 PKIZ:
+##4.3 PKIZ:
 * Tương tự PKI.
 * Khắc phục nhược điểm của PKI, token sẽ được nén lại để có thể truyền qua HTTP.
 
-###2.5.4 Fernet: 
+##4.4 Fernet: 
 * Sử dụng mã hóa đối xưng (Sử dụng chung key để mã hóa và giải mã).
 * Không lưu token vào database.			
 * Không nén.
@@ -76,18 +82,30 @@
 * Không chứa serivce catalog,...
 * Nhanh hơn 85% so với UUID và 89% so với PKI.
 
-####2.5.4.1 Key format
+|Token Types | UUID | PKI | PKIZ | Fernet|
+|:----------:|:----:|:---:|:----:|:-----:|
+|Size	|32 Byte	|KB Level	|KB Level	|About 255 Byte|
+|Support |local authentication	|not support	|stand by	|stand by|	not support|
+|Keystone load|Big	|small	|small|	Big|
+|Stored in the database	|Yes|	Yes|	Yes	|no|
+|Carry information	|no	|user, catalog, etc.|	user, catalog, etc.|	user, etc.|
+|Involving encryption	|no	Asymmetric encryption|	Asymmetric encryption|	Symmetric encryption (AES)|
+|Compress	|no	|no	|Yes|	no|
+|Supported	|D	|G	|J	|K|
+
+###3.4.1 Key format
 ```sh
 Signing-key ‖ Encryption-key
 ```
 * Signing-key, 128 bits
 * Encryption-key, 128 bits
 
-####2.5.4.2 Các loại key
+###3.4.2 Các loại key
 * Primary key: Sử dụng cho mã hóa và giải mã token fernet. (Chỉ số khóa cao nhất)
 * Secondary key: Giải mã token. (chỉ số khóa nằm giữa primary key và secondary key)
 * Staged key: Tương tự Sencondary key. Khác ở chỗ là Stage key sẽ trở thành primary key ở lần xoay khóa tiếp theo. (Chỉ số khóa thấp nhất).
-####2.5.4.3 Rotation Key
+
+###3.4.3 Rotation Key
 
 ![](http://www.mattfischer.com/blog/wp-content/uploads/2015/05/fernet-rotation1.png)
 
@@ -100,7 +118,7 @@ Signing-key ‖ Encryption-key
 	* Khóa Staged key 0 trở thành khóa Primary key.
 	* Khóa Secondary key 1 có thể giữ nguyên hoặc bị xóa đi. Vậy khi nào xóa đi, đó là khi mình cấu hình có tối đa bao nhiêu key trong file `/etc/keystone/`. Nếu cấu hình là 3 key thì Secondary key 1 sẽ bị xóa đi.
 
-####2.5.4.4 Token format
+###3.4.4 Token format
 ```sh
 Version ‖ Timestamp ‖ IV ‖ Ciphertext ‖ HMAC
 ```
@@ -112,10 +130,10 @@ Version ‖ Timestamp ‖ IV ‖ Ciphertext ‖ HMAC
 ```sh
 Version ‖ Timestamp ‖ IV ‖ Ciphertext
 ```
-Cuối cùng Fernet Token sử dụng Base64 URL safe để encoded các thành phần trê.
+Cuối cùng Fernet Token sử dụng Base64 URL safe để encoded các thành phần trên.
 
 
-####2.5.4.5 Generating token
+###3.4.5 Generating token
 
 Given a key and message, generate a fernet token with the following steps, in order:
 
@@ -130,7 +148,7 @@ Given a key and message, generate a fernet token with the following steps, in or
 
 
 
-####2.5.4.6 Verifying token
+###3.4.6 Verifying token
 Given a key and token, to verify that the token is valid and recover the original message, perform the following steps, in order:
 
 * base64url decode the token.
@@ -141,16 +159,18 @@ Given a key and token, to verify that the token is valid and recover the origina
 * Decrypt the ciphertext field using AES 128 in CBC mode with the recorded IV and user-supplied encryption-key.
 * Unpad the decrypted plaintext, yielding the original message.
 
-##2.6 Các Backend
+##5. Các Backend: Là nơi để lưu trữ, xử lý các yêu cầu.
 
 ![](http://i.imgur.com/bwWVFy6.png)
 
+* Memcached: Phân phối và lưu trữ bộ nhớ cached (bộ nhớ tạm) trên RAM. 
 * KVS Backend: 
 * SQL Backend: Lưu trữ dữ liệu
 * PAM backend: Xác thực người dùng, mối quan hệ giữa user và projects.
+* LDAP backedn: 
 
 
-#3. Cách hoạt động của Keystone
+#6. Cách hoạt động của Keystone
 
 ![](http://i.imgur.com/uDzPLna.png)
 
