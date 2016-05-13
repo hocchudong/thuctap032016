@@ -33,10 +33,10 @@
 
 **=> Ta có thể thấy được rằng, mọi projects trong OpenStack đều phải xác thực thông qua keystone.**
 
-<a href="khai_niem"></a>
+<a name="khai_niem"></a>
 #1. Một số khái niệm
 
-<a href="projects"></a>
+<a name="projects"></a>
 ##1.1 Projects
 * Mỗi Projects có nguồn tài nguyên khác nhau.
 * Một Projects có thể có nhiều users khác nhau.
@@ -49,7 +49,7 @@
     * Mỗi user có thể thuộc nhiều projects khác nhau, và có quyền hạn khác nhau.
     * Ví dụ: Users SandraD, có quyền admin ở trong projects Aerospace nhưng trong projects CompSci chỉ có quyền support.
 
-<a href="domain"></a>
+<a name="domain"></a>
 ##1.2 Domain
 * Bao gồm Projects, Group và Users.
 * Một User có thể thuộc nhiều domain khác nhau.
@@ -57,7 +57,7 @@
 
 ![](http://916c06e9a68d997cd06a-98898f70c8e282fcc0c2dba672540f53.r39.cf1.rackcdn.com/Screen%20Shot%202014-01-08%20at%201.04.26%20PM.png)
 
-<a href="user_groups"></a>
+<a name="user_groups"></a>
 ##1.3 Users and Groups
 * Groups là một nhóm người dùng.
 * Có thể được gán trên domain của group hoặc trên project của group đấy.
@@ -68,13 +68,13 @@
 	* JohnB có vai trò là Sysadmin ở trong group 1, thuộc 2 Projects Biology và Aerospace.
 	* LisaD có vai trò là Engineer trong group 2 thuộc Projects Compsci
 
-<a href="roles"></a>
+<a name="roles"></a>
 ##1.4 Roles
 * Chỉ ra vai trò của người dùng trong project hoặc trong domain,...
 
 ![](https://open.ibmcloud.com/documentation/_images/UserManagementWithGroups.gif)
 
-<a href="thanh_phan"></a>
+<a name="thanh_phan"></a>
 #2. Các thành phần trong Keystone
 |Thành phần|Chức năng|
 |:--------:|:--------:|
@@ -83,39 +83,39 @@
 |Catalog| Chứa danh sách các dịch vụ. Endpoint: Điểm truy cập tới các dịch vụ, thường là địa chỉ url.|
 |Policy | Là các chính sách, quy định, quy tắc về project, user,...|
 
-<a href="xac_thuc"></a>
+<a name="xac_thuc"></a>
 #3. Các phương pháp xác thực
 
-<a href="xacthuc_mat_khau"></a>
+<a name="xacthuc_mat_khau"></a>
 ##3.1 Xác thực bằng mật khẩu
 ![](http://i.imgur.com/fXzFnnH.png)
 
-<a href="xacthuc_token"></a>
+<a name="xacthuc_token"></a>
 ##3.2 Xác thực bằng token
 Là một chuỗi các ký tự, đã được mã hóa nhằm bảo đảm an ninh an toàn thông tin.
 
 ![](http://i.imgur.com/ZAK7w99.png)
 
-<a href="token"></a>
+<a name="token"></a>
 #4. Các loại Token
 
-<a href="uuid"></a>
+<a name="uuid"></a>
 ##4.1 UUID:
 * Độ dài 32 byte, lưu vào database. Không nén.
 * Tuy nhiên, cứ mỗi lần xác thực là phải gửi đến Keystone nên Keystone phải xử lý nhiều, làm giảm hiệu năng.
 
-<a href="pki"></a>
+<a name="pki"></a>
 ##4.2 PKI:
 * Mã hóa bằng Private Key, kết hợp Public key để giải mã, lấy thông tin. Token chứa nhiều thông tin như Userid, project id, service catalog,...
 * Tuy nhiên, Header của HTTP chỉ giới hạn 8kb, nên sẽ gặp lỗi.
 * Xác thực ngay tại user, không cần phải gửi yêu cầu xác thực đến Keystone.
 
-<a href="pkiz"></a>
+<a name="pkiz"></a>
 ##4.3 PKIZ:
 * Tương tự PKI.
 * Khắc phục nhược điểm của PKI, token sẽ được nén lại để có thể truyền qua HTTP.
 
-<a href="fernet"></a>
+<a name="fernet"></a>
 ##4.4 Fernet: 
 * Sử dụng mã hóa đối xưng (Sử dụng chung key để mã hóa và giải mã).
 * Không lưu token vào database.			
@@ -135,7 +135,7 @@ Là một chuỗi các ký tự, đã được mã hóa nhằm bảo đảm an n
 |Compress	|no	|no	|Yes|	no|
 |Supported	|D	|G	|J	|K|
 
-<a href="key_format"></a>
+<a name="key_format"></a>
 ###4.4.1 Key format
 ```sh
 Signing-key ‖ Encryption-key
@@ -143,13 +143,13 @@ Signing-key ‖ Encryption-key
 * Signing-key, 128 bits
 * Encryption-key, 128 bits
 
-<a href="loai_key"></a>
+<a name="loai_key"></a>
 ###4.4.2 Các loại key
 * Primary key: Sử dụng cho mã hóa và giải mã token fernet. (Chỉ số khóa cao nhất)
 * Secondary key: Giải mã token. (chỉ số khóa nằm giữa primary key và secondary key)
 * Staged key: Tương tự Sencondary key. Khác ở chỗ là Stage key sẽ trở thành primary key ở lần xoay khóa tiếp theo. (Chỉ số khóa thấp nhất).
 
-<a href="gen_key"></a>
+<a name="gen_key"></a>
 ###4.4.3 Generate key
 Dưới đây là đoạn mã đến sinh ra key
 
@@ -172,7 +172,7 @@ Dưới đây là đoạn mã đến sinh ra key
 'MmcGs0_iRH-GybC41AcxdtgvgIi4kk3T94bAqoL7l-k='
 ```
 
-<a href="rotation_key"></a>
+<a name="rotation_key"></a>
 ###4.4.4 Rotation Key
 
 ![](http://www.mattfischer.com/blog/wp-content/uploads/2015/05/fernet-rotation1.png)
@@ -186,7 +186,7 @@ Dưới đây là đoạn mã đến sinh ra key
 	* Khóa Staged key 0 trở thành khóa Primary key.
 	* Khóa Secondary key 1 có thể giữ nguyên hoặc bị xóa đi. Vậy khi nào xóa đi, đó là khi mình cấu hình có tối đa bao nhiêu key trong file `/etc/keystone/`. Nếu cấu hình là 3 key thì Secondary key 1 sẽ bị xóa đi.
 
-<a href="token_format"></a>
+<a name="token_format"></a>
 ###4.4.4 Token format
 ```sh
 Version ‖ Timestamp ‖ IV ‖ Ciphertext ‖ HMAC
@@ -201,7 +201,7 @@ Version ‖ Timestamp ‖ IV ‖ Ciphertext
 ```
 Cuối cùng Fernet Token sử dụng Base64 URL safe để encoded các thành phần trên.
 
-<a href="gen_token"></a>
+<a name="gen_token"></a>
 ###4.4.5 Generating token
 
 Given a key and message, generate a fernet token with the following steps, in order:
@@ -216,7 +216,7 @@ Given a key and message, generate a fernet token with the following steps, in or
 * Token được tạo ra bằng cách mã hóa base64url các trường trên
 
 
-<a href="ver_token"></a>
+<a name="ver_token"></a>
 ###4.4.6 Verifying token
 * Giải mã base64url token.
 * Đảm bảo các bye đầu tiên của mã thông bảo là 0x80 (phiên bản token).
@@ -227,7 +227,7 @@ Given a key and message, generate a fernet token with the following steps, in or
 * Giải mã ciphertext sử dụng thuật toán AES/128-CBC với chế độ IV và sử dụng Encryption key.
 * Thông điệp ban đầu được giải mã
 
-<a href="backend"></a>
+<a name="backend"></a>
 ##5. Các Backend: Là nơi để lưu trữ, xử lý các yêu cầu.
 
 ![](http://i.imgur.com/bwWVFy6.png)
@@ -238,7 +238,7 @@ Given a key and message, generate a fernet token with the following steps, in or
 * PAM backend: Xác thực người dùng, mối quan hệ giữa user và projects.
 * LDAP backedn: 
 
-<a href="hoat_dong"></a>
+<a name="hoat_dong"></a>
 #6. Cách hoạt động của Keystone
 
 ![](http://i.imgur.com/uDzPLna.png)
@@ -254,7 +254,7 @@ Given a key and message, generate a fernet token with the following steps, in or
 * 9: Neutron trả lời cho Nova..
 * 10: Nova trả lời cho người dùng.
 
-<a href="tham_khao"></a>
+<a name="tham_khao"></a>
 #Tài liệu tham khảo
 * *Steve Martinelli, Henry Nash & Brad Topol*: Identity, Authentication & Access Management in OpenStack
 * http://www.slideshare.net/openstackindia/openstack-keystone-identity-service
