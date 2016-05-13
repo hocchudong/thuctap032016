@@ -3,7 +3,8 @@
 * Dùng để xác thực, cấp quyền, cung cấp danh sách các dịch vụ cho người dùng, và cho các projects khác trong OpenStack
 
 ![](http://i.imgur.com/cjGWu4Q.png)
-=> Ta có thể thấy được rằng, mọi projects trong OpenStack đều phải xác thực thông qua keystone.
+
+**=> Ta có thể thấy được rằng, mọi projects trong OpenStack đều phải xác thực thông qua keystone.**
 
 #1. Một số khái niệm
 ##1.1 Projects
@@ -57,13 +58,16 @@
 ###2.5.1 UUID:
 * Độ dài 32 byte, lưu vào database. Không nén.
 * Tuy nhiên, cứ mỗi lần xác thực là phải gửi đến Keystone nên Keystone phải xử lý nhiều, làm giảm hiệu năng.
+
 ###2.5.2 PKI:
 * Mã hóa bằng Private Key, kết hợp Public key để giải mã, lấy thông tin. Token chứa nhiều thông tin như Userid, project id, service catalog,...
 * Tuy nhiên, Header của HTTP chỉ giới hạn 8kb, nên sẽ gặp lỗi.
 * Xác thực ngay tại user, không cần phải gửi yêu cầu xác thực đến Keystone.
+
 ###2.5.3 PKIZ:
 * Tương tự PKI.
 * Khắc phục nhược điểm của PKI, token sẽ được nén lại để có thể truyền qua HTTP.
+
 ###2.5.4 Fernet: 
 * Sử dụng mã hóa đối xưng (Sử dụng chung key để mã hóa và giải mã).
 * Không lưu token vào database.			
@@ -71,6 +75,7 @@
 * Chứa các thông tin như userid, projectid, domainid, methods, expiresat,....
 * Không chứa serivce catalog,...
 * Nhanh hơn 85% so với UUID và 89% so với PKI.
+
 ####2.5.4.1 Key format
 ```sh
 Signing-key ‖ Encryption-key
@@ -135,6 +140,7 @@ Given a key and token, to verify that the token is valid and recover the origina
 * Ensure the recomputed HMAC matches the HMAC field stored in the token, using a constant-time comparison function.
 * Decrypt the ciphertext field using AES 128 in CBC mode with the recorded IV and user-supplied encryption-key.
 * Unpad the decrypted plaintext, yielding the original message.
+
 ##2.6 Các Backend
 
 ![](http://i.imgur.com/bwWVFy6.png)
@@ -145,6 +151,7 @@ Given a key and token, to verify that the token is valid and recover the origina
 
 
 #3. Cách hoạt động của Keystone
+
 ![](http://i.imgur.com/uDzPLna.png)
 
 * 1: User gửi thông tin đến Keystone (Username và Password)
