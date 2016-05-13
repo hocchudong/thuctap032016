@@ -50,7 +50,7 @@ Usecase for ID backend
 <a name="I.3"></a>
 ## 3. Authentication
 Có nhiều cách để xác thực trong keystone. tuy nhiên có 2 cách chính dùng để xác thực: cung cấp mật khẩu hoặc sử dụng token  
-- Phương pháp đơn giản nhất là sử dụng mật khẩu:
+- Phương pháp đơn giản nhất là sử dụng mật khẩu:  
 <img src="http://i.imgur.com/SztWXIO.png">  
 Trong payload của các request cần chứa đầy đủ thông tin về việc tồn tại của user, xác thực user, ngoài ra có thể có service catalog dựa trên các quyền mà user có. Người dùng sẽ cung cấp user mật khẩu và được keystone trả về token để truy cập vào một số dịch vụ tương ứng của Openstack   
 <img src="http://i.imgur.com/SaxR0R8.png">
