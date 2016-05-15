@@ -1,13 +1,13 @@
 #KeyStone
 ##Mục lục:
 
-[1. Giới thiệu](#1)
+[1 Giới thiệu](#1)
 
 - [1.1 Các dịch vụ cung cấp](#1.1)
 
 - [1.2 Backend](#1.2)
 
-[2. Các chủ đề cơ bản của KeyStone](#2)
+[2 Các chủ đề cơ bản của KeyStone](#2)
 
 - [2.1 Các khái niệm](#2.1)
 
@@ -19,7 +19,7 @@
 
 - [2.5 Mô hình Backends and Services](#2.5)
 
-[3. Các dạng token](#3)
+[3 Các dạng token](#3)
 
 - [3.1 UUID Tokens](#3.1)
 
@@ -27,17 +27,19 @@
 
 - [3.3 Fernet](#3.3)
 
-[4. Federated Identity](#4)
+[4 Federated Identity](#4)
 
 - [4.1 Authentication Flow](#4.1)
 
 - [4.2 Single Sign-On](#4.2)
 
+[5 Các cải tiến mới trên Mitaka](#5)
+
 
 =================
 
 <a name="1"></a>
-##1. Giới thiệu
+##1 Giới thiệu
 
 Keystone là một dự án OpenStack, cung cấp chức năng xác thực và ủy quyền cho các phần tử trong OpenStack. 
 Người dùng khai báo chứng thực với Keystone và dựa trên kết quả của tiến trình xác thực, nó sẽ gán "role" cùng với một token xác thực cho người dùng. "Role" này mô tả quyền hạn cũng như vai trò trong thực hiện việc vận hành OpenStack.
@@ -76,7 +78,7 @@ Mô hình dịch vụ và backend
 
 
 <a name="2"></a>
-##2. Các chủ đề cơ bản của KeyStone
+##2 Các chủ đề cơ bản của KeyStone
 
 <a name="2.1"></a>
 ###2.1 Các khái niệm
@@ -278,7 +280,7 @@ Version | Timestamp | IV | Ciphertext | HMAC |
 Mô hình hoạt động
 
 <a name="4"></a>
-##4. Federated Identity
+##4 Federated Identity
 
 Tạo lập các liên kết danh tính
 
@@ -317,6 +319,14 @@ Kết hợp KeyStone + Horizon hỗ trợ đăng nhập tự động
 - Khi KeyStone làm việc với token thì phải trả về ID token cho Horizon
 - Horizon có token, nó tạo ra client session và người dùng đăng nhập
  
+<a name="5"></a>
+##5 Các cải tiến mới trên Mitaka
+<ul>
+<li>Cải tiến bộ nhớ đệm</li>
+<li>Hỗ trợ TOTP (Time based one time password) Xác thực mật khẩu 1 lần</li>
+<li>User có nhiều roles</li>
+<li>Thống nhất nhận dạng (Trường hợp 2 user có tên giống nhau)</li>
+</ul>
 
  Note: 
  Tìm hiểu thêm về các hoạt động của các token.
