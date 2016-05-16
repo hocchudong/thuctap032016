@@ -222,10 +222,11 @@ Ko có bước quay lại KeyStone để xác thực như UUID
 <a name="3.3"></a>
 ###3.3 Fernet
 <ul>
-<li>Dạng token khoảng 255 ký tự, chứa thông tin đủ để xác thực</li>
-<li>Định dạng tin nhắn an toàn, ko cần lưu trữ, không cần đồng bộ</li>
+<li>Độ dài 255 ký tự</li>
+<li>Chứa thông tin đủ để xác thực</li>
+<li>Ko cần lưu trữ, không cần đồng bộ</li>
 <li>Token payload chứa userID, Project ID, metadata, timestamp, lifespam, cách xác thực...</li>
-<li>Khả năng xác thực ngoại tuyến</li>
+<li>Sử dụng mã hóa đối xứng AES-CBC</li>
 </ul>
 
 **Fernet Keys** chứa trong ` /etc/keystone/fernet-keys/ `
