@@ -154,6 +154,7 @@ cloud.
 <a name="targets"></a>
 ##2.6 Targets
 * Nơi mà role được gán cho user (Project hoặc domain).
+
 <a name="token"></a>
 ##2.7 Token
 * Người dùng muốn sử dụng OpenStack API thì cần phải chứng minh mình là ai, và mình nên đưuọc cho phép trong câu hỏi API.
