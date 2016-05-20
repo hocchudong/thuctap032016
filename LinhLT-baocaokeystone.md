@@ -1,15 +1,39 @@
-#Keystone - OpenStack
+#Keystone
+* Mô hình triển khai nền tảng dịch vụ Cloud cung cấp cho người dùng quyền được truy cập các vào tài nguyên như máy ảo, bộ nhớ, mạng,...
+* Tính năng quan trọng của bất kỳ cloud nào là làm cách nào để cung cấp điều khiển truy cập vào các tài nguyên. 
+* Trong OpenStack, project keystone chịu trách nhiệm cung cấp điều khiển truy cập vào toàn bộ tài nguyên cloud. 
+* Keystone chứng mình nó là một thành phần quan trọng trong cloud.
+
 # Mục lục
-- [1. Một số khái niệm](#khai_niem)
-	- [1.1 Projects](#projects)
-	- [1.2 Domain](#domain)
-	- [1.3 Users and Groups](#user_groups)
-	- [1.4 Roles](#roles)
-- [2. Các thành phần trong Keystone](#thanh_phan)
-- [3. Các phương pháp xác thực](#xac_thuc)
-	- [3.1 Xác thực bằng mật khẩu](#xacthuc_mat_khau)
-	- [3.2 Xác thực bằng token](#xacthuc_token)
-- [4. Các loại Token](#token)
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Keystone](#)
+- [1. Các chức năng cơ bản của Keystone](#chuc_nang)
+	- [1.1 Identity:](#identity)
+	- [1.2 Authentication:](#authentication)
+	- [1.3 Authorization](#authorization)
+	- [1.4 Các lợi ích như:](#loi_ich)
+- [2 Các khái nhiệm cơ bản.](#khai_niem)
+	- [2.1 Projects](#projects)
+	- [2.2 Domain](#domain)
+	- [2.3 Users và Groups](#users_groups)
+	- [2.4 Roles](#roles)
+	- [2.5 Assignment](#assignment)
+	- [2.6 Targets](#targets)
+	- [2.8 Catalog:](#catalog)
+- [3. Các thành phân cơ bản trong Keystone](#thanh_phan)
+	- [3.1 Identity](#thanh_phan_identity)
+		- [3.1.1 SQL](#sql)
+		- [3.1.2 LDAP](#ldap)
+		- [3.1.3 Multiple Backends](#multiple_backend)
+		- [3.1.4 idenity provider](#identity_provider)
+		- [3.1.5 use cases for idenity backend](#use_case_identity_backend)
+	- [3.2. Authentication](#thanh_phan_authentication")
+		- [3.2.1 Authentication password](#auth_password)
+		- [3.2.2 Authentication token](#auth_token)
+	- [3.3. Access Management and Authorization](#Access_Management_and_Authorization)
+	- [3.4 Backends and Services](#backend_services)
+- [4. Token format](#token)
 	- [4.1 UUID:](#uuid)
 	- [4.2 PKI:](#pki)
 	- [4.3 PKIZ:](#pkiz)
@@ -21,27 +45,68 @@
 		- [4.4.4 Token format](#token_format)
 		- [4.4.5 Generating token](#gen_token)
 		- [4.4.6 Verifying token](#ver_token)
-	- [5. Các Backend: Là nơi để lưu trữ, xử lý các yêu cầu.](#backend)
-- [6. Cách hoạt động của Keystone](#hoat_dong)
-- [Tài liệu tham khảo](#tham_khao)
+- [5. LDAP](#)
+- [6. Federated Identity](#)
+- [7. Cách hoạt động của Keystone](#hoat_dong)
+- [8. Tài liệu tham khảo](#tham_khao)
 
-#Identity Service Projects - Keystone
-* Là projects core trong OpenStack.
-* Dùng để xác thực, cấp quyền, cung cấp danh sách các dịch vụ cho người dùng, và cho các projects khác trong OpenStack
 
-![](http://i.imgur.com/cjGWu4Q.png)
+<a name="chuc_nang"></a>
+#1. Các chức năng cơ bản của Keystone
+<a name="identity"></a>
+##1.1 Identity:
+* Identity xác định ai là người truy cập vào tài nguyên
+cloud.
+* Trong openstack, idenity thường được dùng
+để định danh user.
+* idenity có thể lưu user vào Keystone database.
+* Trong môi trường thương mại,  Identity thường sử dụng bên thứ ba. 
+* Keystone có thể lấy lại thông tin định danh người dùng từ idenity bên thứ ba.
 
-**=> Ta có thể thấy được rằng, mọi projects trong OpenStack đều phải xác thực thông qua keystone.**
+<a name="authentication"></a>
+##1.2 Authentication:
+* Authentication xử lý việc xác nhận định danh người dùng.
+* Trong nhiều trường hợp, authentication là thực hiện xác nhận thông tin đăng nhập user và mật khẩu.
+* Lúc Ban đầu, Keystone có khả năng thực hiện tất cả authentication. Điều đó là không được khuyến khích với môi trường doanh nghiệp.
+* Trong môi trường doanh nghiệp, password cần được bảo vệ và quản lý.
+* Keystone dễ dàng tích hợp với các nền tảng authentication đã tồn tại khác là LDAP, Active Directory.
+* Khi người dùng định danh bằng mật khẩu, authentication sẽ tạo ra token cho bước authentication tiếp theo.
+* Token sẽ làm giảm tầm nhìn, phơi bày password mà nó cần được giấu đi và bảo vệ càng tốt.
+* Token có giới hạn thời gian sống và hết hạn nếu chúng bị đánh cắp.
+* OpenStack chủ yếu dựa vào token để authentication và các mục đích khác.
+* Keystone là một dịch vụ của OpenStack có thể giải quyết vấn đề trên.
+* Hiện tại, Keystone được sử dụng `bearer token`. Có nghĩa là bất cứ ai thu được quyền sở hữu token, dù đúng hay sai đều có khả năng sử dụng token để xác thực và truy cập vào tài nguyên. Kết quả là, việc sử dụng Keystone rất quan trọng trong việc bảo vệ token và các thành phần khác.
+
+<a name="authorization"></a>
+##1.3 Authorization
+* Một user đã được định danh và token đã được tạo và phân bổ, mọi thứ bắt đầu trở nên thú vị. Bởi vì chúng ta có đủ nền tảng và địa điểm để bắt đầu thực hiện authorization.
+* Authorization xử lý xác định những tài nguyên nào user được phép truy cập.
+* Trong OpenStack cung cấp cho người dùng quyền truy cập vào tài nguyên rất lớn. Ví dụ, có cần cơ chế mà người dùng được phép tạo 1 máy ảo cụ thể, attach hay delete volume of block storage, được phép tạo mạng ảo,...
+* Trong openstack, keystone bản đồ user đến Projects hoặc domain bằng cách liên kết role cho user đối với Projects hay domain đó.
+* Một số dịch vụ OpenStack khác như Nova, Cinder, Neutron xem xét project của user và role và đánh giá thông tin sử dụng policy.
+* Công cụ chính sách xem xét thông tin (đặc biệt là giá trị role) và quyết định hành động của user được phép thực hiện.
+
+
+**Keystone chủ yếu tập trung vào idenity, authentication và authorization.**
+<a name="loi_ich"></a>
+##1.4 Các lợi ích như:
+* Xác thực đơn và cấp quyền cho các dịch vụ khác của OpenStack.
+* Keystone xử lý các hệ thống xác thực ngoài và cung cấp theo chuẩn cấp quyền cho tất cả các dịch vụ khác của OpenStack: nova, glance, cinder, neutron,... và keystone cô lập tất cả các dịch này.
+* Keystone cung cấp project, là những dịch vụ có thể sử dụng tài nguyên riêng.
+* Keystone cung cấp domain, được sử dụng để định nghĩa tách rời không gian cho user, groups và project để cho phép tách rời khỏi khách hàng.
+
+* Roles được sử dụng để authorization giữa Keystone vào policy files của mỗi dịch vụ openstack. Phân công user và groups vào project nào, domain nào.
+* Lưu trữ catalog cho dịch vụ OpenStack, endpoints, region, cho phép clients khám phá các dịch vụ hoặc endpoints mà họ cần.
 
 <a name="khai_niem"></a>
-#1. Một số khái niệm
-
+#2 Các khái nhiệm cơ bản.
 <a name="projects"></a>
-##1.1 Projects
-* Mỗi Projects có nguồn tài nguyên khác nhau.
-* Một Projects có thể có nhiều users khác nhau.
-* Một user có thể thuộc nhiều Projects khác nhau.
-* Users có quyền hạn khác nhau đối với mỗi projects
+##2.1 Projects
+* Trong keystone, projects là khái niệm trừu tượng, sử dụng bởi các dịch vụ khác trong OpenStack.
+* Projects có chứa các tài nguyên.
+* Tiền thân của Projects là tenants, thay đổi để trực quan hơn.
+* Projects không phải là chủ user nhưng user và group có quyền truy cập vào các project, sử dụng các role.
+* Các role trên user và group chỉ ra rằng họ có quyền gì để truy cập vào các tài nguyên trong Projects.
 
 ![](http://916c06e9a68d997cd06a-98898f70c8e282fcc0c2dba672540f53.r39.cf1.rackcdn.com/Screen%20Shot%202014-01-08%20at%201.58.09%20PM.png)
 
@@ -49,16 +114,21 @@
     * Mỗi user có thể thuộc nhiều projects khác nhau, và có quyền hạn khác nhau.
     * Ví dụ: Users SandraD, có quyền admin ở trong projects Aerospace nhưng trong projects CompSci chỉ có quyền support.
 
+
 <a name="domain"></a>
-##1.2 Domain
-* Bao gồm Projects, Group và Users.
-* Một User có thể thuộc nhiều domain khác nhau.
-* Users có quyền hạn khác nhau đối với mỗi projects, mỗi domain.
+##2.2 Domain
+* Là khái niệm vừa ra đời ở api v3.
+* Không có cơ chế để hạn chế tầm nhìn của project trên các tổ chức khau nhau -> dẫn đến va chạm giữa tên project của các tổ chức khác nhau. username cũng có thể va chạm giữa 2 tổ chức.
+* Keystone ra khái nhiệm trừu tượng mới: domain.
+* Dùng để cô lập tầm nhìn, tập hợp các project, user cho 1 tổ chức cụ thể.
+* 1 domain có thể bao gồm user, group, project....
+* Domain cho phép bạn phân chia các nguồn tài nguyên trong cloud vào các tổ chức cụ thể.
 
 ![](http://916c06e9a68d997cd06a-98898f70c8e282fcc0c2dba672540f53.r39.cf1.rackcdn.com/Screen%20Shot%202014-01-08%20at%201.04.26%20PM.png)
 
-<a name="user_groups"></a>
-##1.3 Users and Groups
+
+<a name="users_groups"></a>
+##2.3 Users và Groups
 * Groups là một nhóm người dùng.
 * Có thể được gán trên domain của group hoặc trên project của group đấy.
 
@@ -69,60 +139,191 @@
 	* LisaD có vai trò là Engineer trong group 2 thuộc Projects Compsci
 
 <a name="roles"></a>
-##1.4 Roles
+##2.4 Roles
 * Chỉ ra vai trò của người dùng trong project hoặc trong domain,...
+
+* Mỗi user có thể có vai trò khác nhau đối với từng project.
 
 ![](https://open.ibmcloud.com/documentation/_images/UserManagementWithGroups.gif)
 
+<a name="assignment"></a>
+##2.5 Assignment
+* Thể hiện sự kết nối giữa một actor(user và user group) với một actor(domain, project) và một role.
+* Role assignment được cấp phát và thu hồi, và có thể được kế thừa giữa các user và group trên project của domains. 
+
+<a name="targets"></a>
+##2.6 Targets
+* Nơi mà role được gán cho user (Project hoặc domain).
+<a name="token"></a>
+##2.7 Token
+* Người dùng muốn sử dụng OpenStack API thì cần phải chứng minh mình là ai, và mình nên đưuọc cho phép trong câu hỏi API.
+* Cách mà họ lưu trữ là gửi token đến API call và Keystone phản ứng để sinh ra token.
+* Người dùng nhận token và xác thực thành công lần nữa ở Keystone.
+* Token mang nó để cấp quyền.
+* Token chứa cả ID và payload. ID bảo đảm là duy nhất trên mỗi cloud và payload chứa dữ liệu user. payload có thể chứa những dữ liệu dưới: create, expire, authenticated, project, catalog,....
+
+<a name="catalog"></a>
+##2.8 Catalog:
+* Nó chứa URLs và endpoints của các dịch vụ trong cloud.
+* Với catalog, người dùng và ứng dụng có thể biết ở đâu để gửi yêu cầu tạo máy ảo hoặc storage objects.
+* Dịch vụ catalog chia thành danh sách các endpoint, mỗi endpoint chi thành các admin URL, internal URL, public URL.
+Ví dụ:
+
 <a name="thanh_phan"></a>
-#2. Các thành phần trong Keystone
-|Thành phần|Chức năng|
-|:--------:|:--------:|
-|Identity|Nhận dạng, xác thực user, project, role, metadata|
-|Token| Là một chuỗi các ký tự, thẩm định yêu cầu của user đã được indentity|
-|Catalog| Chứa danh sách các dịch vụ. Endpoint: Điểm truy cập tới các dịch vụ, thường là địa chỉ url.|
-|Policy | Là các chính sách, quy định, quy tắc về project, user,...|
+#3. Các thành phân cơ bản trong Keystone
+<a name="thanh_phan_identity"></a>
+##3.1 Identity
+<a name="sql"></a>
+###3.1.1 SQL
+* Keystone hỗ trợ SQL để lưu trữ thông tin users và groups
+* Hỗ trợ các database là: MySQL, PostgreSQL và DB2.
+* Keystone sẽ lưu thông tin name, password và chi tiết.
+* Cài đặt database phải cấu hình trong file cấu hình keystone.
+* Chủ yếu, Keystone là Identity Provider, không phải là tốt nhất cho mọi người và cũng ko phải là tốt nhất cho khách hàng doanh nghiệp. 
+* Ưu điểm
+	* dễ dàng cài đặt.
+	* Quản lý users và groups quả OpenStack APIs.
 
-<a name="xac_thuc"></a>
-#3. Các phương pháp xác thực
+* nhược điểm:
+	* Keystone không nên là Identity Provider.
+	* Mật khẩu yếu ( không khôi phục mk, không xoay mật khẩu).
+	* Các doang nghiệp thường sử dụng LDAP.
+	* Phải ghi nhớ username và password.
 
-<a name="xacthuc_mat_khau"></a>
-##3.1 Xác thực bằng mật khẩu
+<a name="ldap"></a>
+###3.1.2 LDAP
+* Keystone sẽ truy cập vào LDAP giống như các ứng dụng
+khác sử dụng LDAP.
+* Cấu hình trong file config của keystone để
+sử dụng LDAP.
+* LDAP thường được dùng để chỉ đọc, có nghĩa là tìm user và groups (qua search) và authentication (qua bind).
+* Nếu sử dụng LDAP chỉ để đọc, keystone sẽ cần tối thiểu các quyền để sử dụng LDAP. Với trường hợp, cần quyền đọc các thuộc tính user và group.
+* Thu hồi quyền tài khoản, không yêu cầu quyền truy cập vào mật khẩu. 
+* Ưu điểm:
+	* không duy trì bản sao của tài khoản người dùng.
+	* Keystone không hành động như một nhà cung cấp nhận dạng (identity provider).
+* Nhược điểm:
+	* dịch vụ tài khoản sẽ lưu ở đâu đó và LDAP không muốn có tài khoản trong LDAP.
+	* Keystone có thể thấy mật khẩu người dùng, lúc mật khẩu được yêu cầu authentication.
+	* Keystone đơn giản thì chuyển các yêu cầu, nhưng tốt nhất là Keystone không nhìn thấy mật khẩu.
+
+<a name="multiple_backend"></a>
+###3.1.3 Multiple Backends
+* Từ phiên bản Juno, Keystone hỗ trợ nhiều idenity backend từ phiên bản v3. 
+
+[hình ảnh]
+* Identity service có thể có nhiều backend cho mỗi domain.
+* Ví dụ: LDAPs for Domain A and B. SQL-based backend for service accounts and Assignment.
+
+* Ưu điểm:
+	* Hỗ trợ nhiều backend đồng thời.
+	* Sử dụng lại LDAP đã có.
+ 
+* Nhược điểm
+	* phức tạp trong cài đặt.
+	* Xác thực tài khoản người dùng phải trong miền scoped
+
+<a name="identity_provider"></a>
+###3.1.4 idenity provider
+* Sử dụng các giải pháp thứ ba để có thể xác thực.
+
+<a name="use_case_identity_backend"></a>
+###3.1.5 use cases for idenity backend
+| identity source |    uses case|
+|:------:|:------:|
+|SQL| sử dụng cho testing hoặc developing. user nhỏ. openstack-specific accounts.|
+|LDAP| sử dụng nếu đã có trước. chỉ sử dụng mỗi LDAP nếu bạn có khả năng tạo dịch vụ tài khoản cần thiết trong LDAP.|
+|Multiple backend| trong môi trường doanh nghiệp. sử dụng nếu dịch vụ người dùng không được phép trong LDAP.|
+|idenity provider| bạn có thể tận dụng lợi thế của cơ chế Federated. sử dụng nếu indentity provider đã tồn tại. Keystone không thể truy cập vào LDAP. Non-LDAP idenity source. sử dụng nếu LDAP tương tác đến underlying platform và web server.|
+
+<a name="thanh_phan_authentication"></a>
+##3.2. Authentication
+<a name="auth_password"></a>
+###3.2.1 Authentication password
+* payload của request phải có đủ thông tin để tìm user nằm ở đâu
+* xác nhận user và lấy dịch vụ catalog của user.
+* định dang user xác định đến ID, 
+
 ![](http://i.imgur.com/fXzFnnH.png)
 
-<a name="xacthuc_token"></a>
-##3.2 Xác thực bằng token
-Là một chuỗi các ký tự, đã được mã hóa nhằm bảo đảm an ninh an toàn thông tin.
+
+<a name="auth_token"></a>
+###3.2.2 Authentication token
+* user có thể yêu cầu 1 token mới đựa trên token hiện tại.
+* tải của yêu cầu POST giảm đáng kê so với password.
+* có nhiều lý do để token được sử dụng, như khi refreshing thì token sẽ hết hạn và đổi từ unscoped sang scoped token.
 
 ![](http://i.imgur.com/ZAK7w99.png)
 
+<a name="Access_Management_and_Authorization"></a>
+##3.3. Access Management and Authorization
+* Keystone tạo ra policy Role-Based Access Controll (RBAC) được thực thi trên mỗi API public endpoint. Những chính sách này được lưu thành 1 file trên đĩa, có tên là policy.json
+
+<a name="backend_services"></a>
+##3.4 Backends and Services
+xanh: thường SQL
+tím: LDAP hoặc SQL.
+Xanh da trời: SQL hoặc Memcache.
+policy: lưu ở file.
+
 <a name="token"></a>
-#4. Các loại Token
+#4. Token format
 
 <a name="uuid"></a>
 ##4.1 UUID:
-* Độ dài 32 byte, lưu vào database. Không nén.
-* Tuy nhiên, cứ mỗi lần xác thực là phải gửi đến Keystone nên Keystone phải xử lý nhiều, làm giảm hiệu năng.
-
+* Có độ dài 32 byte, nhỏ, dễ sử dụng, không nén.
+* Không mang theo đủ thông tin, do đó luôn phải gửi lại keystone để xác thực hoạt động ủy quyền => thắt nút cổ chai.
+* Được lưu vào database.
+* Sử dụng thời gian dài làm giảm hiệu suất hoạt động, CPU tăng và thời gian đáp ứng lâu.
+* Sử dụng câu lệnh `keystone-manager token flush` để làm tăng hiệu suất hoạt động.
+* Ví dụ 1 đoạn token
+```sh
+468da447bd1c4821bbc5def0498fd441
+```
+<a name="pki"></a>
 <a name="pki"></a>
 ##4.2 PKI:
-* Mã hóa bằng Private Key, kết hợp Public key để giải mã, lấy thông tin. Token chứa nhiều thông tin như Userid, project id, service catalog,...
-* Tuy nhiên, Header của HTTP chỉ giới hạn 8kb, nên sẽ gặp lỗi.
+* Mã hóa bằng Private Key, kết hợp Public key để giải mã, lấy thông tin.
+* Token chứa nhiều thông tin như Userid, project id, domain, role, service catalog, create time, exp time,...
 * Xác thực ngay tại user, không cần phải gửi yêu cầu xác thực đến Keystone.
-
+* Có bộ nhớ cache, sử dụng cho đến khi hết hạn hoặc bị thu hồi => truy vấn đến keystone ít hơn.
+* Kích thước lớn, chuyển token qua HTTP, sử dụng base64.
+* Kích thước lớn chủ yếu do chứa thông tin service catalog.
+* Tuy nhiên, Header của HTTP chỉ giới hạn 8kb. Web server không thể xử lý nếu không cấu hình lại, khó khăn hơn UUID
+* Để khắc phục lỗi trên thì phải tăng kích thước header HTTP của web server, tuy nhiên đây không phải là giải pháp cuối cùng hoặc swift có thể thiết lập không cần catalog service.
+* Lưu token vào database.
+* Ví dụ 1 đoạn token
+```sh
+MIIDsAYCCAokGCSqGSIb3DQEHAaCCAnoEggJ2ew0KICAgICJhY2QogICAgICAgI...EBMFwwVzELMAkGA
+1UEBhMCVVMxDjAMBgNVBAgTBVVuc2V0MCoIIDoTCCA50CAQExCTAHBgUrDgMQ4wDAYDVQQHEwVVbnNldD
+EOMAwGA1UEChM7r0iosFscpnfCuc8jGMobyfApz/dZqJnsk4lt1ahlNTpXQeVFxNK/ydKL+tzEjg
+```
+<a name="pkiz"></a>
 <a name="pkiz"></a>
 ##4.3 PKIZ:
 * Tương tự PKI.
 * Khắc phục nhược điểm của PKI, token sẽ được nén lại để có thể truyền qua HTTP.
+* Tuy nhiên, token dạng này vẫn có kích thước lớn.
 
+<a name="fernet"></a>
 <a name="fernet"></a>
 ##4.4 Fernet: 
 * Sử dụng mã hóa đối xưng (Sử dụng chung key để mã hóa và giải mã).
+* Có kích thước khoảng 255 byte, không nén, lớn hơn UUID và nhỏ hơn PKI.
+* Chứa các thông tin cần thiết như userid, projectid, domainid, methods, expiresat,....Không chứa serivce catalog.
 * Không lưu token vào database.			
-* Không nén.
-* Chứa các thông tin như userid, projectid, domainid, methods, expiresat,....
-* Không chứa serivce catalog,...
+* Cần phải gửi lại keystone để xác nhận, tương tự UUID.
+* Cần phải phân phối khóa cho các khu vực khác nhau trong OpenStack.
+* Sử dụng cơ chế xoay khóa để tăng tính bảo mật.
 * Nhanh hơn 85% so với UUID và 89% so với PKI.
+* Ví dụ 1 đoạn token
+```sh
+gAAAAABU7roWGiCuOvgFcckec-0ytpGnMZDBLG9hA7Hr9qfvdZDHjsak39YN98HXxoYLIqVm19Egku5YR
+3wyI7heVrOmPNEtmr-fIM1rtahudEdEAPM4HCiMrBmiA1Lw6SU8jc2rPLC7FK7nBCia_BGhG17NVHuQu0
+S7waA306jyKNhHwUnpsBQ%3D
+```
+
+* Bảng so sánh các loại token
 
 |Token Types | UUID | PKI | PKIZ | Fernet|
 |:----------:|:----:|:---:|:----:|:-----:|
@@ -227,19 +428,15 @@ Given a key and message, generate a fernet token with the following steps, in or
 * Giải mã ciphertext sử dụng thuật toán AES/128-CBC với chế độ IV và sử dụng Encryption key.
 * Thông điệp ban đầu được giải mã
 
-<a name="backend"></a>
-##5. Các Backend: Là nơi để lưu trữ, xử lý các yêu cầu.
 
-![](http://i.imgur.com/bwWVFy6.png)
 
-* Memcached: Phân phối và lưu trữ bộ nhớ cached (bộ nhớ tạm) trên RAM. 
-* KVS Backend: 
-* SQL Backend: Lưu trữ dữ liệu
-* PAM backend: Xác thực người dùng, mối quan hệ giữa user và projects.
-* LDAP backedn: 
+#5. LDAP
 
-<a name="hoat_dong"></a>
-#6. Cách hoạt động của Keystone
+
+#6. Federated Identity
+
+
+#7. Cách hoạt động của Keystone
 
 ![](http://i.imgur.com/uDzPLna.png)
 
@@ -255,10 +452,12 @@ Given a key and message, generate a fernet token with the following steps, in or
 * 10: Nova trả lời cho người dùng.
 
 <a name="tham_khao"></a>
-#Tài liệu tham khảo
+#8. Tài liệu tham khảo
 * *Steve Martinelli, Henry Nash & Brad Topol*: Identity, Authentication & Access Management in OpenStack
 * http://www.slideshare.net/openstackindia/openstack-keystone-identity-service
 * https://github.com/fernet/spec/blob/master/Spec.md
 * https://developer.ibm.com/opentech/2015/11/11/deep-dive-keystone-fernet-tokens/
 * http://www.openstack.cn/?p=5120
+
+
 
