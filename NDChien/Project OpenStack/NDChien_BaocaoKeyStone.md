@@ -209,6 +209,18 @@ Câu lệnh tạo token
 def _get_token_id(self, token_data):
 return uuid.uuid4().hex
 ```
+**Cách tạo UUID token**
+
+<img src=http://i.imgur.com/fFONEHZ.png>
+
+**Cách xác thực token**
+
+<img src=http://i.imgur.com/EOg1FTf.png>
+
+**Cách thu hồi token**
+
+<img src=http://i.imgur.com/WVQcqnj.png>
+
 **Mô hình hoạt động**
 
 <img src=http://i.imgur.com/tDMetYq.png>
@@ -221,18 +233,6 @@ return uuid.uuid4().hex
 <li>Mỗi khi có yêu cầu của người dùng, các thiết bị đầu cuối API sẽ gửi UUID này trở lại Keystone để xác nhận.</li>
 <li>Keystone sẽ trả về "thành công" hoặc thông báo "thất bại" đến điểm cuối API.</li>
 </ul>
-
-**Cách tạo UUID token**
-
-<img src=http://i.imgur.com/fFONEHZ.png>
-
-**Cách xác thực token**
-
-<img src=http://i.imgur.com/EOg1FTf.png>
-
-**Cách thu hồi token**
-
-<img src=http://i.imgur.com/WVQcqnj.png>
 
 **Ưu điểm:**
 <ul>
@@ -272,7 +272,7 @@ Xảy ra trường hợp vượt quá kích thước của HTTP header.
 
 **Mô hình làm việc**
 
-<img src=<http://i.imgur.com/9zDORjE.png>
+<img src=http://i.imgur.com/9zDORjE.png>
 
 Với thẻ PKI/PKIz, Keystone trở thành một Certificate Authority (CA). Nó sử dụng signing key và certificate (không mã hóa) để ký token của user.
 
