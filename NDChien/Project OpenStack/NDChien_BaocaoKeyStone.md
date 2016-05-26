@@ -200,7 +200,7 @@ Màu xanh dương: backend là SQL hoặc memcache
 <li>Token ko chứa định danh hoặc ủy quyền. Vì vậy cần thông qua xác minh FIG token để có thông tin định danh, ủy quyền.</li>
 </ul>
 
-Ví dụ UUID token
+Ví dụ UUID token:
 
 `2887731d2a1a46118af2340b60125865`
 
@@ -209,20 +209,6 @@ Câu lệnh tạo token
 def _get_token_id(self, token_data):
 return uuid.uuid4().hex
 ```
-
-**Mô hình hoạt động**
-
-<img src=<http://i.imgur.com/tDMetYq.png>
-
-<ul>
-<li>Client cung cấp user/password.</li>
-<li>Keystone tạo một token UUID. Lưu trữ các thẻ UUID ở backend. Gửi một bản sao của UUID token cho khách hàng.</li>
-<li>Các khách hàng sẽ cache token.</li>
-<li>UUID sau đó sẽ được thông qua cùng với mỗi cuộc gọi API của khách hàng.</li>
-<li>Mỗi khi có yêu cầu của người dùng, các thiết bị đầu cuối API sẽ gửi UUID này trở lại Keystone để xác nhận.</li>
-<li>Keystone sẽ trả về "thành công" hoặc thông báo "thất bại" đến điểm cuối API.</li>
-</ul>
-
 **Cách tạo UUID token**
 
 <img src=http://i.imgur.com/fFONEHZ.png>
@@ -235,6 +221,18 @@ return uuid.uuid4().hex
 
 <img src=http://i.imgur.com/WVQcqnj.png>
 
+**Mô hình hoạt động**
+
+<img src=http://i.imgur.com/tDMetYq.png>
+
+<ul>
+<li>Client cung cấp user/password.</li>
+<li>Keystone tạo một token UUID. Lưu trữ các thẻ UUID ở backend. Gửi một bản sao của UUID token cho khách hàng.</li>
+<li>Các khách hàng sẽ cache token.</li>
+<li>UUID sau đó sẽ được thông qua cùng với mỗi cuộc gọi API của khách hàng.</li>
+<li>Mỗi khi có yêu cầu của người dùng, các thiết bị đầu cuối API sẽ gửi UUID này trở lại Keystone để xác nhận.</li>
+<li>Keystone sẽ trả về "thành công" hoặc thông báo "thất bại" đến điểm cuối API.</li>
+</ul>
 
 **Ưu điểm:**
 <ul>
@@ -274,7 +272,7 @@ Xảy ra trường hợp vượt quá kích thước của HTTP header.
 
 **Mô hình làm việc**
 
-<img src=<http://i.imgur.com/9zDORjE.png>
+<img src=http://i.imgur.com/9zDORjE.png>
 
 Với thẻ PKI/PKIz, Keystone trở thành một Certificate Authority (CA). Nó sử dụng signing key và certificate (không mã hóa) để ký token của user.
 
@@ -304,19 +302,11 @@ Các thiết bị đầu cuối API sử dụng các bit để xác nhận các 
 Để giải quyết các nhược điểm của UUID, PKI, PKIz thì Openstack đã phát triển Fernet token.
 
 <ul>
-<<<<<<< HEAD
-<li>Dạng token khoảng 255 ký tự, chứa thông tin đủ để xác thực</li>
-<li>Ko cần lưu trữ, không cần đồng bộ</li>
+<li>Dạng token khoảng 255 ký tự, chứa thông tin để xác thực.</li>
+<li>Ko cần lưu trữ, không cần đồng bộ.</li>
 <li>Token payload chứa userID, Project ID, metadata, timestamp, lifespam, cách xác thực...</li>
 <li>Sử dụng mã hóa đối xứng AES-CBC (Chung 1 key) để mã hóa và giải mã.</li>
 <li>Nó không chứa service_catalog vì vậy khi region tăng lên thì không ảnh hưởng tới kích thước của token.</li>
-=======
-<li>Độ dài 255 ký tự</li>
-<li>Chứa thông tin đủ để xác thực</li>
-<li>Ko cần lưu trữ, không cần đồng bộ</li>
-<li>Token payload chứa userID, Project ID, metadata, timestamp, lifespam, cách xác thực...</li>
-<li>Sử dụng mã hóa đối xứng AES-CBC</li>
->>>>>>> origin/master
 </ul>
 
 Ví dụ fernet token:
@@ -337,17 +327,17 @@ Decrypted bởi một danh sách Fernet Keys
 
 Type 1: Primary Key
 <ul>
-<li>Encrypt and Decrypt</li>
-<li>Key file named with the highest index</li>
+<li>Encrypt and Decrypt.</li>
+<li>Key file named with the highest index.</li>
 </ul>
 Type 2: Secondary Key
 <ul>
-<li>Only Decrypt</li>
-<li>Lowest Index < Secondary Key File Name < Highest Index</li>
+<li>Only Decrypt.</li>
+<li>Lowest Index < Secondary Key File Name. < Highest Index</li>
 </ul>
 Type 3: Staged Key
-<li>Decrypt and  Next In Line to become Primary Key</li>
-<li>Key file named with lowest index (of 0)</li>
+<li>Decrypt and  Next In Line to become Primary Key.</li>
+<li>Key file named with lowest index (of 0).</li>
 </ul>
 
 **Key format**
@@ -363,10 +353,10 @@ Version | Timestamp | IV | Ciphertext | HMAC |
 8bit	|	 64bit	|  128bit |	128bit	|	256bit |
 
 <ul>
-<li>Timestamp: Khoảng thời gian từ 01/01/1970 đến lúc token được tạo </li>
-<li>IV: Vecto khởi tạo</li>
-<li>Ciphertext: Message, paddes, encrypt</li>
-<li>HMAC: Để xác nhận tính toàn vẹn của 4 trường phía trước</li>
+<li>Timestamp: Khoảng thời gian từ 01/01/1970 đến lúc token được tạo. </li>
+<li>IV: Vecto khởi tạo.</li>
+<li>Ciphertext: Message, paddes, encrypt.</li>
+<li>HMAC: Để xác nhận tính toàn vẹn của 4 trường phía trước.</li>
 </ul>
 
 **Mô hình sinh Fernet token**
@@ -441,7 +431,8 @@ Kết hợp KeyStone + Horizon hỗ trợ đăng nhập tự động
 </ul>
 
  Note: 
- Tìm hiểu thêm về các hoạt động của các token.
+Cách xác thực của PKI
+
  
 
 	
