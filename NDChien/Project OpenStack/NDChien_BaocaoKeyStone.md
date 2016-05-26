@@ -211,7 +211,7 @@ return uuid.uuid4().hex
 ```
 **Mô hình hoạt động**
 
-<img src=<http://i.imgur.com/tDMetYq.png>
+<img src=http://i.imgur.com/tDMetYq.png>
 
 <ul>
 <li>Client cung cấp user/password.</li>
