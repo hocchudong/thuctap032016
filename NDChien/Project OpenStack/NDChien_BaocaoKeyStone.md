@@ -184,23 +184,82 @@ Màu xanh dương: backend là SQL hoặc memcache
 <a name="3"></a>
 ##3 Các dạng token
 
+**Token** là một dạng thông tin của một user, token được sinh ra khi ta sử dụng username,password đúng để xác thực với keystone. Khi đó user sẽ dùng token này để truy cập vào Openstack API.
+
+<img src=http://i.imgur.com/gKDcTez.png>
+
 <a name="3.1"></a>
 ###3.1 UUID Tokens
 
-- Một chuỗi hex 32 ký tự
-- Cần được lưu trữ
-- Xác nhận chỉ được thực hiện với dịch vụ nhận dạng.
+<ul>
+<li>UUID là dạng token đầu tiên của Keystone. </li>
+<li>Phiên bản mới nhất UUID4.</li>
+<li>Một chuỗi hex 32 ký tự được tạo ra ngẫu nhiên.</li>
+<li>Được phát hành và xác nhận online bởi dịch vụ nhận dạng.</li>
+<li>Token cần được lưu trữ ở vùng backend để có thể sẵn sàng xác nhận. Khi hệ thống lớn thì nó có thể làm giảm hiệu suất của KeyStone.</li>
+<li>Token ko chứa định danh hoặc ủy quyền. Vì vậy cần thông qua xác minh FIG token để có thông tin định danh, ủy quyền.</li>
+</ul>
 
-<img src=http://i.imgur.com/TYnGdym.png>
+Ví dụ UUID token
 
-Mô hình tương tác của UUID
+`2887731d2a1a46118af2340b60125865`
+
+Câu lệnh tạo token
+```sh
+def _get_token_id(self, token_data):
+return uuid.uuid4().hex
+```
+
+**Mô hình hoạt động**
+
+<img src=<http://i.imgur.com/tDMetYq.png>
+
+<ul>
+<li>Client cung cấp user/password.</li>
+<li>Keystone tạo một token UUID. Lưu trữ các thẻ UUID ở backend. Gửi một bản sao của UUID token cho khách hàng.</li>
+<li>Các khách hàng sẽ cache token.</li>
+<li>UUID sau đó sẽ được thông qua cùng với mỗi cuộc gọi API của khách hàng.</li>
+<li>Mỗi khi có yêu cầu của người dùng, các thiết bị đầu cuối API sẽ gửi UUID này trở lại Keystone để xác nhận.</li>
+<li>Keystone sẽ trả về "thành công" hoặc thông báo "thất bại" đến điểm cuối API.</li>
+</ul>
+
+**Cách tạo UUID token**
+
+<img src=http://i.imgur.com/fFONEHZ.png>
+
+**Cách xác thực token**
+
+<img src=http://i.imgur.com/EOg1FTf.png>
+
+**Cách thu hồi token**
+
+<img src=http://i.imgur.com/WVQcqnj.png>
+
+
+**Ưu điểm:**
+<ul>
+<li>Là định dạng token nhỏ và đơn giản. </li>
+<li>Đơn giản cho triển khai. </li>
+</ul>
+
+**Nhược điểm:**
+<ul>
+<li>Cần lưu trữ.</li>
+<li>Chỉ xác nhận được bằng dịch vụ nhận dạng.</li>
+<li>Ko khả thi khi triển khai mô hình lớn.</li>
+</ul>
 
 <a name="3.2"></a>
 ###3.2 PKI/PKIz
 
-Token chứa một số lượng lớn các thông tin được phản hồi từ Keystone. 
+<ul>
+<li>Là định dạng token thứ 2 của keystone.</li>
+<li>Nó chưa một lượng lớn thông tin như: ngày phát hành, hạn dùng, nhận dạng người dùng, dự án, vai trò... </li>
+<li>Các thông tin được thể hiện trong JSON payload và đc ký bằng dạng tin nhắn mã hóa CMS.</li>
+<li>Với PKIz sau khi đc ký thì được nén bằng zlib.</li>
+</ul>
 
-Ví dụ: 
+Ví dụ PKI token: 
 ```sh
 MIIDsAYCCAokGCSqGSIb3DQEHAaCCAnoEggJ2ew0KICAgICJhY2QogICAgICAgI...EBMFwwVzELMAkGA
 1UEBhMCVVMxDjAMBgNVBAgTBVVuc2V0MCoIIDoTCCA50CAQExCTAHBgUrDgMQ4wDAYDVQQHEwVVbnNldD
@@ -209,26 +268,58 @@ EOMAwGA1UEChM7r0iosFscpnfCuc8jGMobyfApz/dZqJnsk4lt1ahlNTpXQeVFxNK/ydKL+tzEjg
 
 Xảy ra trường hợp vượt quá kích thước của HTTP header.
 
+**Cách tạo token**
+
 <img src=http://i.imgur.com/RC9SCmO.png>
 
-Mô hình tạo token
+**Mô hình làm việc**
 
-<img src=http://i.imgur.com/Jrw68zF.png>
+<img src=<http://i.imgur.com/9zDORjE.png>
 
-Mô hình làm việc 
+Với thẻ PKI/PKIz, Keystone trở thành một Certificate Authority (CA). Nó sử dụng signing key và certificate (không mã hóa) để ký token của user.
 
-Ko có bước quay lại KeyStone để xác thực như UUID
+Mỗi điểm cuối API giữ một bản sao của Keystone của:
+<ul>
+<li>Signing certificate.</li>
+<li>Revocation list.</li>
+<li>CA certificate.</li>
+</ul>
+Các thiết bị đầu cuối API sử dụng các bit để xác nhận các yêu cầu sử dụng. Không cần cho yêu cầu trực tiếp đến Keystone với từng xác nhận. Những gì được xác nhận là chữ ký Keystone đặt trên thẻ người dùng và danh sách thu hồi Keystone của. Điểm cuối API sử dụng các dữ liệu trên để thực hiện quá trình này offline.</li>
+
+
+**Ưu điểm:**
+
+- Không cần xác nhận bở Keystone
+
+**Nhược điểm:**
+
+- Lớn hơn kích thước http header
+
+- Cấu hình phức tạp
+
 
 <a name="3.3"></a>
 ###3.3 Fernet
+
+Để giải quyết các nhược điểm của UUID, PKI, PKIz thì Openstack đã phát triển Fernet token.
+
 <ul>
 <li>Dạng token khoảng 255 ký tự, chứa thông tin đủ để xác thực</li>
-<li>Định dạng tin nhắn an toàn, ko cần lưu trữ, không cần đồng bộ</li>
+<li>Ko cần lưu trữ, không cần đồng bộ</li>
 <li>Token payload chứa userID, Project ID, metadata, timestamp, lifespam, cách xác thực...</li>
-<li>Khả năng xác thực ngoại tuyến</li>
+<li>Sử dụng mã hóa đối xứng AES-CBC (Chung 1 key) để mã hóa và giải mã.</li>
+<li>Nó không chứa service_catalog vì vậy khi region tăng lên thì không ảnh hưởng tới kích thước của token.</li>
 </ul>
 
-**Fernet Keys** chứa trong ` /etc/keystone/fernet-keys/ `
+Ví dụ fernet token:
+
+```sh
+gAAAAABWfX8riU57aj0tkWdoIL6UdbViV-632pv0rw4zk9igCZXgC-sKwhVuVb-wyMVC9e5TFc  
+7uPfKwNlT6cnzLalb3Hj0K3bc1X9ZXhde9C2ghsSfVuudMhfR8rThNBnh55RzOB8YTyBnl9MoQ  
+XBO5UIFvC7wLTh_2klihb6hKuUqB6Sj3i_8
+```
+
+Các **Fernet Keys** sử dụng chứa trong thư mục ` /etc/keystone/fernet-keys/ `
 ```sh
 Encrypted bởi Primary Fernet Key
 Decrypted bởi một danh sách Fernet Keys
@@ -251,12 +342,7 @@ Type 3: Staged Key
 <li>Key file named with lowest index (of 0)</li>
 </ul>
 
-<img src=http://i.imgur.com/dQWPGle.png>
-
-Mô hình sinh Fernet token
-
 **Key format**
-Được mã hóa base64
 
 <img src=http://i.imgur.com/OiaNpoY.png>
 
@@ -272,12 +358,30 @@ Version | Timestamp | IV | Ciphertext | HMAC |
 <li>Timestamp: Khoảng thời gian từ 01/01/1970 đến lúc token được tạo </li>
 <li>IV: Vecto khởi tạo</li>
 <li>Ciphertext: Message, paddes, encrypt</li>
-<li>HMAC: Ko được mã hóa, kết nối các trường</li>
+<li>HMAC: Để xác nhận tính toàn vẹn của 4 trường phía trước</li>
 </ul>
 
-<img src=http://i.imgur.com/hYaTjQV.png>
+**Mô hình sinh Fernet token**
 
-Mô hình hoạt động
+<img src=http://i.imgur.com/dQWPGle.png>
+
+<ul>
+<li> Các thông tin được cho vào Token Payload và được Padding cho đủ khối kích thước.</li>
+<li> Dùng Encrypting key để mã hóa khối trên và chuyển vào Ciphertext.</li>
+<li> Các trường Version, Timestamp, IV do hệ thống tự tạo ra.</li>
+<li> Dùng Signing key(SHA) để mã hóa 4 trường Version, Timestamp, IV, Ciphertext sau đó chuyển vào HMAC.</li>
+</ul>
+
+**Cách xác thực Fernet token**
+
+<img src=http://i.imgur.com/Y7bkwzq.png>
+
+**Ưu Điểm:**
+
+
+Bên dưới là bảng so sánh 4 kiểu token với các thông số chính ta có thể chọn loại token phù hợp với hệ thống của mình.
+
+<img src=http://i.imgur.com/F92AgPQ.png>
 
 <a name="4"></a>
 ##4 Federated Identity
