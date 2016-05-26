@@ -200,7 +200,7 @@ Màu xanh dương: backend là SQL hoặc memcache
 <li>Token ko chứa định danh hoặc ủy quyền. Vì vậy cần thông qua xác minh FIG token để có thông tin định danh, ủy quyền.</li>
 </ul>
 
-Ví dụ UUID token
+Ví dụ UUID token:
 
 `2887731d2a1a46118af2340b60125865`
 
@@ -209,7 +209,6 @@ Câu lệnh tạo token
 def _get_token_id(self, token_data):
 return uuid.uuid4().hex
 ```
-
 **Mô hình hoạt động**
 
 <img src=<http://i.imgur.com/tDMetYq.png>
@@ -234,7 +233,6 @@ return uuid.uuid4().hex
 **Cách thu hồi token**
 
 <img src=http://i.imgur.com/WVQcqnj.png>
-
 
 **Ưu điểm:**
 <ul>
