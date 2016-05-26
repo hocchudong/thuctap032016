@@ -304,11 +304,19 @@ Các thiết bị đầu cuối API sử dụng các bit để xác nhận các 
 Để giải quyết các nhược điểm của UUID, PKI, PKIz thì Openstack đã phát triển Fernet token.
 
 <ul>
+<<<<<<< HEAD
 <li>Dạng token khoảng 255 ký tự, chứa thông tin đủ để xác thực</li>
 <li>Ko cần lưu trữ, không cần đồng bộ</li>
 <li>Token payload chứa userID, Project ID, metadata, timestamp, lifespam, cách xác thực...</li>
 <li>Sử dụng mã hóa đối xứng AES-CBC (Chung 1 key) để mã hóa và giải mã.</li>
 <li>Nó không chứa service_catalog vì vậy khi region tăng lên thì không ảnh hưởng tới kích thước của token.</li>
+=======
+<li>Độ dài 255 ký tự</li>
+<li>Chứa thông tin đủ để xác thực</li>
+<li>Ko cần lưu trữ, không cần đồng bộ</li>
+<li>Token payload chứa userID, Project ID, metadata, timestamp, lifespam, cách xác thực...</li>
+<li>Sử dụng mã hóa đối xứng AES-CBC</li>
+>>>>>>> origin/master
 </ul>
 
 Ví dụ fernet token:
