@@ -302,7 +302,7 @@ Các thiết bị đầu cuối API sử dụng các bit để xác nhận các 
 Để giải quyết các nhược điểm của UUID, PKI, PKIz thì Openstack đã phát triển Fernet token.
 
 <ul>
-<li>Dạng token khoảng 255 ký tự, chứa thông tin đủ để xác thực.</li>
+<li>Dạng token khoảng 255 ký tự, chứa thông tin để xác thực.</li>
 <li>Ko cần lưu trữ, không cần đồng bộ.</li>
 <li>Token payload chứa userID, Project ID, metadata, timestamp, lifespam, cách xác thực...</li>
 <li>Sử dụng mã hóa đối xứng AES-CBC (Chung 1 key) để mã hóa và giải mã.</li>
@@ -431,7 +431,8 @@ Kết hợp KeyStone + Horizon hỗ trợ đăng nhập tự động
 </ul>
 
  Note: 
- Tìm hiểu thêm về các hoạt động của các token.
+Cách xác thực của PKI
+
  
 
 	
