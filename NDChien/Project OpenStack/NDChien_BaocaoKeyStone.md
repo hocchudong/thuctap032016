@@ -431,7 +431,7 @@ Kết hợp KeyStone + Horizon hỗ trợ đăng nhập tự động
 </ul>
 
  Note: 
-Cách xác thực của PKI
+Cách xác thực của PKI/PKIz
 
  
 
