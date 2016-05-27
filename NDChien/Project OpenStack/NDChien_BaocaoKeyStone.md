@@ -287,7 +287,7 @@ Các thiết bị đầu cuối API sử dụng các bit để xác nhận các 
 
 **Ưu điểm:**
 
-- Không cần xác nhận bở Keystone
+- Không cần xác nhận bởi Keystone
 
 **Nhược điểm:**
 
@@ -302,7 +302,7 @@ Các thiết bị đầu cuối API sử dụng các bit để xác nhận các 
 Để giải quyết các nhược điểm của UUID, PKI, PKIz thì Openstack đã phát triển Fernet token.
 
 <ul>
-<li>Dạng token khoảng 255 ký tự, chứa thông tin để xác thực.</li>
+<li>Dạng token dài khoảng 255 ký tự.</li>
 <li>Ko cần lưu trữ, không cần đồng bộ.</li>
 <li>Token payload chứa userID, Project ID, metadata, timestamp, lifespam, cách xác thực...</li>
 <li>Sử dụng mã hóa đối xứng AES-CBC (Chung 1 key) để mã hóa và giải mã.</li>
@@ -319,8 +319,8 @@ XBO5UIFvC7wLTh_2klihb6hKuUqB6Sj3i_8
 
 Các **Fernet Keys** sử dụng chứa trong thư mục ` /etc/keystone/fernet-keys/ `
 ```sh
-Encrypted bởi Primary Fernet Key
-Decrypted bởi một danh sách Fernet Keys
+Token Encrypted bởi Primary Fernet Key
+Token Decrypted bởi một danh sách Fernet Keys
 ```
 
 **Type of Fernet Keys**
@@ -343,6 +343,15 @@ Type 3: Staged Key
 **Key format**
 
 <img src=http://i.imgur.com/OiaNpoY.png>
+
+**Cơ chế rotation**
+
+Keystone sử dụng cơ chế rotation để tạo ra các primary, secondary, staged key.
+Số key tồn tại được xác định bởi trường **max_active_keys** trong file **keystone.conf**
+
+<img src=http://i.imgur.com/sWPqDgn.png>
+
+<img src=http://i.imgur.com/6PtT3i9.png>
 
 **Token format**
 
