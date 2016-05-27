@@ -351,6 +351,8 @@ Số key tồn tại được xác định bởi trường **max_active_keys** t
 
 <img src=http://i.imgur.com/sWPqDgn.png>
 
+Ví dụ bên trên thì ta có thời gian tồn tại của key là 24h và sau 6h thì key sẽ đc xoáy 1 lần.
+
 <img src=http://i.imgur.com/6PtT3i9.png>
 
 **Token format**
