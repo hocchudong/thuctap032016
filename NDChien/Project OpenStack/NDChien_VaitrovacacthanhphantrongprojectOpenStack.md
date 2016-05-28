@@ -58,6 +58,8 @@ Các dịch vụ:
 		
 **Policy**: Các dịch vụ Chính sách cung cấp nguyên tắc cho phép và giao diện quản lý quy tắc liên quan.
 		
+<img src=http://i.imgur.com/O0A1Kfs.png>
+		
 Các thành phần:
 
 <ul>
@@ -72,6 +74,8 @@ Các thành phần:
 ##2. Nova - Compute
 - Là một module dùng để quản lý các trường máy ảo, nó là một lớp trừu tượng có giao diện và hỗ trợ siêu giám sát
 - Hypervisors: KVM, ESx của VMware, Hyper-VMware
+
+<img src=http://i.imgur.com/YHTilCQ.png>
 
 Các thành phần:
 <ul>
@@ -101,7 +105,6 @@ Trên lý thuyết OpenStack Compute có thể hỗ trợ cơ sở dữ liệu S
 
 </ul>
 
-<img src=http://i.imgur.com/YHTilCQ.png>
 
 Message Queue và back-end database rất quan trọng để vận hành Nova.
 
@@ -126,26 +129,30 @@ Các thành phần:
 Danh sách định dạng disk và container được hỗ trợ:
 
 Disk format: 
-```sh
-raw: Định dạng có cấu trúc
-vhd: disk của máy ảo VMware, Xen....
-vmdk: Hỗ trợ bởi nhiều máy ảo phổ biến
-vdi: Hỗ trợ bởi VirtualBox,QEMU
-iso: Định dạng lưu trữ dữ liệu của đĩa quang học
-qcow2: Hỗ trợ bởi QEMU
-aki: Amazon kernel image
-ari: Amazon ramdisk image
-ami: Amazon machine image
-```
+
+| Định dạng | Mô tả |
+|:----------------:|:--------:|
+| raw | Định dạng có cấu trúc |
+| vhd | disk của máy ảo VMware, Xen... |
+| vmdk | Hỗ trợ bởi nhiều máy ảo phổ biến |
+| vdi | Hỗ trợ bởi VirtualBox,QEMU |
+| iso | Định dạng lưu trữ dữ liệu của đĩa quang học |
+| cow2 | Hỗ trợ bởi QEMU |
+| aki | Amazon kernel image |
+| ari | Amazon ramdisk image |
+| ami | Amazon machine image |
+
 Container format: dùng để xem virtual machine image như một định dạng tập tin, nó có thể chứa siêu dữ liệu về máy ảo thực tế.
-```sh	
-bare: Không lưu trữ hoặc đóng gói siêu dữ liệu
-ovf: Định dạng OVF
-aki: Amazon kernel image
-ari: Amazon ramdisk image
-ami: Amazon machine image
-ova: tập lưu trữ OVA tar
-```
+
+| Định dạng | Mô tả |
+|:----------------:|:--------:|
+| bare | Không lưu trữ hoặc đóng gói siêu dữ liệu |
+| ovf | Định dạng OVF |
+| aki | Amazon kernel image |
+| ari | Amazon ramdisk image |
+| ami | Amazon machine image |
+| ova | tập lưu trữ OVA tar |
+
 Glance API
 ```sh
 API: có một vai trò quan trọng với Glance để xử lý hình ảnh.
@@ -252,13 +259,14 @@ Các thành phần:
 </ul>	
 
 Các thành phần của Neutron
-<ul>
-<li>Neutron server (neutron-server and neutron-*-plugin): Dịch vụ này chạy trên các nút mạng để phục vụ các  Networking API và phần mở rộng của nó. Nó cũng thực thi các mô hình mạng và địa chỉ IP của mỗi cổng
-<li>Plugin agent (neutron-*-agent): Chạy trên mỗi nút tính toán để quản lý các cấu hình chuyển mạch ảo (vSwitch) địa phương
-<li>DHCP agent (neutron-dhcp-agent): Cung cấp dịch vụ DHCP cho mạng người thuê. Thành phần này là như nhau trên tất cả các plug-in và chịu trách nhiệm cho việc duy trì cấu hình DHCP
-<li>L3 agent (neutron-l3-agent): Cung cấp L3 / NAT chuyển tiếp để truy cập mạng bên ngoài của máy ảo trên mạng người thuê
-<li>Network provider services (SDN server/services): Cung cấp các dịch vụ mạng bổ sung cho mạng lưới thuê. Những dịch vụ SDN có thể tương tác với các neutron-server, neutron-plugin, và / hoặc plugin-đại lý thông qua các API REST hoặc các kênh truyền thông khác.
-</ul>
+| Thành Phần | Chức năng |
+|:----------------:|:--------:|
+| Neutron server (neutron-server and neutron-*-plugin) | Dịch vụ này chạy trên các nút mạng để phục vụ các  Networking API và phần mở rộng của nó. Nó cũng thực thi các mô hình mạng và địa chỉ IP của mỗi cổng |
+| Plugin agent (neutron-*-agent) | Chạy trên mỗi nút tính toán để quản lý các cấu hình chuyển mạch ảo (vSwitch) địa phương |
+| DHCP agent (neutron-dhcp-agent) | Cung cấp dịch vụ DHCP cho mạng người thuê. Thành phần này là như nhau trên tất cả các plug-in và chịu trách nhiệm cho việc duy trì cấu hình DHCP |
+| L3 agent (neutron-l3-agent) | Cung cấp L3 / NAT chuyển tiếp để truy cập mạng bên ngoài của máy ảo trên mạng người thuê |
+| Network provider services (SDN server/services) | Cung cấp các dịch vụ mạng bổ sung cho mạng lưới thuê. Những dịch vụ SDN có thể tương tác với các neutron-server, neutron-plugin, và / hoặc plugin-đại lý thông qua các API REST hoặc các kênh truyền thông khác |
+
 
 <img src=http://i.imgur.com/5Z6PnkK.png>
 
