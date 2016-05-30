@@ -271,7 +271,29 @@ policy: lưu ở file.
 #4. Token format
 
 <a name="uuid"></a>
-##4.1 UUID:
+##4.1 UUID (universally unique identifier):
+* Là tiêu chuẩn định dạnh được sử dụng trong xây dựng phần mềm. Mục đích của UUIDs là cho phép các hệ thống phân phối để nhận diện thông tin mà không cần điều phối trung tâm. 
+* A UUID is a 16-octet (128-bit) number.
+* UUID được đại diện bởi 32 chữ số thập lục phân,hiển thị trong năm nhóm, phân cách bằng dấu gạch nối, với dạng `8-4-4-4-12`. Có tổng cộng 36 ký tự, trong đó 32 ký tự chữ với 4 dấu gạch ngang.
+* UUID có tổng cộng 5 phiên bản, trong đó keystone sử dụng UUIDv4.
+
+###4.1.1 Các phiên bản UUID
+####4.1.1.1: UUID v4
+Keystone sử dụng UUID phiên bản v4:
+Token được tạo ra bằng các con số ngẫu nhiên. 
+Phiên bản UUIDv4 có dạng
+```sh
+xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+```
+Ví dụ:
+```sh
+f10700e7-1ff0-45cb-b850-072a0bd6a4e6
+```
+
+Trong đó: x là số bất kỳ trong hệ 16.
+		  4 chỉ phiên bản uuid.
+		  y là một trong các ký tự 8,9,A,B.
+###4.1.2 Đặc điểm UUID trong keystone
 * Có độ dài 32 byte, nhỏ, dễ sử dụng, không nén.
 * Không mang theo đủ thông tin, do đó luôn phải gửi lại keystone để xác thực hoạt động ủy quyền => thắt nút cổ chai.
 * Được lưu vào database.
@@ -281,7 +303,55 @@ policy: lưu ở file.
 ```sh
 468da447bd1c4821bbc5def0498fd441
 ```
-<a name="pki"></a>
+
+Các bạn có thể xem chi tiết tại:
+https://en.wikipedia.org/wiki/Universally_unique_identifier#Definition
+https://tools.ietf.org/html/rfc4122.html
+https://docs.python.org/3/library/uuid.html
+
+###4.1.3 UUID Token Generation Workflow
+![](http://i.imgur.com/UwkVx61.png)
+* 1: Xác nhận user, lấy UserID.
+* 2: Xác nhận project, lấy project id và domain id.
+* 3: Lấy roles cho user trên project hoặc domain đó. Trả lại kết quả `Failure` nếu user không có roles đó.
+* 4: Lấy các services và endpoitns
+* 5: Gộp các thông tin Identity, Resource, Assignment, Catalog vào token payload. Tạo token id bằng hàm `uuid.uuid4().hex`.
+* Lưu giữ các thông tin Token ID, Expiration, Valid, User ID, Extra vào backend.
+
+###4.1.4 UUID Token Validation Workflow
+![](http://image.prntscr.com/image/b729f99bc1884eba827e6f2581444a5a.png)
+
+* 1: Xác nhận token bằng cách gửi một phương thức GET đến Token KVS.
+* 2: Token KVS sẽ kiểm tra trong backend. Kết quả trả về nếu không là Token not found, nếu có, chuyển sang bước 3.
+* 3: Phân tích token và lấy các metadata: UserID, Project ID, Audit ID, Token Expiry.
+* 4: Kiểm tra thời gian hiện tại với thời gian hết hạn của token. Nếu token hết hạn, trả về Token not found. Nếu còn hạn, chuyển sang bước 5
+* 5: Kiểm tra token có bị thu hồi không, nếu no, trả về cho người dùng thông điệp HTTP/1.1 200OK (token sử dụng được).
+
+###4.1.5 UUID Token Revocation Workflow
+![](http://image.prntscr.com/image/76fc28c8e9fb42b4893acb75d462bd39.png)
+
+
+* 1: Gửi một yêu cầu DELETE token. Trước khi revoke token thì phải xác nhận lại token (Token validation workflow)
+* 2: Kiểm tra Audit ID. Nếu không có audit ID, chuyển sang bước 3. Nếu có audit ID, chuyển sang bước 6.
+* 3: Token được thu hồi khi hết hạn, chuyển sang bước 4.
+* 4: Tạo một event revoke với các thông tin: User ID, Project ID, Revoke At, Issued Before, Token expiry.
+.
+* 5: Chuyển sang bước 9.
+* 6: Token được thu hồi bởi audit id.
+* 7: Tạo event revoke với các thông tin: audit id và thời điểm revoke trước khi hết hạn.
+* 8: Lọc các event revoke đang tồn tại dựa trên Revoke At.
+* 9: Set giá trị false vào token avs của token.
+
+###4.1.6 Ưu nhược điểm
+* Ưu điểm:
+	* Định dạng token đơn giản và nhỏ.
+	* Đề nghị được sử dụng trong các môi trường OpenStack đơn giản.
+
+* Nhược điểm
+	* Định dạng token cố định.
+	* Xác nhận token chỉ được hoàn thành bởi dịch vụ Identity.
+	* Không khả thi cho môi trường OpenStack multiple.
+
 <a name="pki"></a>
 ##4.2 PKI:
 * Mã hóa bằng Private Key, kết hợp Public key để giải mã, lấy thông tin.
