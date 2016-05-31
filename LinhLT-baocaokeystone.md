@@ -276,23 +276,28 @@ policy: lưu ở file.
 * A UUID is a 16-octet (128-bit) number.
 * UUID được đại diện bởi 32 chữ số thập lục phân,hiển thị trong năm nhóm, phân cách bằng dấu gạch nối, với dạng `8-4-4-4-12`. Có tổng cộng 36 ký tự, trong đó 32 ký tự chữ với 4 dấu gạch ngang.
 * UUID có tổng cộng 5 phiên bản, trong đó keystone sử dụng UUIDv4.
+* Các bạn có thể xem chi tiết tại:
+	* https://en.wikipedia.org/wiki/Universally_unique_identifier#Definition
+	* https://tools.ietf.org/html/rfc4122.html
+	* https://docs.python.org/3/library/uuid.html
 
 ###4.1.1 Các phiên bản UUID
 ####4.1.1.1: UUID v4
-Keystone sử dụng UUID phiên bản v4:
-Token được tạo ra bằng các con số ngẫu nhiên. 
-Phiên bản UUIDv4 có dạng
+* Keystone sử dụng UUID phiên bản v4:
+* Token được tạo ra bằng các con số ngẫu nhiên. 
+* Phiên bản UUIDv4 có dạng
 ```sh
 xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
 ```
-Ví dụ:
+* Ví dụ:
 ```sh
 f10700e7-1ff0-45cb-b850-072a0bd6a4e6
 ```
+* Trong đó:
+	* x là số bất kỳ trong hệ 16.
+	* 4 chỉ phiên bản uuid.
+	* y là một trong các ký tự 8,9,A,B.
 
-Trong đó: x là số bất kỳ trong hệ 16.
-		  4 chỉ phiên bản uuid.
-		  y là một trong các ký tự 8,9,A,B.
 ###4.1.2 Đặc điểm UUID trong keystone
 * Có độ dài 32 byte, nhỏ, dễ sử dụng, không nén.
 * Không mang theo đủ thông tin, do đó luôn phải gửi lại keystone để xác thực hoạt động ủy quyền => thắt nút cổ chai.
@@ -303,11 +308,6 @@ Trong đó: x là số bất kỳ trong hệ 16.
 ```sh
 468da447bd1c4821bbc5def0498fd441
 ```
-
-Các bạn có thể xem chi tiết tại:
-https://en.wikipedia.org/wiki/Universally_unique_identifier#Definition
-https://tools.ietf.org/html/rfc4122.html
-https://docs.python.org/3/library/uuid.html
 
 ###4.1.3 UUID Token Generation Workflow
 ![](http://i.imgur.com/UwkVx61.png)
@@ -378,6 +378,27 @@ EOMAwGA1UEChM7r0iosFscpnfCuc8jGMobyfApz/dZqJnsk4lt1ahlNTpXQeVFxNK/ydKL+tzEjg
 
 <a name="fernet"></a>
 <a name="fernet"></a>
+
+###4.3.1 PKI/PKIZ Configuration - Certificates
+###4.3.2 Token Generation Workflow
+
+
+###4.3.3 Token Validation Workflow
+![](http://image.prntscr.com/image/235e55be478d458e9942a9a3eef2171f.png)
+
+Cũng tương tự UUID, chỉ khác ở chỗ là:
+* Trước khi gửi yêu cầu GET đến Token KVS thì pki token sẽ được hash với thuật toán đã cấu hình trước.
+
+
+###4.3.4 Token Revocation Workflow
+![](http://image.prntscr.com/image/7d3d7eed29614b238ed46be52c7b5f57.png)
+
+**Tương tự UUID**
+###4.3.5 PKI/PKIZ - Multiple Data Centers
+
+###4.3.6 Ưu nhược điểm.
+
+
 ##4.4 Fernet: 
 * Sử dụng mã hóa đối xưng (Sử dụng chung key để mã hóa và giải mã).
 * Có kích thước khoảng 255 byte, không nén, lớn hơn UUID và nhỏ hơn PKI.
@@ -394,18 +415,6 @@ gAAAAABU7roWGiCuOvgFcckec-0ytpGnMZDBLG9hA7Hr9qfvdZDHjsak39YN98HXxoYLIqVm19Egku5Y
 S7waA306jyKNhHwUnpsBQ%3D
 ```
 
-* Bảng so sánh các loại token
-
-|Token Types | UUID | PKI | PKIZ | Fernet|
-|:----------:|:----:|:---:|:----:|:-----:|
-|Size	|32 Byte	|KB Level	|KB Level	|About 255 Byte|
-|Support |local authentication	|not support	|stand by	|stand by|	not support|
-|Keystone load|Big	|small	|small|	Big|
-|Stored in the database	|Yes|	Yes|	Yes	|no|
-|Carry information	|no	|user, catalog, etc.|	user, catalog, etc.|	user, etc.|
-|Involving encryption	|no	|Asymmetric encryption|	Asymmetric encryption|	Symmetric encryption (AES)|
-|Compress	|no	|no	|Yes|	no|
-|Supported	|D	|G	|J	|K|
 
 <a name="key_format"></a>
 ###4.4.1 Key format
@@ -499,7 +508,67 @@ Given a key and message, generate a fernet token with the following steps, in or
 * Giải mã ciphertext sử dụng thuật toán AES/128-CBC với chế độ IV và sử dụng Encryption key.
 * Thông điệp ban đầu được giải mã
 
+###4.4.7 Fernet Token Generation Workflow
+![](http://i.imgur.com/kd2oZWD.png)
 
+* 1: Các thông tin bao gồm: Version, User ID, Methods, Project ID, Expiry time, Audit ID kết hợp với Padding
+* 2: Các thông tin trê được mã hóa bằng Encrypting key, chính là Cipher Text.
+* 3: Cipher Text kết hợp với các trường là Fernet Token version, Current timestamp, iv được signed bằng Signing key.
+* 4: Thông tin được Signing trên chính là HMAC.
+
+###4.4.8 Fernet Token Validation Workflow
+![](http://image.prntscr.com/image/8a39a8307fe246a9aac3b511734e4c77.png)
+
+* 1: Restore Padding: Re-inflate token with “=” and return token with correct padding 
+* 2: Giải mã fernet key để nhận token payload.
+* 3: Xác định phiên bản token payload.
+	* Unscoped Payload : 0
+	* Domain Scoped Payload : 1
+	* Project Scoped Payload : 2
+* 4: Xác định các trường thông tin: 
+	* User ID
+	* Project ID
+	* Methods
+	* Token Expiry
+	* Audit ID
+* 5: So sánh thời gian hiện tại với thời gian hết hạn của token.
+* 6: Kiểm tra token có bị thu hồi hay không.
+* 7: Trả về token
+
+###4.4.9 Fernet Token Revocation Workflow
+![](http://image.prntscr.com/image/4df950ddc94a48348c84049ce6ab05fa.png)
+
+**Tương tự UUID/PKI/PKIZ**
+
+###4.4.10 Fernet - Multiple Data Centers
+![](http://image.prntscr.com/image/705e9f84a9014a309c6e45faf0ed61fd.png)
+
+LDAP Replication (Directory Tree is always in sync)
+MySQL Replication (Database is always in sync)
+
+
+###4.4.11 Fernet - Ưu nhược điểm
+* Ưu điểm:
+	* No persistence
+	* Reasonable Token Size
+	* Multiple Data Center
+
+* Nhược điểm:
+	* Token validation impacted by the number of revocation events
+
+
+##4.5 Bảng so sánh các loại token
+
+|Token Types | UUID | PKI | PKIZ | Fernet|
+|:----------:|:----:|:---:|:----:|:-----:|
+|Size	|32 Byte	|KB Level	|KB Level	|About 255 Byte|
+|Support |local authentication	|not support	|stand by	|stand by|	not support|
+|Keystone load|Big	|small	|small|	Big|
+|Stored in the database	|Yes|	Yes|	Yes	|no|
+|Carry information	|no	|user, catalog, etc.|	user, catalog, etc.|	user, etc.|
+|Involving encryption	|no	|Asymmetric encryption|	Asymmetric encryption|	Symmetric encryption (AES)|
+|Compress	|no	|no	|Yes|	no|
+|Supported	|D	|G	|J	|K|
 
 #5. LDAP
 
