@@ -63,10 +63,8 @@
 		- [4.4.10 Fernet - Multiple Data Centers](#fernet_multi)
 		- [4.4.11 Fernet - Ưu nhược điểm](#fernet_uunhuocidem)
 	- [4.5 Bảng so sánh các loại token](#so_sanh_token)
-- [5. LDAP](#)
-- [6. Federated Identity](#)
-- [7. Cách hoạt động của Keystone](#hoat_dong)
-- [8. Tài liệu tham khảo](#tham_khao)
+- [5. Cách hoạt động của Keystone](#hoat_dong)
+- [6. Tài liệu tham khảo](#tham_khao)
 
 
 <a name="chuc_nang"></a>
@@ -457,7 +455,7 @@ Cũng tương tự UUID, chỉ khác ở chỗ là:
 ###4.3.5 PKI/PKIZ - Multiple Data Centers
 **LDAP Replication (Directory Tree is always in sync) - MySQL Replication (Database is always in sync)**
 
-[](http://image.prntscr.com/image/d7b91d36751d4494a5288ec7d83c525b.png)
+![](http://image.prntscr.com/image/d7b91d36751d4494a5288ec7d83c525b.png)
 
 <a name="pki_uunhuocidem"></a>
 ###4.3.6 PKI/PKIZ - Ưu nhược điểm.
@@ -647,16 +645,8 @@ Given a key and message, generate a fernet token with the following steps, in or
 |Supported	|D	|G	|J	|K|
 
 
-
-#5. LDAP
-
-
-#6. Federated Identity
-
-
-
 <a name="hoat_dong_keystone"></a>
-#7. Cách hoạt động của Keystone
+#5. Cách hoạt động của Keystone
 
 ![](http://i.imgur.com/uDzPLna.png)
 
@@ -672,7 +662,7 @@ Given a key and message, generate a fernet token with the following steps, in or
 * 10: Nova trả lời cho người dùng.
 
 <a name="tham_khao"></a>
-#8. Tài liệu tham khảo
+#6. Tài liệu tham khảo
 * *Steve Martinelli, Henry Nash & Brad Topol*: Identity, Authentication & Access Management in OpenStack
 * http://www.slideshare.net/openstackindia/openstack-keystone-identity-service
 * https://github.com/fernet/spec/blob/master/Spec.md
