@@ -5,7 +5,68 @@
 * Keystone chứng mình nó là một thành phần quan trọng trong cloud.
 
 # Mục lục
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
+- [Keystone](#)
+- [1. Các chức năng cơ bản của Keystone](#chuc_nang)
+	- [1.1 Identity:](#identity)
+	- [1.2 Authentication:](#authentication)
+	- [1.3 Authorization](#authorization)
+	- [1.4 Các lợi ích như:](#loi_ich)
+- [2 Các khái nhiệm cơ bản.](#khai_niem)
+	- [2.1 Projects](#projects)
+	- [2.2 Domain](#domain)
+	- [2.3 Users và Groups](#users_groups)
+	- [2.4 Roles](#roles)
+	- [2.5 Assignment](#assignment)
+	- [2.6 Targets](#targets)
+	- [2.8 Catalog:](#catalog)
+- [3. Các thành phân cơ bản trong Keystone](#thanh_phan)
+	- [3.1 Identity](#thanh_phan_identity)
+		- [3.1.1 SQL](#sql)
+		- [3.1.2 LDAP](#ldap)
+		- [3.1.3 Multiple Backends](#multiple_backend)
+		- [3.1.4 idenity provider](#identity_provider)
+		- [3.1.5 use cases for idenity backend](#use_case_identity_backend)
+	- [3.2. Authentication](#thanh_phan_authentication")
+		- [3.2.1 Authentication password](#auth_password)
+		- [3.2.2 Authentication token](#auth_token)
+	- [3.3. Access Management and Authorization](#Access_Management_and_Authorization)
+	- [3.4 Backends and Services](#backend_services)
+- [4. Token format](#token)
+	- [4.1 UUID (universally unique identifier):](#uuid)
+		- [4.1.1 Các phiên bản UUID](#uuid_phien_ban)
+			- [4.1.1.1: UUID v4](#uuid_v4)
+		- [4.1.2 Đặc điểm UUID trong keystone](#uuid_keystone)
+		- [4.1.3 UUID Token Generation Workflow](#uuid_gen)
+		- [4.1.4 UUID Token Validation Workflow](#uuid_vali)
+		- [4.1.5 UUID Token Revocation Workflow](#uuid_revo)
+		- [4.1.6 Ưu nhược điểm](#uuid_uunhuocdiem)
+	- [4.2 PKI - PKIZ:](#pki_pkiz)
+		- [4.2.1 PKI/PKIZ Certificates](#pkipkiz_cer)
+		- [4.2.2 Token PKI/PKIZ Generation Workflow](#pki_gen)
+		- [4.3.3 Token PKI/PKIZ Validation Workflow](#pki_vali)
+		- [4.3.4 Token PKI/PKIZ Revocation Workflow](#pki_revo)
+		- [4.3.5 PKI/PKIZ - Multiple Data Centers](#pki_mulit)
+		- [4.3.6 PKI/PKIZ - Ưu nhược điểm.](#pki_uunhuocdiem)
+	- [4.4 Fernet:](#fernet)
+		- [4.4.1 Key format](#key_format)
+		- [4.4.2 Các loại key](#loai_key)
+		- [4.4.3 Generate key](#gen_key)
+		- [4.4.4 Rotation Key](#rotation_key)
+		- [4.4.4 Token format](#token_format)
+		- [4.4.5 Generating token](#gen_token)
+		- [4.4.6 Verifying token](#ver_token)
+		- [4.4.7 Fernet Token Generation Workflow](#fernet_gen)
+		- [4.4.8 Fernet Token Validation Workflow](#fernet_vali)
+		- [4.4.9 Fernet Token Revocation Workflow](#fernet_revo)
+		- [4.4.10 Fernet - Multiple Data Centers](#fernet_multi)
+		- [4.4.11 Fernet - Ưu nhược điểm](#fernet_uunhuocidem)
+	- [4.5 Bảng so sánh các loại token](#so_sanh_token)
+- [5. LDAP](#)
+- [6. Federated Identity](#)
+- [7. Cách hoạt động của Keystone](#hoat_dong)
+- [8. Tài liệu tham khảo](#tham_khao)
 
 
 <a name="chuc_nang"></a>
@@ -338,7 +399,7 @@ EOMAwGA1UEChM7r0iosFscpnfCuc8jGMobyfApz/dZqJnsk4lt1ahlNTpXQeVFxNK/ydKL+tzEjg
 * Khắc phục nhược điểm của PKI, token sẽ được nén lại để có thể truyền qua HTTP.
 * Tuy nhiên, token dạng này vẫn có kích thước lớn.
 
-<a name="pki/pkiz cer"></a>
+<a name="pkipkiz_cer"></a>
 ###4.2.1 PKI/PKIZ Certificates
 * Signing Key (signing_key.pem): Generate private key in PEM format
 * Signing Certificate (signing_cert.pem):
@@ -355,7 +416,7 @@ EOMAwGA1UEChM7r0iosFscpnfCuc8jGMobyfApz/dZqJnsk4lt1ahlNTpXQeVFxNK/ydKL+tzEjg
 
 
 <a name="pki_gen"></a>
-###4.2.1 Token PKI/PKIZ Generation Workflow
+###4.2.2 Token PKI/PKIZ Generation Workflow
 
 ![](http://image.prntscr.com/image/811ddc50e8eb411da7c83ac7eb161ea6.png)
 
@@ -380,26 +441,26 @@ Deleted: “\n”, “----BEGIN CMS----”,“----END CMS-
 
 
 <a name="pki_vali"></a>
-###4.3.2 Token PKI/PKIZ Validation Workflow
+###4.3.3 Token PKI/PKIZ Validation Workflow
 ![](http://image.prntscr.com/image/235e55be478d458e9942a9a3eef2171f.png)
 
 Cũng tương tự UUID, chỉ khác ở chỗ là:
 * Trước khi gửi yêu cầu GET đến Token KVS thì pki token sẽ được hash với thuật toán đã cấu hình trước.
 
 <a name="pki_revo"></a>
-###4.3.3 Token PKI/PKIZ Revocation Workflow
+###4.3.4 Token PKI/PKIZ Revocation Workflow
 **Tương tự UUID**
 
 ![](http://image.prntscr.com/image/7d3d7eed29614b238ed46be52c7b5f57.png)
 
 <a name="pki_mulit"></a>
-###4.3.4 PKI/PKIZ - Multiple Data Centers
+###4.3.5 PKI/PKIZ - Multiple Data Centers
 **LDAP Replication (Directory Tree is always in sync) - MySQL Replication (Database is always in sync)**
 
-1[](http://image.prntscr.com/image/d7b91d36751d4494a5288ec7d83c525b.png)
+[](http://image.prntscr.com/image/d7b91d36751d4494a5288ec7d83c525b.png)
 
 <a name="pki_uunhuocidem"></a>
-###4.3.5 PKI/PKIZ - Ưu nhược điểm.
+###4.3.6 PKI/PKIZ - Ưu nhược điểm.
 * Ưu điểm: 
 	* Token có thể được xác nhận mà không cần gửi request đến keystone.
 
