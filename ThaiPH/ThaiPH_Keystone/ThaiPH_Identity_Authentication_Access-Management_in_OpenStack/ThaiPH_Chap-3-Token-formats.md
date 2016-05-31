@@ -117,6 +117,21 @@ $ ls /etc/keystone/fernet-keys
 Với cấu hình như trên, bên us-west, 3 trở thành <b>Primary Key</b> để mã hóa fernet token. Khi keystone bên us-west nhận token từ us-east (mã hóa bằng key 2), us-west sẽ xác thực token này, giải mã bằng 4 key theo thứ tự 3, 2, 1, 0. Keystone bên us-east nhận fernet token từ us-west (mã hóa bằng key 3), us-east xác thực token này vì key 3 bên us-west lúc này trở thành staged key (0) bên us-east, keystone us-east giải mã token với 3 key theo thứ tự 2, 1, 0. 
 <br>
 Có thể cấu hình giá trị  <code>max_active_keys</code>  trong file <code>/etc/keystone.conf</code> để quy định tối đa số key tồn tại trong keystone. Nếu số key vượt giá trị này thì key cũ sẽ bị xóa. 
+
+<h5>Kế hoạch cho vấn đề rotated keys</h5>
+<div>
+Khi sử dụng fernet tokens yêu cầu chú ý về thời hạn của token và vòng đời của khóa. Vấn đề nảy sinh khi secondary keys bị remove khỏi key repos trong khi vẫn cần dùng key đó để giải mã một token chưa hết hạn (token này được mã hóa bởi key đã bị remove).
+<br>
+Để giải quyết vấn đề này, trước hết cần lên kế hoạch xoay khóa. Ví dụ bạn muốn token hợp lệ trong vòng 24 giờ và muốn xoay khóa cứ mỗi 6 giờ. Như vậy để giữ 1 key tồn tại trong 24h cho mục đích decrypt thì cần thiết lập max_active_keys=6 trong file keytone.conf (do tính thêm 2 key đặc biệt là primary key và staged key ). Điều này giúp cho việc giữ tất cả các key cần thiết nhằm mục đích xác thực token mà vẫn giới hạn được số lượng key trong key repos (/etc/keystone/fernet-keys/).
+<pre>
+<code>
+token_expiration = 24
+rotation_frequency = 6
+max_active_keys = (token_expiration / rotation_frequency) + 2
+</code>
+</pre>
+</div>
+
 <h5>Fernet token</h5>
 Keystone fernet token dựa trên mã hóa base64 bao gồm một số trường sau:
 <ul>
