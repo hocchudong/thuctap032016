@@ -238,9 +238,9 @@ policy: lưu ở file.
 	* https://tools.ietf.org/html/rfc4122.html
 	* https://docs.python.org/3/library/uuid.html
 
-<a href="uuid_phien_ban"></a>
+<a name="uuid_phien_ban"></a>
 ###4.1.1 Các phiên bản UUID
-<a href="uuid_v4"></a>
+<a name="uuid_v4"></a>
 ####4.1.1.1: UUID v4
 * Keystone sử dụng UUID phiên bản v4:
 * Token được tạo ra bằng các con số ngẫu nhiên. 
@@ -257,7 +257,7 @@ f10700e7-1ff0-45cb-b850-072a0bd6a4e6
 	* 4 chỉ phiên bản uuid.
 	* y là một trong các ký tự 8,9,A,B.
 
-<a href="uuid_keystone"></a>
+<a name="uuid_keystone"></a>
 ###4.1.2 Đặc điểm UUID trong keystone
 * Có độ dài 32 byte, nhỏ, dễ sử dụng, không nén.
 * Không mang theo đủ thông tin, do đó luôn phải gửi lại keystone để xác thực hoạt động ủy quyền => thắt nút cổ chai.
@@ -269,7 +269,7 @@ f10700e7-1ff0-45cb-b850-072a0bd6a4e6
 468da447bd1c4821bbc5def0498fd441
 ```
 
-<a href="uuid_gen"></a>
+<a name="uuid_gen"></a>
 ###4.1.3 UUID Token Generation Workflow
 ![](http://i.imgur.com/UwkVx61.png)
 * 1: Xác nhận user, lấy UserID.
@@ -279,7 +279,7 @@ f10700e7-1ff0-45cb-b850-072a0bd6a4e6
 * 5: Gộp các thông tin Identity, Resource, Assignment, Catalog vào token payload. Tạo token id bằng hàm `uuid.uuid4().hex`.
 * Lưu giữ các thông tin Token ID, Expiration, Valid, User ID, Extra vào backend.
 
-<a href="uuid_vali"></a>
+<a name="uuid_vali"></a>
 ###4.1.4 UUID Token Validation Workflow
 ![](http://image.prntscr.com/image/b729f99bc1884eba827e6f2581444a5a.png)
 
@@ -289,7 +289,7 @@ f10700e7-1ff0-45cb-b850-072a0bd6a4e6
 * 4: Kiểm tra thời gian hiện tại với thời gian hết hạn của token. Nếu token hết hạn, trả về Token not found. Nếu còn hạn, chuyển sang bước 5
 * 5: Kiểm tra token có bị thu hồi không, nếu no, trả về cho người dùng thông điệp HTTP/1.1 200OK (token sử dụng được).
 
-<a href="uuid_revo"></a>
+<a name="uuid_revo"></a>
 ###4.1.5 UUID Token Revocation Workflow
 ![](http://image.prntscr.com/image/76fc28c8e9fb42b4893acb75d462bd39.png)
 
@@ -305,7 +305,7 @@ f10700e7-1ff0-45cb-b850-072a0bd6a4e6
 * 8: Lọc các event revoke đang tồn tại dựa trên Revoke At.
 * 9: Set giá trị false vào token avs của token.
 
-<a href="uuid_uunhuocidem"></a>
+<a name="uuid_uunhuocidem"></a>
 ###4.1.6 Ưu nhược điểm
 * Ưu điểm:
 	* Định dạng token đơn giản và nhỏ.
@@ -316,8 +316,8 @@ f10700e7-1ff0-45cb-b850-072a0bd6a4e6
 	* Xác nhận token chỉ được hoàn thành bởi dịch vụ Identity.
 	* Không khả thi cho môi trường OpenStack multiple.
 
-<a name="pki"></a>
-##4.2 PKI:
+<a name="pki_pkiz"></a>
+##4.2 PKI - PKIZ:
 * Mã hóa bằng Private Key, kết hợp Public key để giải mã, lấy thông tin.
 * Token chứa nhiều thông tin như Userid, project id, domain, role, service catalog, create time, exp time,...
 * Xác thực ngay tại user, không cần phải gửi yêu cầu xác thực đến Keystone.
@@ -333,35 +333,82 @@ MIIDsAYCCAokGCSqGSIb3DQEHAaCCAnoEggJ2ew0KICAgICJhY2QogICAgICAgI...EBMFwwVzELMAkG
 1UEBhMCVVMxDjAMBgNVBAgTBVVuc2V0MCoIIDoTCCA50CAQExCTAHBgUrDgMQ4wDAYDVQQHEwVVbnNldD
 EOMAwGA1UEChM7r0iosFscpnfCuc8jGMobyfApz/dZqJnsk4lt1ahlNTpXQeVFxNK/ydKL+tzEjg
 ```
-<a name="pkiz"></a>
-##4.3 PKIZ:
+##PKIZ
 * Tương tự PKI.
 * Khắc phục nhược điểm của PKI, token sẽ được nén lại để có thể truyền qua HTTP.
 * Tuy nhiên, token dạng này vẫn có kích thước lớn.
 
-<a href="pki_gen"></a>
-###4.3.1 Token PKI/PKIZ Generation Workflow
+<a name="pki/pkiz cer"></a>
+###4.2.1 PKI/PKIZ Certificates
+* Signing Key (signing_key.pem): Generate private key in PEM format
+* Signing Certificate (signing_cert.pem):
+	* Generate CSR using Signing Key
+	* Submit CSR to CA
+	* Receive Certificate from CA
+* Certificate Authority Certificate (ca.pem)
+
+* Đường dẫn
+    * certfile = /etc/keystone/ssl/certs/signing_cert.pem
+    * keyfile = /etc/keystone/ssl/private/signing_key.pem
+    * ca_certs = /etc/keystone/ssl/certs/ca.pem
 
 
-<a href="pki_vali"></a>
+
+<a name="pki_gen"></a>
+###4.2.1 Token PKI/PKIZ Generation Workflow
+
+![](http://image.prntscr.com/image/811ddc50e8eb411da7c83ac7eb161ea6.png)
+
+* 1: User request token với các thông tin là: username, password, project name.
+* 2: Keystone sẽ xác nhận định danh, resource và assignmetn.
+* 3: Tạo một JSON, chứa token payload.
+* 4: Sign JSON này với các Signing Key và Signing Certificate. Sau đó, với dạng PKI chuyển sang bước 5. Nếu là dạng PKIZ chuyển sang bước 11.
+* 5: Convert JSON trên sang dạng UTF-8.
+* 6: Convert CMS Signed Token in PEM format to custom URL Safe format:
+
+```sh
+“/” replaced with “-”
+Deleted: “\n”, “----BEGIN CMS----”,“----END CMS-
+```
+* 7: Sử dụng zlib để nén JSON.
+* 8: Mã hóa Base64 URL Safe.
+* 9: Convert JSON sang dạng UTF-8
+* 10: PKIZAppend Prefix
+* 11: Lưu trữ token vào SQL/KVS
+
+
+
+
+<a name="pki_vali"></a>
 ###4.3.2 Token PKI/PKIZ Validation Workflow
 ![](http://image.prntscr.com/image/235e55be478d458e9942a9a3eef2171f.png)
 
 Cũng tương tự UUID, chỉ khác ở chỗ là:
 * Trước khi gửi yêu cầu GET đến Token KVS thì pki token sẽ được hash với thuật toán đã cấu hình trước.
 
-<a href="pki revo"></a>
+<a name="pki_revo"></a>
 ###4.3.3 Token PKI/PKIZ Revocation Workflow
 **Tương tự UUID**
 
 ![](http://image.prntscr.com/image/7d3d7eed29614b238ed46be52c7b5f57.png)
 
-<a href="pki_mulit"></a>
+<a name="pki_mulit"></a>
 ###4.3.4 PKI/PKIZ - Multiple Data Centers
+**LDAP Replication (Directory Tree is always in sync) - MySQL Replication (Database is always in sync)**
 
+1[](http://image.prntscr.com/image/d7b91d36751d4494a5288ec7d83c525b.png)
 
-<a href="pki_uunhuocidem"></a>
-###4.3.5 Ưu nhược điểm.
+<a name="pki_uunhuocidem"></a>
+###4.3.5 PKI/PKIZ - Ưu nhược điểm.
+* Ưu điểm: 
+	* Token có thể được xác nhận mà không cần gửi request đến keystone.
+
+* Nhược điểm
+	* Kích thước lớn hơn HTTP Header
+	* Cấu hình phức tạp.
+	* base64 –d <pki_token
+	* Không tốt cho việc triển khai multiple OpenStack
+
 
 <a name="fernet"></a>
 ##4.4 Fernet: 
@@ -473,7 +520,7 @@ Given a key and message, generate a fernet token with the following steps, in or
 * Giải mã ciphertext sử dụng thuật toán AES/128-CBC với chế độ IV và sử dụng Encryption key.
 * Thông điệp ban đầu được giải mã
 
-<a href="fernet_gen"></a>
+<a name="fernet_gen"></a>
 ###4.4.7 Fernet Token Generation Workflow
 ![](http://i.imgur.com/kd2oZWD.png)
 
@@ -482,7 +529,7 @@ Given a key and message, generate a fernet token with the following steps, in or
 * 3: Cipher Text kết hợp với các trường là Fernet Token version, Current timestamp, iv được signed bằng Signing key.
 * 4: Thông tin được Signing trên chính là HMAC.
 
-<a href="fernet_vali"></a>
+<a name="fernet_vali"></a>
 ###4.4.8 Fernet Token Validation Workflow
 ![](http://image.prntscr.com/image/8a39a8307fe246a9aac3b511734e4c77.png)
 
@@ -502,19 +549,19 @@ Given a key and message, generate a fernet token with the following steps, in or
 * 6: Kiểm tra token có bị thu hồi hay không.
 * 7: Trả về token
 
-<a href="fernet_revo"></a>
+<a name="fernet_revo"></a>
 ###4.4.9 Fernet Token Revocation Workflow
 **Tương tự UUID/PKI/PKIZ**
 
 ![](http://image.prntscr.com/image/4df950ddc94a48348c84049ce6ab05fa.png)
 
-<a href="fernet_multi"></a>
+<a name="fernet_multi"></a>
 ###4.4.10 Fernet - Multiple Data Centers
 **LDAP Replication (Directory Tree is always in sync) - MySQL Replication (Database is always in sync)**
 
 ![](http://image.prntscr.com/image/705e9f84a9014a309c6e45faf0ed61fd.png)
 
-<a href="fernet_uunhuocdiem"></a>
+<a name="fernet_uunhuocdiem"></a>
 ###4.4.11 Fernet - Ưu nhược điểm
 * Ưu điểm:
 	* No persistence
@@ -524,7 +571,7 @@ Given a key and message, generate a fernet token with the following steps, in or
 * Nhược điểm:
 	* Token validation impacted by the number of revocation events
 
-<a href="so_sanh_token"></a>
+<a name="so_sanh_token"></a>
 ##4.5 Bảng so sánh các loại token
 
 |Token Types | UUID | PKI | PKIZ | Fernet|
@@ -547,7 +594,7 @@ Given a key and message, generate a fernet token with the following steps, in or
 
 
 
-<a href="hoat_dong_keystone"></a>
+<a name="hoat_dong_keystone"></a>
 #7. Cách hoạt động của Keystone
 
 ![](http://i.imgur.com/uDzPLna.png)
