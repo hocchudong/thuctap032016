@@ -6,7 +6,7 @@ Máy ảo chạy hệ điều hành Ubuntu 14.04 có chế độ LVM cho ổ đ�
 
 
 ###Mục lục:
-[1 Tính năng Snapshot ](#1)
+[1 Tính năng Snapshot ]#1)
 - [1.1 Tạo Snapshot](#1.1)
 - [1.2 Restoring Snapshot or Merging](#1.2)
 [2 Tính năng Thin Provisioning Volumes](#2)
