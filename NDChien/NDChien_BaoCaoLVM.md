@@ -6,19 +6,19 @@ Máy ảo chạy hệ điều hành Ubuntu 14.04 có chế độ LVM cho ổ đ�
 
 
 ###Mục lục:
-[1 Tính năng Snapshot ]
-- [1.1 Tạo Snapshot]
-- [1.2 Restoring Snapshot or Merging]
-[2 Tính năng Thin Provisioning Volumes]
-- [2.1 Setup Thin Pool and Volumes]
-- [2.2 Over Provisioning]
-[3 Tính năng Manage Multiple Logical Volume Management Disks using Striping I/O]
-- [3.1 Chuẩn bị]
-- [3.2 Logical Volume management using Striping I/O]
-[4 Tính năng LVM Migration]
-- [4.1 Chuẩn bị]
-- [4.2 LVM Mirroring Method]
-- [4.3 LVM pvmove Mirroring Method]
+[1 Tính năng Snapshot ](#1)
+- [1.1 Tạo Snapshot](#1.1)
+- [1.2 Restoring Snapshot or Merging](#1.2)
+[2 Tính năng Thin Provisioning Volumes](#2)
+- [2.1 Setup Thin Pool and Volumes](#2.1)
+- [2.2 Over Provisioning](#2.2)
+[3 Tính năng Manage Multiple Logical Volume Management Disks using Striping I/O](#3)
+- [3.1 Chuẩn bị](#3.1)
+- [3.2 Logical Volume management using Striping I/O](#3.2)
+[4 Tính năng LVM Migration](#4)
+- [4.1 Chuẩn bị](#4.1)
+- [4.2 LVM Mirroring Method](#4.2)
+- [4.3 LVM pvmove Mirroring Method](#4.3)
 
 ====================== 
 
@@ -34,14 +34,14 @@ Snapshots can’t be use for backup option. Backups are Primary Copy of some dat
 
 <img src=http://i.imgur.com/2gYdklq.png>
 
-Trên hình ta đã có một logical Volume lv-demo1 được mount tới thư mục rỗng /mnt/demo1 và hai Volume Group vg-demo1, vg-demo2.
+Trên hình ta đã có một logical Volume lv-demo1 được mount tới thư mục rỗng /mnt/demo1 và Volume Group vg-demo1.
 
 <a name="1.1"></a>
 **1.1 Tạo Snapshot**
 
 lv-demo1 thuộc vg-demo1 nên check xem vg-demo1 có còn dung lượng để tạo Snapshot.
 
-**Tạo Snapshot**
+**Tạo ổ Snapshot**
 ```sh
 # lvcreate -L 1GB -s -n lv-demo1-snap /dev/vg-demo1/lv-demo1        
       
@@ -51,6 +51,7 @@ OR
 ```
 
 -s: Creates Snapshot
+
 -n: Name for snapshot
 
 <img src=http://i.imgur.com/9X5dcsP.png>
@@ -68,7 +69,7 @@ Kiểm tra bằng lệnh lvs ta có thêm 1 LV lv-demo1-snap với cột data c�
 
 <img src=http://i.imgur.com/lbUNuOh.png>
 
-**Xóa snapshot ta dùng: **
+**Nếu muốn xóa snapshot đã tạo**
 
 `lvremove /dev/vg-demo1/lv-demo1-snap`
 
@@ -76,7 +77,7 @@ Ta copy một số file vào thư mục /mnt/demo1
 
 <img src=http://i.imgur.com/Fv7TMdd.png>
 
-Ta có thể thấy 22% dung lượng của snapshot volume đã được dùng. Nếu bạn dùng quá dung lượng thì sẽ có thông báo ‘Input/output error‘ khi kiểm tra lvs
+Ta có thể thấy 22% dung lượng của snapshot volume đã được dùng. Nếu bạn dùng quá dung lượng thì sẽ có thông báo **Input/output error** khi kiểm tra lvs
 
 Để có nhiều thông tin hơn ta dùng lệnh lvdisplay vg-demo1/lv-demo1-snap
 
@@ -102,11 +103,11 @@ Dòng 2: Kích thước volume sẽ tăng 20%
 
 Check bằng lệnh df -h để kiểm tra đã un-mount thành công hay chưa.
 
-Restore snapshot bằng lệnh:
+**Restore snapshot**
 
 `lvconvert --merge /dev/vg-demo1/lv-demo1-snap`
 
-Sau khi quá trình kết thúc thì snapshot volume sẽ được xóa.
+Sau khi quá trình kết thúc thì Snapshot Volume sẽ được xóa.
 
 mount lại Volume và vào thư mục /mnt/demo1. Nếu các file copy đã bị xóa thì quá trình đã hoàn thành.
 
@@ -129,21 +130,22 @@ Ta có 1 Physical Volume sdd1 dùng lệnh `vgcreate vg-thin /dev/sdd1` để t�
 `lvcreate -L 9GB --thinpool thin-demo vg-thin`
 
 --thinpool: Để tạo thinpool
+
 thin-demo: Tên của Thin Pool
+
 vg-thin: Tên Volume Group
 
-** Tạo Thin Volume từ Thin-Pool **
-Dùng lệnh: lvcreate -V 2G --thin -n thin-demo-client1 vg-thin/thin-demo tạo 1 Thin virtual volume với tên thin-demo-client1 trong thin-demo
+**Tạo Thin Volume từ Thin-Pool**
+
+`lvcreate -V 2G --thin -n thin-demo-client1 vg-thin/thin-demo` tạo 1 Thin virtual volume với tên **thin-demo-client1** trong **thin-demo**
 
 <img src=http://i.imgur.com/dv9lAEZ.jpg>
 
 Ta sẽ tạo 4 Thin-demo-client 1,2,3,4 
 
-* Tạo File System
-
-Tạo 4 thư mục cient 1,2,3,4 trong /mnt . Tạo File System bằng mkfs và mount các Thin-demo-client vào các thư mục
+Tạo 4 thư mục cient 1,2,3,4 trong /mnt. Tạo File System bằng mkfs và mount các Thin-demo-client vào các thư mục
 ```sh
-mkdir /mnt/client1 /mnt/client2 /mnt/client3 /mnt/client4
+mkdir /mnt/client1
 
 mkfs.ext4 /dev/vg-thin/thin-demo-client1 
 
@@ -164,7 +166,7 @@ Cách giải quyết là dùng chức năng Over Provisioning. (which means givi
 
 <img src=http://i.imgur.com/VkJwUbj.jpg>
 
-**copy file vào /mnt/client5**
+**Copy file vào /mnt/client5**
 
 <img src=http://i.imgur.com/e626ULh.jpg>
 
@@ -227,7 +229,8 @@ Tính năng này cho phép di chuyển dữ liệu từ logical volumes sang m�
 
 <a name="4.1"></a>
 **4.1 Chuẩn bị**
-Ta có 1 Logical Volume được tạo ra từ Physical Volume /dev/sdb1. Và các Drive /dev/sdc,/dev/sdd mới gắn thêm.
+
+Ta có 1 Logical Volume được tạo ra từ Physical Volume /dev/sdb1. Và các Drive /dev/sdc, /dev/sdd mới gắn thêm.
 
 <img src=http://i.imgur.com/tKSZWu6.png>
 
