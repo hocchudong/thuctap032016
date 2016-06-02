@@ -7,17 +7,29 @@ Máy ảo chạy hệ điều hành Ubuntu 14.04 có chế độ LVM cho ổ đ�
 
 ###Mục lục:
 [1 Tính năng Snapshot ]#1)
+
 - [1.1 Tạo Snapshot](#1.1)
+
 - [1.2 Restoring Snapshot or Merging](#1.2)
+
 [2 Tính năng Thin Provisioning Volumes](#2)
+
 - [2.1 Setup Thin Pool and Volumes](#2.1)
+
 - [2.2 Over Provisioning](#2.2)
+
 [3 Tính năng Manage Multiple Logical Volume Management Disks using Striping I/O](#3)
+
 - [3.1 Chuẩn bị](#3.1)
+
 - [3.2 Logical Volume management using Striping I/O](#3.2)
+
 [4 Tính năng LVM Migration](#4)
+
 - [4.1 Chuẩn bị](#4.1)
+
 - [4.2 LVM Mirroring Method](#4.2)
+
 - [4.3 LVM pvmove Mirroring Method](#4.3)
 
 ====================== 
