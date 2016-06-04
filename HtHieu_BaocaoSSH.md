@@ -1,7 +1,13 @@
 #Báo cáo tìm hiểu giao thức SSH
+
 ##Mục lục
 
-##Tổng quan và đặc điểm
+1.[Tổng quan](#tq)
+
+2.[Cài đặt SSH trên Ubuntuserver và cấu hình dùng putty](#cd)
+
+<a name="tq"></a>
+##1.Tổng quan và đặc điểm
 
 - GIT – SSH (Secure Shell) là một giao thức mạng dùng để thiết lập kết nối mạng một cách bảo mật.
 SSH hoạt động ở lớp trên trong mô hình phân lớp TCP/IP. Các công cụ SSH (như là OpenSSH, …) cung cấp cho người dùng cách thức để thiết lập kết nối mạng được mã hoá để tạo một kênh kết nối riêng tư. 
@@ -13,7 +19,7 @@ Các chương trình trước đây: telnet, rlogin không sử dụng phương 
 <ul>
 <li>Shared secrets: dùng password để mã hóa hoặc giải mã ở cả hai bên</li>
 <li>Public keys :có một cặp khóa để giải mã những thứ ở 2 bên, thông thường một cái sẽ bị ẩn còn 1 cái sẽ công khai</li>
-
+</ul>
 - Phiên bản ssh:
 <ul>
 <li>Giao thức:Phiên bản 2 có nhiều tính năng đặc biệt là không dễ bị tổn thương khi có lỗi bảo mật như phiên bản 1</li>
@@ -60,6 +66,29 @@ SSH hỗ trợ 3 kiểu chuyển tiếp:
 </ul>
 </ul>
 
+<a name="cd"></a>
+##2.Cài đặt SSH trên Ubuntuserver và cấu hình dùng putty
 
-##Cài đặt SSH trên Ubuntuserver
+- Chạy lệnh `sudo apt-get update` rồi lệnh `sudo apt-get install ssh`
+
+- Cấu trúc /etc/ssh:
+<ul>
+<li>moduli: Chứa một nhóm Diffie-Hellman được sử dụng cho việc trao đổi khóa Diffie-Hellman, nó thực sự quan trọng để xây dựng một lớp bảo mật ở tầng vận chuyển dữ liệu.Khi các khóa được trao đổi với nhau bắt đấu ở một phiên kết nối SSH, một share secret value được tạo ra và không thể xác định bởi một trong hai bên kết nối, giá trị này sau đó sẽ được dùng để cung cấp chứng thực cho host.</li>
+<li>ssh_config: file cấu hình mặc định cho SSH client của hệ thống.</li>
+<li>sshd_config: File cấu hình cho sshd deamon.</li>
+<li>ssh_host_dsa_key: DSA private key được sử dụng với sshd deamon.</li>
+<li>ssh_host_dsa_key.pub: DSA public key được sử dụng bởi sshd deamon.</li>
+<li>ssh_host_key: RSA private key được sử dụng bởi sshd deamon cho phiên bản 1 của giao thức SSH.</li>
+<li>ssh_host_key.pub: RSA public key được sử dụng bởi sshd deamon cho phiên bản 1 của giao thức SSH.</li>
+<li>ssh_host_rsa_key: RSA private key được sử dụng bởi sshd deamon cho phiên bản 2 của giao thức SSH.</li>
+<li>ssh_host_rsa_key.pub: RSA public key được sử dụng bởi sshd deamon cho phiên bản 2 của giao thức SSH.</li>
+</ul>
+
+- Dùng lệnh `vi /etc/ssh/sshd_config` để có thể dùng putty
+
+- Tại dòng số 28 <img src=http://i745.photobucket.com/albums/xx96/vnlamp/1-2.jpg>
+
+- Chạy lênh `service ssh restart`
+
+
 
