@@ -190,7 +190,9 @@ OpenStack Glance Image Cache: Glance API server có thể cấu hình để có 
 Tham Khảo:
 
 [1]- http://www.sparkmycloud.com/blog/openstack-glance/
+
 [2]- http://www.slideshare.net/openstackstl/openstack-glance-48463490
+
 [3]- http://docs.openstack.org/developer/glance/
 
 
