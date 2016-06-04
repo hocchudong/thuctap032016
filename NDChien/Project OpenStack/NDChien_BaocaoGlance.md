@@ -111,6 +111,7 @@ Ngoài các đặc tính như created_at, self, type, status, updated_at, etc. T
 <li>Input: Được xác định là một JSON blod. Nó là thông tin cho các yêu cầu của người dùng.</li>
 <li>Result: Được xác định là một JSON blod. Nội dung sẽ đc ghi lại bởi Deployer. Result sẽ ko có giá trị sau khi task kết thúc và nó sẽ là Null khi failure.</li>
 <li>Message: Sẽ là Null khi task failure.</li>
+</ul>
 
 JSON: etc/schema-image.json
 
