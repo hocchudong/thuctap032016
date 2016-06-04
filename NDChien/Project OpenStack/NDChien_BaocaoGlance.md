@@ -116,7 +116,6 @@ JSON: etc/schema-image.json
 
 **Task status**
 
-<ul>
 <li>**Pending**: Chưa có tiến trình nào trên task.</li>
 <li>**Processing**: Các Task đã được chọn, được chạy bằng cách sử dụng các backend Glance logic cho task.</li>
 <li>**Success**: Task đã thành công.</li>
@@ -157,7 +156,6 @@ Container format: dùng để xem virtual machine image như một định dạn
 
 Khi thêm các image thì ta có thể chỉ định thêm các đặc tính có thể hữu ích cho người dùng.
 
-<ul>
 <li>**Architecture**
 	Kiến trúc được định nghĩa tại http://docs.openstack.org/cli-reference/glance.html#image-service-property-keys .</li>
 <li>**Instance_uuid**: Metadata được dùng để ghi lại instance mà image gắn tới.</li>
