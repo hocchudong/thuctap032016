@@ -3,6 +3,19 @@ OpenStack Glance là một dịch vụ image, cung cấp khám phá, đăng ký 
 
 Trong glance, images được lưu dưới dạng các template, được sử dụng để tạo một máy ảo mới. Glance được thiết kế là một dịch vụ độc lập cần thiết cho các disk images ảo, đặt thành các tổ chức. Glance cung cấp giải pháp end-to end cho quản lý image disk của cloud. Nó có thể take snapshots từ những máy ảo đang chạy để sao lưu.
 
+#Mục lục: 
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [OpenStack Glance](#)
+	- [1. Các thành phần trong Glance.](#thanh_phan)
+	- [2. Kiến trúc của Glance.](#kien_truc)
+	- [3. Glance Formats:](#format)
+	- [4. Glance Status Flow](#status_flow)
+	- [5. Glance Configuration Files](#config_file)
+	- [6. Image and Instance](#image_instance)
+	- [7. Tài liệu tham khảo](#tailieuthamkhao)
+
+<a name="thanh_phan"></a>
 ##1. Các thành phần trong Glance.
 
 ![](http://www.sparkmycloud.com/blog/wp-content/uploads/2016/01/Untitled-drawing2.png)
@@ -26,7 +39,7 @@ Dịch vụ image hỗ trợ các back end để lưu trữ:
 - **Sheepdog:** Hệ thống phân phối lưu trữ cho QEMU/KVM.
 - **GridFS:** Lưu trũ images bằng cách sử dụng MongoDB.
 
-
+<a name="kien_truc"></a>
 ##2. Kiến trúc của Glance.
 Glance có kiến trúc client-server và cung cấp REST API để request đến server. Request từ client sẽ được đồng ý thông qua REST API và đợi Keystone xác nhận. Glance Domain controller quản lý tất cả hoạt động nội bộ, được chia thành các lớp, mỗi lớp thực hiện các nhiệm vụ riêng.
 
@@ -44,6 +57,7 @@ Kiến trúc của Glance bao gồm nhiều thành phần:
 - **Glance Store:** Tương tác giữa Glance và các data stores khác nhau.
 - **Registry Layer:** Là lớp tùy chọn, tổ chức các thông tin liên lạc giữa domain và DAL bằng cách sử dụng một dịch vụ riêng biệt.
 
+<a name="format"></a>
 ##3. Glance Formats:
 Khi chúng ta uploading một file image đến glance, chúng ta cần xác định formats của Virtual machine images. Glance hỗ trợ nhiều định dạng như Disk format và Container Formats. Virtual disk tương tự như ổ đĩa máy thật, chỉ cô động trong một tập tin. Ảo hóa khác nhau hỗ trợ các disk formats khác nhau.
 
@@ -59,6 +73,7 @@ Khi chúng ta uploading một file image đến glance, chúng ta cần xác đ�
 
 Chú ý, Container Formats hiện không được sử dụng bởi Glance hoặc các thành phần khác của OpenStack. Vì vậy, `bare` được cho là định dạng container. Khi chúng ta tải lên một image trong glane, bare có nghĩa là không contrainer.
 
+<a name="status_flow"></a>
 ##4. Glance Status Flow
 Glance status flow hiển thị status của image khi chúng ta uploading. Khi chúng ta tạo một image, bước đầu tiên là xếp hàng, image sẽ nằm trong hàng đợi trong một thời gian ngắn để định danh, dành cho image và sẵn sàng upload. Sau khi xếp hạng, image đi đến status `Saving` có nghĩa là không được tải lên hoàn toàn. Một khi image được tải lên hoàn toàn thì status `Active`. Khi uploading thất bại, nó sẽ đi vào trạng thái `killed` hoặc `delete`. Chúng ta có thể tắt và kích hoạt lại các image được tải lên bằng cách sử dụng dòng lệnh.
 Ta có sơ đồ dưới: 
@@ -77,6 +92,7 @@ Ta có sơ đồ dưới:
 - **delete:** Glance giữ lại các thông tin về image, nhưng nó không còn sẵn để sử dụng. Một image trong state sẽ được gỡ bỏ tự động vào một ngày sau đó.
 - **Deactivating and Reactivating an image:** Chúng ta có thể deactive tạm thời 1 image. Sau đó có thể active lại hoặc loại bỏ nó. 
 
+<a name="config_file"></a>
 ##5. Glance Configuration Files
 - **Glance-api.conf:** File cấu hình api.
 - **Glance-registry.conf:** File cấu hình registry, là nơi lưu trữ metadata của images.
@@ -84,6 +100,7 @@ Ta có sơ đồ dưới:
 
 - **policy.json:** Bổ sung kiểm soát truy cập cho image service. Chúng ta có thể xác định vai trò, chính sách, bảo mật trong glance.
 
+<a name="image_instance"></a>
 ##6. Image and Instance
 Như đã nói ở trên, Disk images được lưu trữ dưới dạng các tamplate. Dịch vụ Image điều khiển lưu trữ và quản lý các images. Instance là các máy ảo độc lập mà chạy trên compute node, compute node quản lý các instance. Người dùng có thể khởi động bất kỳ số lượng các instance từ các image giống nhau.Mỗi instance được lauched được thực hiện bằng cách sao chép base image, bất kỳ sửa đổi về instance không ảnh hưởng đến base image. Chúng ta có thể take snapshot instance đang chạy và có thể được sử dụng để khởi động các instance khác.
 
@@ -106,8 +123,10 @@ VDC kết nối với cinder-volume sử dụng iSCSI. Sau khi compute node quy 
 
 Khi instance được xóa bỏ, the state is reclaimed with the exception of the persistent volume. Việc lưu trữ tạm thời bị purged; bộ nhớ và tài nguyên vCPU được giải phóng. Những image vẫn không thay đổi trong suốt quá trình này.
 
+<a name="tailieuthamkhao"></a>
 ##7. Tài liệu tham khảo
 [http://www.sparkmycloud.com/blog/openstack-glance/](http://www.sparkmycloud.com/blog/openstack-glance/)
+
 [http://docs.openstack.org/developer/glance/formats.html](http://docs.openstack.org/developer/glance/formats.html)
 
 
