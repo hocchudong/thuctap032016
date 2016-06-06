@@ -7,7 +7,8 @@
 <h4><a href="#flow">5. Luồng trạng thái của Glance</a></h4>
 <h4><a href="#conf">6. Các file cấu hình của glance</a></h4>
 <h4><a href="#img">7. Image và Instance</a></h4>
-<h4><a href="#ref">8. Tham khảo</a></h4>
+<h4><a href="#manage_image">8. Quản lý các images</a></h4>
+<h4><a href="#ref">9. Tham khảo</a></h4>
 ---
 
 <h2><a name="intro">1. Giới thiệu OpenStack Glance</a></h2>
@@ -196,13 +197,21 @@ Các trạng thái của image:
 
 <h2><a name="conf">6. Các file cấu hình của glance</a></h2>
 <div>
+Các tệp cấu hình của glance nằm trong thư mục <b><code>/etc/glance</code></b>. Có tất cả 7 tệp cấu hình như sau:
 <ul>
-<li><b>Glance-api.conf:</b>
+<li><b>glance-api.conf:</b>
 File cấu hình cho API của image service.
 </li>
-<li><b>Glance-registry.conf: </b>
+<li><b>glance-registry.conf: </b>
 File cấu hình cho glance image registry - nơi lưu trữ metadata về các images.
 </li>
+
+<li><b>glance-api-paste.ini: </b>Cấu hình cho các API middleware pipeline của Image service</li>
+
+<li><b>glance-manage.conf: </b>Là tệp cấu hình ghi chép tùy chỉnh. Các tùy chọn thiết lập trong tệp <b><code>glance-manage.conf</code></b> sẽ ghi đè lên các section cùng tên thiết lập trong các tệp <b><code>glance-registry.conf</code></b> và <b><code>glance-api.conf</code></b>. Tương tự như vậy, các tùy chọn thiết lập trong tệp <b><code>glance-api.conf</code></b> sẽ ghi đè lên các tùy chọn thiết lập trong tệp <b><code>glance-registry.conf</code></b></li>
+
+<li><b>glance-registry-paste.ini: </b>Tệp cấu hình middle pipeline cho các registry của Image service.</li>
+
 <li><b>glance-scrubber.conf: </b>
 Tiện ích sử dụng để dọn sạch các images đã ở trạng thái "deleted".  Nhiều glance-scrubber có thể chạy trong triển khai, tuy nhiên chỉ có một scrubber được thiết lập để "dọn dẹp" cấu hình trong file "scrubber.conf". Clean-up scrubber này kết hợp với các scrubber khác  bằng cách duy trì một hàng đợi chính của các images cần được loại bỏ.  Tệp glance-scrubber.conf cũng đặc tả cấu hình các giá trị quan trọng như khoảng thời gian giữa các lần chạy, thời gian chờ của các images trước khi bị xóa. Glance-scrubber có thể chạy theo định kỳ hoặc có thể chạy như một daemon trong khoảng thời gian dài.
 </li>
@@ -225,7 +234,83 @@ Theo mô tả trên hình, image gốc được copy vào ổ lưu trữ cục b
 Khi máy ảo bị xóa, ephemeral storage (khối lưu trữ không bền vững) bị xóa; tài nguyên vCPU và bộ nhớ được giải phóng. Image không bị thay đổi sau tiến trình này.
 </div>
 
-<h2><a name="ref">8. Tham khảo</a></h2>
+<h2><a name="manage_image">8. Quản lý các images</a></h2>
+<div>
+<h3><a name="image_details">8.1. Liệt kê và lấy thông tin về các images</a></h3>
+<ul>
+<li>Để liệt kê danh sách các images sử dụng lệnh <b><code>glance image-list</code></b> 
+<pre>
+root@controller:~# glance image-list
++--------------------------------------+--------+
+| ID                                   | Name   |
++--------------------------------------+--------+
+| ce64b039-6e40-4f13-b44e-5813c62dc082 | cirros |
++--------------------------------------+--------+
+</pre>
+</li>
+<li>Hiển thị chi tiết thông tin của 1 image sử dụng lệnh: <b><code>glance image-show image_id</code></b>
+<pre>
+root@controller:~# glance image-show ce64b039-6e40-4f13-b44e-5813c62dc082
++------------------+--------------------------------------+
+| Property         | Value                                |
++------------------+--------------------------------------+
+| checksum         | ee1eca47dc88f4879d8a229cc70a07c6     |
+| container_format | bare                                 |
+| created_at       | 2016-04-21T08:59:42Z                 |
+| disk_format      | qcow2                                |
+| id               | ce64b039-6e40-4f13-b44e-5813c62dc082 |
+| min_disk         | 0                                    |
+| min_ram          | 0                                    |
+| name             | cirros                               |
+| owner            | 5274cf4a29534f68bb3305333aef3606     |
+| protected        | False                                |
+| size             | 13287936                             |
+| status           | active                               |
+| tags             | []                                   |
+| updated_at       | 2016-04-21T08:59:42Z                 |
+| virtual_size     | None                                 |
+| visibility       | public                               |
++------------------+--------------------------------------+
+</pre>
+</li>
+</ul>
+
+<h3><a name="image_store">8.2. Cấu hình hệ thống lưu trữ backend cho các images</a></h3>
+<div>
+Để cấu hình hệ thống backend lưu trữ các images trong glance, tiến hành chỉnh sửa section <b><code>[glance_store]</code></b> trong file <b><code>/etc/glance/glance-api.conf</code></b>
+<pre>
+<code>
+[glance_store]
+stores = file,http
+default_store = file
+filesystem_store_datadir = /var/lib/glance/images/
+</code>
+</pre>
+</div>
+Ví dụ như trong cấu hình trên, ta cho phép hai hệ thống backend lưu trữ image là <b>file</b> và <b>http</b>, trong đó sử dụng hệ thống backend lưu trữ mặc định là <b>file</b>. Cấu hình thư mục lưu trữ các file images khi tải lên glance bằng biến <b><code>filesystem_store_datadir</code></b>. Ví dụ ở đây ta cấu hình lưu trong thư mục <b><code>/var/lib/glance/images/</code></b>. Kiểm tra thử thư mục lưu trữ image:
+<pre>
+<code>
+root@controller:~# ls -l /var/lib/glance/images
+total 12980
+-rw-r----- 1 glance glance 13287936 Apr 21 15:59 ce64b039-6e40-4f13-b44e-5813c62dc082
+</code>
+</pre>
+Như vậy ở đây có một image lưu trữ với kích thước cỡ 13MB. Thông tin về nơi lưu trữ image có thể truy vấn trực tiếp trong bảng <b>image_locations</b> của database <b>glance</b>
+<pre>
+<code>
+MariaDB [glance]> select id, image_id, status, value from image_locations;
++----+--------------------------------------+--------+--------------------------------------------------------------------+
+| id | image_id                             | status | value                                                              |
++----+--------------------------------------+--------+--------------------------------------------------------------------+
+|  1 | ce64b039-6e40-4f13-b44e-5813c62dc082 | active | file:///var/lib/glance/images/ce64b039-6e40-4f13-b44e-5813c62dc082 |
++----+--------------------------------------+--------+--------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+</code>
+</pre>
+</div>
+
+<h2><a name="ref">9. Tham khảo</a></h2>
 <div>
 <a href="http://www.sparkmycloud.com/blog/openstack-glance">http://www.sparkmycloud.com/blog/openstack-glance</a>
 </div>
