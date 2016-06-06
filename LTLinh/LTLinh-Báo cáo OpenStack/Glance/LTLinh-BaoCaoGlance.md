@@ -6,14 +6,13 @@ Trong glance, images được lưu dưới dạng các template, được sử d
 #Mục lục: 
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
-- [OpenStack Glance](#)
-	- [1. Các thành phần trong Glance.](#thanh_phan)
-	- [2. Kiến trúc của Glance.](#kien_truc)
-	- [3. Glance Formats:](#format)
-	- [4. Glance Status Flow](#status_flow)
-	- [5. Glance Configuration Files](#config_file)
-	- [6. Image and Instance](#image_instance)
-	- [7. Tài liệu tham khảo](#tailieuthamkhao)
+- [1. Các thành phần trong Glance.](#thanh_phan)
+- [2. Kiến trúc của Glance.](#kien_truc)
+- [3. Glance Formats:](#format)
+- [4. Glance Status Flow](#status_flow)
+- [5. Glance Configuration Files](#config_file)
+- [6. Image and Instance](#image_instance)
+- [7. Tài liệu tham khảo](#tailieuthamkhao)
 
 <a name="thanh_phan"></a>
 ##1. Các thành phần trong Glance.
