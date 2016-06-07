@@ -12,7 +12,8 @@ Trong glance, images được lưu dưới dạng các template, được sử d
 - [4. Glance Status Flow](#status_flow)
 - [5. Glance Configuration Files](#config_file)
 - [6. Image and Instance](#image_instance)
-- [7. Tài liệu tham khảo](#tailieuthamkhao)
+- [7. Các chú ý đối với glance](#chu_y)
+- [8. Tài liệu tham khảo](#tailieuthamkhao)
 
 <a name="thanh_phan"></a>
 ##1. Các thành phần trong Glance.
@@ -99,7 +100,7 @@ Thư mục chưa file cấu hình glance `/etc/glance`
 - **Glance-api.conf:** File cấu hình api.
 - **Glance-registry.conf:** File cấu hình registry, là nơi lưu trữ metadata của images.
 - **Glance-scrubber.conf:** Utility used to clean up images that have been deleted. Nhiều glance-scrubber có thể chạy trên một deployment. Tuy nhiên, chỉ có một hành động clean-up scrubber trong glance-scrubber.conf. Clean-up scrubber phối hợp với các glance scrubbers khác bằng cách duy trì một hàng đợi những image cần được hủy bỏ. Nó cũng quy định cụ thể các mục cấu hình quan trọng như thời gian giữa các lần chạy, chiều dài thời gian của hình ảnh  có thể được cấp phát trước khi họ xóa cũng như các lựa chọn kết nối registry. Nó có thể chạy như một công việc định kỳ hoặc long-running daemon.
-- **glance-api-paste.ini:**
+- **glance-api-paste.ini:** 
 - **glance-registry-paste.ini:**
 - **glance-cache.conf:**     
 - **glance-manage.conf:**      
@@ -129,7 +130,7 @@ VDC kết nối với cinder-volume sử dụng iSCSI. Sau khi compute node quy 
 
 Khi instance được xóa bỏ, the state is reclaimed with the exception of the persistent volume. Việc lưu trữ tạm thời bị purged; bộ nhớ và tài nguyên vCPU được giải phóng. Những image vẫn không thay đổi trong suốt quá trình này.
 
-<a href="chu_y"></a>
+<a name="chu_y"></a>
 ##7. Các chú ý đối với glance.
 ###7.1 Thư mục lưu trữ images.
 `/var/lib/glance/images`
