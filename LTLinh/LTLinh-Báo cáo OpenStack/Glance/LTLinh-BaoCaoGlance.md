@@ -93,10 +93,17 @@ Ta có sơ đồ dưới:
 
 <a name="config_file"></a>
 ##5. Glance Configuration Files
+Thư mục chưa file cấu hình glance `/etc/glance`
+
+- **metadefs:** This directory contains predefined namespaces for Glance Metadata Definitions Catalog. Files from this directory can be loaded into the database using `db_load_metadefs` command for glance-manage. Similarly you can unload the definitions using `db_unload_metadefs` command.
 - **Glance-api.conf:** File cấu hình api.
 - **Glance-registry.conf:** File cấu hình registry, là nơi lưu trữ metadata của images.
 - **Glance-scrubber.conf:** Utility used to clean up images that have been deleted. Nhiều glance-scrubber có thể chạy trên một deployment. Tuy nhiên, chỉ có một hành động clean-up scrubber trong glance-scrubber.conf. Clean-up scrubber phối hợp với các glance scrubbers khác bằng cách duy trì một hàng đợi những image cần được hủy bỏ. Nó cũng quy định cụ thể các mục cấu hình quan trọng như thời gian giữa các lần chạy, chiều dài thời gian của hình ảnh  có thể được cấp phát trước khi họ xóa cũng như các lựa chọn kết nối registry. Nó có thể chạy như một công việc định kỳ hoặc long-running daemon.
-
+- **glance-api-paste.ini:**
+- **glance-registry-paste.ini:**
+- **glance-cache.conf:**     
+- **glance-manage.conf:**      
+- **schema-image.json:**
 - **policy.json:** Bổ sung kiểm soát truy cập cho image service. Chúng ta có thể xác định vai trò, chính sách, bảo mật trong glance.
 
 <a name="image_instance"></a>
@@ -122,8 +129,33 @@ VDC kết nối với cinder-volume sử dụng iSCSI. Sau khi compute node quy 
 
 Khi instance được xóa bỏ, the state is reclaimed with the exception of the persistent volume. Việc lưu trữ tạm thời bị purged; bộ nhớ và tài nguyên vCPU được giải phóng. Những image vẫn không thay đổi trong suốt quá trình này.
 
+<a href="chu_y"></a>
+##7. Các chú ý đối với glance.
+###7.1 Thư mục lưu trữ images.
+`/var/lib/glance/images`
+
+- Đoạn file cấu hình thư mục lưu trữ image trong `glance-api.conf`
+```sh
+[glance_store]
+default_store = file
+stores = file,http
+filesystem_store_datadir = /var/lib/glance/images/
+```
+
+###7.2 Thư mục chứa file cấu hình glance:
+Mình đã nói ở mục 5 ở trên. :D
+
+###7.3 Thư mục chứa log glance
+`/var/log/glance/`
+
+- **glance-api.log:** Image service API server
+- **glance-registry.log:** Image service Registry server
+
 <a name="tailieuthamkhao"></a>
-##7. Tài liệu tham khảo
+##8. Tài liệu tham khảo
+
+[http://docs.openstack.org/mitaka/config-reference/image-service.html](http://docs.openstack.org/mitaka/config-reference/image-service.html)
+
 [http://www.sparkmycloud.com/blog/openstack-glance/](http://www.sparkmycloud.com/blog/openstack-glance/)
 
 [http://docs.openstack.org/developer/glance/formats.html](http://docs.openstack.org/developer/glance/formats.html)
