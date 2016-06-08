@@ -206,6 +206,25 @@ Trước khi khởi động thì instance chọn một image, Flavors và các t
 
 OpenStack Glance Image Cache: Glance API server có thể cấu hình để có một local image cache. Một image cache chứa các bản copy của image. Về cơ bản thì cho phép nhiều API server chứa các file image giống nhau, dẫn tới khả năng mở rộng các endpoint cung cấp image. Mặc định tính năng bị disabled. 
 
+###12 Chú ý
+
+Thư mục chứa các image **/var/lib/glance/images**
+
+File log: 
+
+/var/log/glance
+
+- **glance-api.log**: Image service API server
+- **glance-registry.log**: Image service Registry server
+
+Phần cấu hình backend trong file `glance-api.conf`
+```sh
+[glance_store]
+default_store = file
+stores = file,http
+filesystem_store_datadir = /var/lib/glance/images/
+```
+
 Tham Khảo:
 
 [1]- http://www.sparkmycloud.com/blog/openstack-glance/
