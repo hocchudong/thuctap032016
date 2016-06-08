@@ -23,6 +23,7 @@
 
 [11 Image cache](#11)
 
+
 =====================================
 
 <a name="1"></a>
@@ -210,9 +211,7 @@ OpenStack Glance Image Cache: Glance API server có thể cấu hình để có 
 
 Thư mục chứa các image **/var/lib/glance/images**
 
-File log: 
-
-/var/log/glance
+File log:  /var/log/glance
 
 - **glance-api.log**: Image service API server
 - **glance-registry.log**: Image service Registry server
