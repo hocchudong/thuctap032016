@@ -13,7 +13,8 @@ Trong glance, images được lưu dưới dạng các template, được sử d
 - [5. Glance Configuration Files](#config_file)
 - [6. Image and Instance](#image_instance)
 - [7. Các chú ý đối với glance](#chu_y)
-- [8. Tài liệu tham khảo](#tailieuthamkhao)
+- [8. Multiple store locations for Glance images](#multi_store)
+- [9. Tài liệu tham khảo](#tailieuthamkhao)
 
 <a name="thanh_phan"></a>
 ##1. Các thành phần trong Glance.
@@ -152,8 +153,80 @@ Mình đã nói ở mục 5 ở trên. :D
 - **glance-api.log:** Image service API server
 - **glance-registry.log:** Image service Registry server
 
+<a name="multi_store"></a>
+##8. Multiple store locations for Glance images
+- First we need to create the directories where hard disks are going to be mounted
+```sh
+sudo mkdir /var/lib/glance/lvm-images
+sudo mkdir /var/lib/glance/extended-images
+```
+
+- Next, we mount the devices at the directories created in the previous step
+```sh
+sudo mount /dev/sdc1 /var/lib/glance/lvm-images/
+sudo mount /dev/sdd1 /var/lib/glance/extended-images/
+```
+
+- An important step is making the glance user the owner of that directories
+```sh
+chown glance:glance /var/lib/glance/lvm-images/
+chown glance:glance /var/lib/glance/extended-images/
+```
+
+- Cấu hình config `/etc/glance/glance-api.conf`
+
+Chúng ta tìm kiếm đoạn `Filesystem Store Options` và thay đổi nó:
+
+Chúng ta để trống tùy chọn `filesystem_store_datadir=`. Nếu chúng ta *comment* tùy chọn này thì glance sẽ sử dụng **default store location** và sẽ báo lỗi khi tạo image.
+
+Và chúng ta sẽ thêm tùy chọn `filesystem_store_datadirs`, một dòng cho một thư mục mà ta đã tạo ở bước trên.
+
+Chúng ta sử dụng **priorities** trên glance. priority 200 được ưu tiên hơn priority 100. Nếu chúng ta không chỉ định mức độ ưu tiên nào, thì mặc định sẽ là 0.
+
+```sh
+# ============ Filesystem Store Options ========================
+filesystem_store_datadir=
+filesystem_store_datadirs=/var/lib/glance/images
+filesystem_store_datadirs=/var/lib/glance/lvm-images:200
+filesystem_store_datadirs=/var/lib/glance/extended-images:100
+```
+
+- Khởi động lại dịch vụ glance-api: `service glance-api restart`
+
+- Up một file image: 
+```sh
+openstack image create "cirros" \
+ --file cirros-0.3.4-x86_64-disk.img \
+ --disk-format qcow2 --container-format bare \
+ --public
+```
+
+- Vào thư mục kiểm tra image đã tồn tại. Thư mục `lvm-images`
+```sh
+root@controller:/var/lib/glance/lvm-images# ls -la
+total 25984
+drwxr-xr-x 3 glance glance     4096 Jun  8 15:22 .
+drwxr-xr-x 6 glance glance     4096 Jun  8 14:17 ..
+-rw-r----- 1 glance glance 13287936 Jun  8 15:22 10a43894-96c7-46b1-b5b9-1af7c7fdc258
+-rw-r----- 1 glance glance 13287936 Jun  8 15:19 c370939a-58f1-4b4f-a52f-8fff010b0b16
+drwx------ 2 root   root      16384 Jun  8 15:11 lost+found
+root@controller:/var/lib/glance/lvm-images# 
+```
+- `glance image-list`
+```sh
+root@controller:/var/lib/glance/lvm-images# glance image-list
++--------------------------------------+--------+
+| ID                                   | Name   |
++--------------------------------------+--------+
+| 36bafa1e-082a-42d7-bfa7-4d6535f00754 | cirros |
+| c370939a-58f1-4b4f-a52f-8fff010b0b16 | cirros |
+| 10a43894-96c7-46b1-b5b9-1af7c7fdc258 | cirros |
++--------------------------------------+--------+
+root@controller:/var/lib/glance/lvm-images# 
+```
+
 <a name="tailieuthamkhao"></a>
-##8. Tài liệu tham khảo
+##9. Tài liệu tham khảo
 
 [http://docs.openstack.org/mitaka/config-reference/image-service.html](http://docs.openstack.org/mitaka/config-reference/image-service.html)
 
@@ -161,6 +234,7 @@ Mình đã nói ở mục 5 ở trên. :D
 
 [http://docs.openstack.org/developer/glance/formats.html](http://docs.openstack.org/developer/glance/formats.html)
 
+[http://egonzalez.org/multiple-store-locations-for-glance-images/](http://egonzalez.org/multiple-store-locations-for-glance-images/)
 
 
 
