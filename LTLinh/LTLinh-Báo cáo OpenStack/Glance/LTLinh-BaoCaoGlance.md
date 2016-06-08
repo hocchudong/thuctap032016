@@ -92,6 +92,7 @@ Ta có sơ đồ dưới:
 
 - **delete:** Glance giữ lại các thông tin về image, nhưng nó không còn sẵn để sử dụng. Một image trong state sẽ được gỡ bỏ tự động vào một ngày sau đó.
 - **Deactivating and Reactivating an image:** Chúng ta có thể deactive tạm thời 1 image. Sau đó có thể active lại hoặc loại bỏ nó. 
+- **pending_delete:** Tương tự như trạng thái `deleted`. Image khi ở trạng thái này thì không thể khôi phục.
 
 <a name="config_file"></a>
 ##5. Glance Configuration Files
