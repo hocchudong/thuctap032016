@@ -28,7 +28,6 @@
 <a name="1"></a>
 ###1 Giới thiệu
 
-<ul>
 <li>OpenStack Glance là một image service. Cung cấp khả năng tìm kiếm, đăng ký và lấy virtual machine image.</li>
 <li>Glance có RESTful API cho phép truy vấn VM image metadata.</li>
 <li>VM image  được tạo bởi Glance và chứa trong các backends.</li>
@@ -44,7 +43,6 @@
 
 <img src=http://i.imgur.com/nD6AclU.jpg>
 
-<ul>
 <li>**Glance-api**: Chấp nhận các yêu cầu API.</li>
 <li>**Glace-registry**: Nơi lưu trữ, xử lý, lấy các thông tin metadata cho images.</li>
 <li>**Glance-database**: Nơi chứa image metadata.</li>
@@ -54,7 +52,6 @@
 <a name="3"></a>
 ###3 Back-end
 
-<ul>
 <li>**File System**: Hệ thống mặc định chứa các virtual machine images trong file system back-end.
 <li>**Object Storage**: Dịch vụ có sẵn để lưu trữ object.</li>
 <li>**Block Storage**: Dịch vụ có sẵn để lưu trữ block.</li>
@@ -75,7 +72,6 @@ Ví dụ:
 
 Thư mục chưa file cấu hình glance `/etc/glance`
 
-<ul>
 <li> **metadefs:** This directory contains predefined namespaces for Glance Metadata Definitions Catalog. Files from this directory can be loaded into the database using `db_load_metadefs` command for glance-manage. Similarly you can unload the definitions using `db_unload_metadefs` command.</li>
 <li> **Glance-api.conf:** File cấu hình api.</li>
 <li> **Glance-registry.conf:** File cấu hình registry, là nơi lưu trữ metadata của images.</li>
@@ -95,7 +91,6 @@ Thư mục chưa file cấu hình glance `/etc/glance`
 
 Components:
 
-<ul>
 <li>**A client**: Các application truy cập Glance.</li>
 <li>**REST API**: 
 <li>**Database Abstraction Layer (DAL)**: Một giao diện ứng dụng cho phép truyền thông giữa Glance và database.</li>
