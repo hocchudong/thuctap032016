@@ -7,19 +7,22 @@
 
 [3 Back-end](#3)
 
-[4 Glance Architecture](#4)
+[4 Glance Configuration Files](#4)
 
-[5 Glance image Status](#5)
+[5 Glance Architecture](#5)
 
-[6 Glance Task](#6)
+[6 Glance image Status](#6)
 
-[7 Disk and Container Formats](#7)
+[7 Glance Task](#7)
 
-[8 Common Image Properties](#8)
+[8 Disk and Container Formats](#8)
 
-[9 Image and instance](#9)
+[9 Common Image Properties](#9)
 
-[10 Image cache](#10)
+[10 Image and instance](#10)
+
+[11 Image cache](#11)
+
 
 =====================================
 
@@ -66,7 +69,24 @@ Ví dụ:
 <img src=http://i.imgur.com/IbOgWhG.jpg>
 
 <a name="4"></a>
-###4 Glance Architecture
+###4 Glance Configuration Files
+
+Thư mục chưa file cấu hình glance `/etc/glance`
+
+<li> **metadefs:** This directory contains predefined namespaces for Glance Metadata Definitions Catalog. Files from this directory can be loaded into the database using `db_load_metadefs` command for glance-manage. Similarly you can unload the definitions using `db_unload_metadefs` command.</li>
+<li> **Glance-api.conf:** File cấu hình api.</li>
+<li> **Glance-registry.conf:** File cấu hình registry, là nơi lưu trữ metadata của images.</li>
+<li> **Glance-scrubber.conf:** Utility used to clean up images that have been deleted. Nhiều glance-scrubber có thể chạy trên một deployment. Tuy nhiên, chỉ có một hành động clean-up scrubber trong glance-scrubber.conf. Clean-up scrubber phối hợp với các glance scrubbers khác bằng cách duy trì một hàng đợi những image cần được hủy bỏ. Nó cũng quy định cụ thể các mục cấu hình quan trọng như thời gian giữa các lần chạy, chiều dài thời gian của hình ảnh  có thể được cấp phát trước khi họ xóa cũng như các lựa chọn kết nối registry. Nó có thể chạy như một công việc định kỳ hoặc long-running daemon.</li>
+<li> **glance-api-paste.ini:** </li>
+<li> **glance-registry-paste.ini:**</li>
+<li> **glance-cache.conf:**     </li>
+<li> **glance-manage.conf:**   </li>   
+<li> **schema-image.json:**</li>
+<li> **policy.json:** Bổ sung kiểm soát truy cập cho image service. Chúng ta có thể xác định vai trò, chính sách, bảo mật trong glance.</li>
+</ul>
+
+<a name="5"></a>
+###5 Glance Architecture
 
 <img src=http://i.imgur.com/gnct7jK.jpg>
 
@@ -80,8 +100,8 @@ Components:
 <li>**Registry Layer**: Dùng để bảo vệ khi giao tiếp giữa Domain và DAL.</li>
 </ul>
 
-<a name="5"></a>
-###5 Glance image Status
+<a name="6"></a>
+###6 Glance image Status
 
 <img src=http://i.imgur.com/XKxHZon.jpg>
 
@@ -96,8 +116,8 @@ Status:
 <li>**Pending delete**: Giống như Deleted nhưng image chưa xóa bỏ các image data và nó không thể khôi phục.</li>
 </ul>
 
-<a name="6"></a>
-###6 Glance Task
+<a name="7"></a>
+###7 Glance Task
 
 Task được thêm vào để hỗ trợ Glance. Nó là một yêu cầu Glance cung cấp cataloging, storage, delivery of virtual machine images. Khi Nova yêu cầu image để khởi động instance thì Task upload image lên Glance cho Nova. Nó dùng Glance để cung cấp dữ liệu cho các lời gọi API đã được xác định khi Nova khởi tạo.
 
@@ -122,8 +142,8 @@ JSON: etc/schema-image.json
 <li>**Success**: Task đã thành công.</li>
 </ul>
 
-<a name="7"></a>
-###7 Disk and Container Formats
+<a name="8"></a>
+###8 Disk and Container Formats
 
 Danh sách định dạng disk và container được hỗ trợ:
 
@@ -152,8 +172,8 @@ Container format: dùng để xem virtual machine image như một định dạn
 | ami | Amazon machine image |
 | ova | tập lưu trữ OVA tar |
 
-<a name="8"></a>
-###8 Common Image Properties
+<a name="9"></a>
+###9 Common Image Properties
 
 Khi thêm các image thì ta có thể chỉ định thêm các đặc tính có thể hữu ích cho người dùng.
 
@@ -166,8 +186,8 @@ Khi thêm các image thì ta có thể chỉ định thêm các đặc tính có
 <li>**Os_version**: Phiên bản hệ điều hành.</li>
 </ul>
 
-<a name="9"></a>
-###9 Image and instance
+<a name="10"></a>
+###10 Image and instance
 
 Các image được lưu trữ như các template. Image service điểu khiển việc lưu trữ và quản lý các image. 
 Instance là các máy ảo độc lập chạy trên các compute note. Người dùng có thể khởi động nhiều instance từ cùng image. Các sửa đổi trên instance ko ảnh hưởng tới image. Chúng ta có thể snapshot các instance đang chạy và dùng nó cho các instance khác.
@@ -182,10 +202,27 @@ Trước khi khởi động thì instance chọn một image, Flavors và các t
 
 <img src=http://i.imgur.com/Ad2m54h.jpg>
 
-<a name="10"></a>
-###10 Image cache
+<a name="11"></a>
+###11 Image cache
 
 OpenStack Glance Image Cache: Glance API server có thể cấu hình để có một local image cache. Một image cache chứa các bản copy của image. Về cơ bản thì cho phép nhiều API server chứa các file image giống nhau, dẫn tới khả năng mở rộng các endpoint cung cấp image. Mặc định tính năng bị disabled. 
+
+###12 Chú ý
+
+Thư mục chứa các image **/var/lib/glance/images**
+
+File log:  /var/log/glance
+
+- **glance-api.log**: Image service API server
+- **glance-registry.log**: Image service Registry server
+
+Phần cấu hình backend trong file `glance-api.conf`
+```sh
+[glance_store]
+default_store = file
+stores = file,http
+filesystem_store_datadir = /var/lib/glance/images/
+```
 
 Tham Khảo:
 
