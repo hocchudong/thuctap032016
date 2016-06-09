@@ -23,6 +23,7 @@
 <li>Lấy tokens hệ thống:</li>
 <img src=http://imgur.com/oY4zXsn.png>
 
+<li>
 ```sh
 {
 
@@ -46,6 +47,7 @@
     }
 }
 ````
+<\li>
 
 <li>URL gồm có địa chỉ của password, port keystone service và API v3</li>
 <li>Yêu cầu sử dụng giao thức POST</li>
