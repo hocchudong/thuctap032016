@@ -134,14 +134,6 @@ rpc.nfsd
 </ul>
 
 
-Mount cứng là ghi trực tiếp vào file /etc/fstab
-Mount mềm là mount bằng lệnh thông thường và bị mất khi máy tính được khởi động lại
-Ngoài ra, cũng có thể giới hạn tốc độ đọc ghi khi mount cứng bằng tùy chọn wsize, rsize
-
-
-
-
-
 
 ###3 Minh họa việc cấu hình NFS:
 Mô hình 2 máy để thực hiện việc cấu hình
