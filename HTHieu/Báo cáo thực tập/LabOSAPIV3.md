@@ -65,9 +65,9 @@
 <img src=http://imgur.com/cpjxIS1.png>
 <li>Điền các trường như trong hình</li>
 <img src=http://imgur.com/vwk61pe.png>
-<li>URL (ô số 1) gồm địa chỉ của controller, API v3/users<\li>
-<li>List user sử dụng phương thức GET<\li>
-<li>Thêm header cho yêu cầu với Key là X-Auth-Token giá trị tokens id lấy ở bước 1.<\li>
+<li>URL (ô số 1) gồm địa chỉ của controller, API v3/users</li>
+<li>List user sử dụng phương thức GET</li>
+<li>Thêm header cho yêu cầu với Key là X-Auth-Token giá trị tokens id lấy ở bước 1.</li>
 
 ##Sử dụng python và REST client.
 
