@@ -1,0 +1,24 @@
+#Báo cáo tìm hiểu Keystone
+##Mục lục
+
+##Tổng quan
+
+- Là dự án trong OpenStack đảm nhiệm định danh, tạo token, danh mục và quyền hạn
+
+- Định danh gồm có:
+<ul>
+<li>Quản lý người dùng: thực hiện theo dõi quyền của người dùng</li>
+<li>Dịch vụ danh mục: cung cấp danh mục endpoint</li>
+</ul>
+
+- Tổ chức thành các nhóm dịch vụ tương tác qua endpoints
+
+- Dịch vụ định danh:xác nhận người dùng và thông tin liên quan
+
+- Danh mục: cung cấp danh sách mục endpoint
+
+- Dịch vụ quyền hạn:cung cấp việc xác thực
+
+- Mỗi dịch vụ có 1 khu lưu trữ để cho Keystone phù hợp với nhiều môi trường và nhu cầu
+<ul>
+<li>KVS backend:giao diện backend đon giản đẻ tra cứu khóa chính
