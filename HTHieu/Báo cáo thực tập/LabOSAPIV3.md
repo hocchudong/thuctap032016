@@ -18,6 +18,7 @@
 <img src=http://imgur.com/pldoUrB>
 
 - Tiến hành:
+
 <ul>
 <li>Lấy tokens hệ thống:</li>
 <img src=http://imgur.com/oY4zXsn.png>
@@ -48,9 +49,11 @@
 <li>Chèn data gồm có user id, password, project id</li>
 <li>Phản hồi về 400 hoặc 401 HTTP có nghĩa là request sai URL hoặc data sai định dạng, phản hồi 201 HTTP là xác thực thành công và trả về file json chứa các thông tin các service của dịch vụ và token của user admin</li>
 <li>Kết quả trả về</li>
-<img src=http://imgur.com/Qcze1ko>
+<img src=http://imgur.com/Qcze1ko.png>
 </ul>
+
 - Lấy userlist:
+
 <ul>
 <li>Phần header trả về</li>
 <img src=http://imgur.com/cpjxIS1.png>
@@ -96,9 +99,9 @@ def gettoken():
         return a
 
 
-# reponse=gettoken().headers
-# print reponse.get('Vary')
-# print reponse.get('X-Subject-Token')
+ # reponse=gettoken().headers
+ # print reponse.get('Vary')
+ # print reponse.get('X-Subject-Token')
 
 def getlist():
     url = 'http://10.10.10.40:35357/v3/users'
