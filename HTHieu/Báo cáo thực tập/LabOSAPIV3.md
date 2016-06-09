@@ -22,6 +22,7 @@
 <ul>
 <li>Lấy tokens hệ thống:</li>
 <img src=http://imgur.com/oY4zXsn.png>
+
 `{
     "auth": {
         "identity": {
@@ -42,6 +43,7 @@
         }
     }
 }`
+
 <li>URL gồm có địa chỉ của password, port keystone service và API v3</li>
 <li>Yêu cầu sử dụng giao thức POST</li>
 <li>Chèn data gồm có user id, password, project id</li>
@@ -62,6 +64,7 @@
 <li>Thêm header cho yêu cầu với Key là X-Auth-Token giá trị tokens id lấy ở bước 1.<\li>
 
 ##Sử dụng python và REST client.
+
 - Code:
 
 `
