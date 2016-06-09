@@ -108,7 +108,7 @@ rpc.nfsd
 
 ####2.3 Xác minh các dịch vụ của NFS đang chạy
 
-Để làm điều này, ta truy vấn portmapper với lệnh **rpcinfo quota** để tìm ra dịch vụ nào đang được cung cấp.
+Để làm điều này, ta truy vấn portmapper với lệnh **rpcinfo* để tìm ra dịch vụ nào đang được cung cấp.
 
 <img src= 
 
@@ -120,8 +120,14 @@ rpc.nfsd
 <li>Nếu các việc đó không hoạt động, đừng quên kiểm tra lại hosts.allow để đảm bảo rằng bạn không quên việc khai báo danh sách các máy con trong đấy. Ngoài ra cũng nên kiểm tra danh sách các máy chủ trên bất kỳ hệ thống tường lửa nào mà bạn đã thiết lập.</li>
 </ul>
 
+####2.5 Chắc năng mount tự động khi boot
 
-####2.5 Các trường hợp dùng NFS
+Chỉnh sửa file **fstab** bên phía client.
+Để đảm bảo cho hoạt động nên dùng **hard,intr** cho nfs.
+
+<img src=
+
+####2.6 Các trường hợp dùng NFS
 
 <ul>
 <li>Ứng dụng hỗ trợ: VDI, Oracle, VMware ESXi, SAS Grid, SAP HANA, TIBCO, OpenStack, Docker, etc</li>
