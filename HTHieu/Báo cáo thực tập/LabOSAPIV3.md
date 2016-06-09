@@ -11,7 +11,7 @@
 <li>Port keystone:35357</li>
 <li>User:admin</li>
 <li>Project:admin</li>
-
+<\ul>
 - Truy cập trang `http://developer.openstack.org/api-ref-identity-v3.html` để tham khảo
 
 - Quá trình xác thực: Mỗi một yêu cầu mà gửi đến API đều yêu cầu có X-Auth-Token header. Các máy client sẽ chứa tokens này, sử dụng để gửi đến các dịch vụ khác. Qúa trình xác thực được thể hiện ở đây:
@@ -20,7 +20,7 @@
 - Tiến hành:
 <ul>
 <li>Lấy tokens hệ thống:</li>
-<img src=http://imgur.com/oY4zXsn>
+<img src=http://imgur.com/oY4zXsn.png>
 <ul>
 `{
     "auth": {
@@ -53,10 +53,10 @@
 - Lấy userlist:
 <ul>
 <li>Phần header trả về</li>
-<img src=http://imgur.com/cpjxIS1>
+<img src=http://imgur.com/cpjxIS1.png>
 <li>Điền các trường như trong hình</li>
-<img src=http://imgur.com/vwk61pe>
-<li>URL (ô số 1) gồm địa chỉ của controller, API v2.0/tenants<\li>
+<img src=http://imgur.com/vwk61pe.png>
+<li>URL (ô số 1) gồm địa chỉ của controller, API v3/users<\li>
 <li>List user sử dụng phương thức GET<\li>
 <li>Thêm header cho yêu cầu với Key là X-Auth-Token giá trị tokens id lấy ở bước 1.<\li>
 
