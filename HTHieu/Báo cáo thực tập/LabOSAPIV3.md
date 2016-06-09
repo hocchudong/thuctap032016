@@ -11,7 +11,7 @@
 <li>Port keystone:35357</li>
 <li>User:admin</li>
 <li>Project:admin</li>
-<\ul>
+</ul>
 - Truy cập trang `http://developer.openstack.org/api-ref-identity-v3.html` để tham khảo
 
 - Quá trình xác thực: Mỗi một yêu cầu mà gửi đến API đều yêu cầu có X-Auth-Token header. Các máy client sẽ chứa tokens này, sử dụng để gửi đến các dịch vụ khác. Qúa trình xác thực được thể hiện ở đây:
