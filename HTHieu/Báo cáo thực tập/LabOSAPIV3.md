@@ -49,7 +49,7 @@
 }
 
 ```
-<\li>
+</li>
 
 <li>URL gồm có địa chỉ của password, port keystone service và API v3</li>
 <li>Yêu cầu sử dụng giao thức POST</li>
