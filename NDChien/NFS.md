@@ -70,6 +70,7 @@ Hai tập tin đặc biệt này giúp xác định các máy tính trên mạng
 <li>Nếu client phù hợp với các quy tắc không được liệt kê trong cả 2 file thì nó sẽ được quyền truy cập.</li>
 </ul>
 
+
 ####2.2 Khởi động các dịch vụ có liên quan
 Để sử dụng dịch vụ NFS, cần có các daemon (dịch vụ chạy ngầm trên hệ thống) sau:
 
