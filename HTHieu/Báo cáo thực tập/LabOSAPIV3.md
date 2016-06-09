@@ -23,8 +23,9 @@
 <li>Lấy tokens hệ thống:</li>
 <img src=http://imgur.com/oY4zXsn.png>
 
-```
+```sh
 {
+
     "auth": {
         "identity": {
             "methods": [
