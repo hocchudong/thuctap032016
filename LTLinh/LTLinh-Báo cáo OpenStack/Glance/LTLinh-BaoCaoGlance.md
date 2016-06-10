@@ -275,7 +275,6 @@ $> glance-cache-manage --host=<HOST> queue-image <IMAGE_ID>
 ```sh
 $> glance-cache-manage --host=<HOST> list-cached
 ```
-
 	hoặc
 ```sh
 ls -lhR $IMAGE_CACHE_DIR
