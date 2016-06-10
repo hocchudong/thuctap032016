@@ -14,7 +14,8 @@ Trong glance, images được lưu dưới dạng các template, được sử d
 - [6. Image and Instance](#image_instance)
 - [7. Các chú ý đối với glance](#chu_y)
 - [8. Multiple store locations for Glance images](#multi_store)
-- [9. Tài liệu tham khảo](#tailieuthamkhao)
+- [9. Glance Image Cache](#image_cache)
+- [10. Tài liệu tham khảo](#tailieuthamkhao)
 
 <a name="thanh_phan"></a>
 ##1. Các thành phần trong Glance.
@@ -226,8 +227,70 @@ root@controller:/var/lib/glance/lvm-images# glance image-list
 root@controller:/var/lib/glance/lvm-images# 
 ```
 
+<a name="image_cache"></a>
+##9. Glance image cache.
+
+Glance API server có thể cấu hình tùy chọn local image cache. Local image cache là một bản sao của file image, cho phép nhiều API server để phục vụ cùng một file image giống nhau, dẫn đến sự gia tăng khả năng mở rộng do sự gia tăng số lượng thiết bị đầu cuối phục vụ một image file.
+
+Người dùng cuối không hề biết là Glance API lấy file từ local cache hay từ backend storage system.
+
+
+###9.1 Configuration options for the Image Cache
+Cấu hình glance cache ở 2 file: Một cho cấu hình máy chủ và một cho các tiện ích. `glance-api.conf` cho server và `glance-cache.conf` cho tiện ích.
+
+Những cấu hình dưới đây phải cấu hình giống nhau trên cả 2 file
+
+- **image_cache_dir:** Thư mục lưu trữ dữ liệu cache.
+- **image_cache_sqlite_db:**  Đường dẫn sqlite database được sử dụng để quản lý cache. Đây là đường dẫn tương đối từ `image_cache_dir` (Mặc định là cache.db).
+- **image_cache_driver:** Driver sử dụng cho quản lý cache (Mặc định là sqlite).
+- **image_cache_max_size: ** Kích thước tối đa của cache. `glance-cache-pruner` sẽ xóa bỏ những images cũ nhất cho đến dưới giá trị này. (Default:10 GB)
+- **image_cache_stall_time:** Khoảng thời gian một file image chưa hoàn thiện nằm trong bộ nhớ cache. Sau đó, fileimage chưa hoàn thiện này sẽ bị xóa. (Default:1 day)
+
+###9.2 Cấu hình file `glance-cache.conf`
+
+- **admin_user:** The username for an admin account, this is so it can get the image data into the cache.
+- **admin_password:** The password to the admin account.
+- **admin_tenant_name:** The tenant of the admin account.
+- **auth_url:** The URL used to authenticate to keystone. This will be taken from the environment varibles if it exists.
+- **filesystem_store_datadir:** This is used if using the filesystem store, points to where the data is kept.
+- **filesystem_store_datadirs:** This is used to point to multiple filesystem stores.
+- **registry_host:** The URL to the Glance registry.
+
+###9.3 Các câu lệnh mở rộng
+- Controlling the Growth of the Image Cache: 
+Sử dụng lệnh `glance-cache-pruner` để xóa các file image cache sao cho bộ nhớ cache không vượt quá giới hạn tối đa, trong tùy chọn `image_cache_max_size`.
+
+- Cleaning the Image Cache: 
+Theo thời gian, image cache có thể lưu trữ các file image bị stalled hoặc invaild. Stalled image là kết quả của việc image cache ghi thất bại. Invaild image là kết quả của việc file image không được viết đúng vào đĩa.
+
+- Prefetching Images into the Image Cache: 
+When spinning up a new API server, administrators may wish to prefetch these image files into the local image cache to ensure that reads of those popular image files come from a local cache.
+
+To queue an image for prefetching, you can use one of the following methods:
+```sh
+$> glance-cache-manage --host=<HOST> queue-image <IMAGE_ID>
+```
+
+- Finding Which Images are in the Image Cache
+```sh
+$> glance-cache-manage --host=<HOST> list-cached
+```
+
+hoặc
+```sh
+ls -lhR $IMAGE_CACHE_DIR
+```
+
+- Manually Removing Images from the Image Cache
+```sh
+$> glance-cache-manage --host=<HOST> delete-cached-image <IMAGE_ID>
+```
+
+
 <a name="tailieuthamkhao"></a>
-##9. Tài liệu tham khảo
+##10. Tài liệu tham khảo
+
+[http://docs.openstack.org/developer/glance/cache.html](http://docs.openstack.org/developer/glance/cache.html)
 
 [http://docs.openstack.org/mitaka/config-reference/image-service.html](http://docs.openstack.org/mitaka/config-reference/image-service.html)
 
