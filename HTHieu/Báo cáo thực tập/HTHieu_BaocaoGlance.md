@@ -50,6 +50,8 @@
 
 - Glance-scrubber.conf:tiện ích xóa hoàn toàn các images bị xóa.Có thể triển khai nhiều glance-scrubber có thể chạy nhưng chỉ có 1 cái chạy trong file scrubber.conf file 
 
+- policy.json:thực hiện vai trò bảo mật trong glance
+
 ##3.Kiến trúc
 
 - Client:ứng dựng sử dụng Glance
@@ -117,4 +119,28 @@
 
 - Deactivating and Reactivating:người dùng có thể ngưng hoạt động,khỏi dộng lại hoặc xóa nó nếu nó nguy hiểm,khi cập nhật đĩa người dùng muốn ẩn với mọi người khi cập nhật xong thì người dùng có thể boot vào máy ảo
 
+##6.Images và Instance
 
+- Có thể chạy nhiều instance chỉ với một image
+
+- Mỗi instance sẽ copy image và sẽ tùy chỉnh theo yêu cầu
+
+- Có thể tạo snapshot cho instance này và dùng cho instance khác
+
+- flavor:đại diện tài nguyên máy ảo
+
+- flavor sẽ quyết định có bao nhiêu CPU và Ram , dung lượng bộ nhớ cho instance
+
+- flavor có thể được tạo ra và chỉnh sửa
+
+- Khi chạy instance, flavor tạo root volume có nhãn là vda, đia lưu trữ là vdb, và cinder-volume kết nối với đĩa ảo thứ 3 có nhãn là vdc
+
+<img src=http://www.sparkmycloud.com/blog/wp-content/uploads/2016/01/new.jpg>
+
+- Trong sơ đồ thì vda sẽ được truy cập đầu tiên, vdb được tạo cùng với instance và xóa bỏ nếu instance ngừng hoạt động
+
+- vdc kết nối cinder-volume thông qua iSCSI.
+
+- Sau khi compute node cung cấp vCPU và tài nguyên bộ nhớ, instance sẽ khởi động từ vda
+
+- Khi instance bị xóa bỏ, thì tài nguyên bị thu hồi,image không bị thay đổi trong suốt quá trình
