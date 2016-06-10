@@ -243,7 +243,7 @@ Những cấu hình dưới đây phải cấu hình giống nhau trên cả 2 f
 - **image_cache_dir:** Thư mục lưu trữ dữ liệu cache.
 - **image_cache_sqlite_db:**  Đường dẫn sqlite database được sử dụng để quản lý cache. Đây là đường dẫn tương đối từ `image_cache_dir` (Mặc định là cache.db).
 - **image_cache_driver:** Driver sử dụng cho quản lý cache (Mặc định là sqlite).
-- **image_cache_max_size: ** Kích thước tối đa của cache. `glance-cache-pruner` sẽ xóa bỏ những images cũ nhất cho đến dưới giá trị này. (Default:10 GB)
+- **image_cache_max_size:** Kích thước tối đa của cache. `glance-cache-pruner` sẽ xóa bỏ những images cũ nhất cho đến dưới giá trị này. (Default:10 GB)
 - **image_cache_stall_time:** Khoảng thời gian một file image chưa hoàn thiện nằm trong bộ nhớ cache. Sau đó, fileimage chưa hoàn thiện này sẽ bị xóa. (Default:1 day)
 
 ###9.2 Cấu hình file `glance-cache.conf`
@@ -266,7 +266,7 @@ Theo thời gian, image cache có thể lưu trữ các file image bị stalled 
 - Prefetching Images into the Image Cache: 
 When spinning up a new API server, administrators may wish to prefetch these image files into the local image cache to ensure that reads of those popular image files come from a local cache.
 
-To queue an image for prefetching, you can use one of the following methods:
+	To queue an image for prefetching, you can use one of the following methods:
 ```sh
 $> glance-cache-manage --host=<HOST> queue-image <IMAGE_ID>
 ```
@@ -276,7 +276,7 @@ $> glance-cache-manage --host=<HOST> queue-image <IMAGE_ID>
 $> glance-cache-manage --host=<HOST> list-cached
 ```
 
-hoặc
+	hoặc
 ```sh
 ls -lhR $IMAGE_CACHE_DIR
 ```
