@@ -311,13 +311,56 @@ MariaDB [glance]> select id, image_id, status, value from image_locations;
 
 </code>
 </pre>
+
+<h3><a name="image_log">8.3. Cấu hình file log của glance</a></h3>
+<div>
+Mặc định Glance có hai file nhật ký lưu trong thư mục <code>/var/log/glance/</code>:
+<ul>
+<li><code>glance-api.log</code>: ghi lại lịch sử truy cập api server</li>
+<li><code>glance-registry.log
+</code>: ghi lại lịch sử liên quan tới registry server</li>
+</ul>
+Kiểm tra thử 2 file log:
+<pre>
+<code>
+controller@controller:/var/log/glance$ ls
+glance-api.log  glance-registry.log
+</code>
+</pre>
+Để thay đổi file log mặc định, thực hiện chỉnh sửa cấu hình trong file <code>/etc/glance/glance-api.conf</code>. Thực hiện chỉnh sửa các tham số <code>log_file</code> và <code>log_dir</code>.  Giả sử ta thay đổi lại file log như sau:
+<pre>
+<code>
+[DEFAULT]
+log_file = /var/log/glance/glance_log_custom.log 
+</code>
+</pre>
+Lưu lại file cấu hình, thực hiện khởi động lại glance-api server:
+<pre>
+<code>
+root@controller:/etc/glance# sudo glance-control api start glance-api.conf
+Starting glance-api with /etc/glance/glance-api.conf
+</code>
+</pre>
+Kiểm tra thử trong thư mục chứa các file log của glance, ta sẽ thấy có file log mới xuất hiện: <code>glance_log_custom.log</code>
+<pre>
+<code>
+root@controller:/etc/glance# ls /var/log/glance/
+glance-api.log  glance_log_custom.log  glance-registry.log
+
+</code>
+</pre>
+</div>
+Ngoài ra, tham số <code>log_dir</code> sẽ thiết lập thưc mục lưu trữ các file log, nếu không thiết lập giá trị này, thì file log sẽ được lưu trong đường dẫn tuyệt đối chỉ ra bởi tham số <code>log_file</code>
 </div>
 
 <h2><a name="ref">9. Tham khảo</a></h2>
 <div>
 <a href="http://docs.openstack.org/developer/glance/architecture.html">http://docs.openstack.org/developer/glance/architecture.html</a>
+<br>
 <a href="http://www.sparkmycloud.com/blog/openstack-glance">http://www.sparkmycloud.com/blog/openstack-glance</a>
 <br>
 <a href="http://docs.openstack.org/user-guide/common/cli_manage_images.html">http://docs.openstack.org/user-guide/common/cli_manage_images.html</a>
+<br>
+<a href="http://docs.openstack.org/developer/glance/configuring.html#configuring-logging-in-glance">http://docs.openstack.org/developer/glance/configuring.html#configuring-logging-in-glance</a>
 </div>
 
