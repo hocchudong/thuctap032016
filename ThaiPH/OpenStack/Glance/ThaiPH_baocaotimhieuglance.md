@@ -501,7 +501,214 @@ Như vậy sau khi thực hiện lệnh <code>set</code>, quyền truy cập c�
 
 <h3><a name="cURL">9.2. Gửi yêu cầu tới API sử dụng cURL</a></h3>
 <div>
+<ul>
+<li><h4>a. Xin cấp phát token</h4>
+<pre>
+<code>
+root@controller:~# curl -i \
+   http://10.10.10.132:5000/v3/auth/tokens \
+   -X POST \
+   -H "Content-Type: application/json" \
+   -d '
+ { "auth": {
+     "identity": {
+       "methods": ["password"],
+       "password": {
+         "user": {
+           "id": "ab8d4b68012b4d67b9445de9108c3945",
+           "password": "Welcome123"
+         }
+       }
+     },
+     "scope": {
+       "project": {
+         "id": "2cf5f2f7d9754c2abb0059501c031ef9"
+       }
+     }
+   }
+ }' 
+HTTP/1.1 201 Created
+Date: Sat, 11 Jun 2016 14:36:54 GMT
+Server: Apache/2.4.7 (Ubuntu)
+X-Subject-Token: gAAAAABXXCIGD14rLiR-fjcCXhwp4krp7DpsIJhPKYedtRgpRtQBQTcK_XpTBvjh7KrsEog4rzsrHEpk_zi-dQ72796X3JaaY3V2sAE1osGFZ-aHosOcqhu0EgJTUnfQsCOCIJzwReTrQH6MY76xXtitvZxioTzy2ZCa-AkMTV9pUlMV-863TMA
+Vary: X-Auth-Token
+X-Distribution: Ubuntu
+x-openstack-request-id: req-0a38574a-f421-4316-9b43-94fd43996e61
+Content-Length: 2839
+Content-Type: application/json
 
+{"token": {"methods": ["password"], "roles": [{"id": "44ef633a6e984d2badb4fdbb6103f060", "name": "admin"}], "expires_at": "2016-06-11T15:36:54.540327Z", "project": {"domain": {"id": "34fb0c49dd1440d69c89d1418af9c857", "name": "default"}, "id": "2cf5f2f7d9754c2abb0059501c031ef9", "name": "service"}, "catalog": [{"endpoints": [{"region_id": "RegionOne", "url": "http://controller:8774/v2.1/2cf5f2f7d9754c2abb0059501c031ef9", "region": "RegionOne", "interface": "admin", "id": "3132ada4c76b49a3a2c4f75a0054fc88"}, {"region_id": "RegionOne", "url": "http://controller:8774/v2.1/2cf5f2f7d9754c2abb0059501c031ef9", "region": "RegionOne", "interface": "public", "id": "bf4d2f86b99e429a98ff0f01953c85d6"}, {"region_id": "RegionOne", "url": "http://controller:8774/v2.1/2cf5f2f7d9754c2abb0059501c031ef9", "region": "RegionOne", "interface": "internal", "id": "fb671db7f0b646e583f92abf17bc2bc4"}], "type": "compute", "id": "02640b079181463f895f4517fa543535", "name": "nova"}, {"endpoints": [{"region_id": "RegionOne", "url": "http://controller:9292", "region": "RegionOne", "interface": "admin", "id": "8bcb202f5f8240dbb446f0e3ed582dfa"}, {"region_id": "RegionOne", "url": "http://controller:9292", "region": "RegionOne", "interface": "public", "id": "e7b18522287e4b638d76ff985133328c"}, {"region_id": "RegionOne", "url": "http://controller:9292", "region": "RegionOne", "interface": "internal", "id": "f25fac4b28e84598a8e9308d82183c9f"}], "type": "image", "id": "35322d214f6a443b902976e4f696400c", "name": "glance"}, {"endpoints": [{"region_id": "RegionOne", "url": "http://controller:5000/v3", "region": "RegionOne", "interface": "internal", "id": "3d3eb84648ae4ed9adc854ca74a9f066"}, {"region_id": "RegionOne", "url": "http://controller:5000/v3", "region": "RegionOne", "interface": "public", "id": "75f684ee85334928bd39cd0cc5ecc9b2"}, {"region_id": "RegionOne", "url": "http://controller:35357/v3", "region": "RegionOne", "interface": "admin", "id": "fdd31508be4e455a92ac3d2993a834ed"}], "type": "identity", "id": "3bfd9a2f671c4643bb125eb413b4c6be", "name": "keystone"}, {"endpoints": [{"region_id": "RegionOne", "url": "http://controller:9696", "region": "RegionOne", "interface": "admin", "id": "29d0d44fbcd441ef88fe2b6d414d373f"}, {"region_id": "RegionOne", "url": "http://controller:9696", "region": "RegionOne", "interface": "internal", "id": "3b7a64010336434abb0a1ce4c621c25a"}, {"region_id": "RegionOne", "url": "http://controller:9696", "region": "RegionOne", "interface": "public", "id": "6e5342da57d74da49830deb6aee08a3d"}], "type": "network", "id": "eab2ce36306845469ddfb448fcaebb86", "name": "neutron"}], "user": {"domain": {"id": "34fb0c49dd1440d69c89d1418af9c857", "name": "default"}, "id": "ab8d4b68012b4d67b9445de9108c3945", "name": "nova"}, "audit_ids": ["RrmxD2O1QP6p5SQS60YwEw"], "issued_at": "2016-06-11T14:36:54.000000Z"}}
+</code>
+</pre>
+Sau khi thành công, ta được cấp phát một token sử dụng để xác thực và ủy quyền khi thực hiện các cURL command tác động tới API. Ở đây ta nhận được token: <code>gAAAAABXXCIGD14rLiR-fjcCXhwp4krp7DpsIJhPKYedtRgpRtQBQTcK_XpTBvjh7KrsEog4rzsrHEpk_zi-dQ72796X3JaaY3V2sAE1osGFZ-aHosOcqhu0EgJTUnfQsCOCIJzwReTrQH6MY76xXtitvZxioTzy2ZCa-AkMTV9pUlMV-863TMA</code>
+<br>
+Ngoài token, để thực hiện các cURL command, ta cần phải có danh sách endpoint của các dịch vụ bằng việc thực hiện lệnh sau:
+<pre>
+<code>
+root@controller:~/img-list# openstack endpoint list
++----------------------------------+-----------+--------------+--------------+---------+-----------+-------------------------------------------+
+| ID                               | Region    | Service Name | Service Type | Enabled | Interface | URL                                       |
++----------------------------------+-----------+--------------+--------------+---------+-----------+-------------------------------------------+
+| 29d0d44fbcd441ef88fe2b6d414d373f | RegionOne | neutron      | network      | True    | admin     | http://controller:9696                    |
+| 3132ada4c76b49a3a2c4f75a0054fc88 | RegionOne | nova         | compute      | True    | admin     | http://controller:8774/v2.1/%(tenant_id)s |
+| 3b7a64010336434abb0a1ce4c621c25a | RegionOne | neutron      | network      | True    | internal  | http://controller:9696                    |
+| 3d3eb84648ae4ed9adc854ca74a9f066 | RegionOne | keystone     | identity     | True    | internal  | http://controller:5000/v3                 |
+| 6e5342da57d74da49830deb6aee08a3d | RegionOne | neutron      | network      | True    | public    | http://controller:9696                    |
+| 75f684ee85334928bd39cd0cc5ecc9b2 | RegionOne | keystone     | identity     | True    | public    | http://controller:5000/v3                 |
+| 8bcb202f5f8240dbb446f0e3ed582dfa | RegionOne | glance       | image        | True    | admin     | http://controller:9292                    |
+| bf4d2f86b99e429a98ff0f01953c85d6 | RegionOne | nova         | compute      | True    | public    | http://controller:8774/v2.1/%(tenant_id)s |
+| e7b18522287e4b638d76ff985133328c | RegionOne | glance       | image        | True    | public    | http://controller:9292                    |
+| f25fac4b28e84598a8e9308d82183c9f | RegionOne | glance       | image        | True    | internal  | http://controller:9292                    |
+| fb671db7f0b646e583f92abf17bc2bc4 | RegionOne | nova         | compute      | True    | internal  | http://controller:8774/v2.1/%(tenant_id)s |
+| fdd31508be4e455a92ac3d2993a834ed | RegionOne | keystone     | identity     | True    | admin     | http://controller:35357/v3                |
++----------------------------------+-----------+--------------+--------------+---------+-----------+-------------------------------------------+
+</code>
+</pre>
+Ở đây, ta chỉ lấy endpoint của dịch vụ <code>glance</code>. Thực hiện thiết lập biến môi trường cho endpoint của dịch vụ glance và token (để tiện sử dụng cho các cURL command):
+<pre>
+<code>
+export OS_AUTH_TOKEN=gAAAAABXXCIGD14rLiR-fjcCXhwp4krp7DpsIJhPKYedtRgpRtQBQTcK_XpTBvjh7KrsEog4rzsrHEpk_zi-dQ72796X3JaaY3V2sAE1osGFZ-aHosOcqhu0EgJTUnfQsCOCIJzwReTrQH6MY76xXtitvZxioTzy2ZCa-AkMTV9pUlMV-863TMA
+export OS_IMAGE_URL=http://controller:9292 
+</code>
+</pre>
+</li>
+<li><h4>b. cURL command liệt kê danh sách các image</h4>
+<pre>
+<code>
+curl -s \
+  $OS_IMAGE_URL/v2/images \
+  -X GET \
+  -H "X-Auth-Token: $OS_AUTH_TOKEN" \
+  
+{"images": [{"status": "active", "name": "fedora", "tags": [], "container_format": "bare", "created_at": "2016-06-11T12:40:28Z", "size": 234363392, "disk_format": "qcow2", "updated_at": "2016-06-11T12:48:32Z", "visibility": "private", "self": "/v2/images/ec62a8ee-6ab0-4118-9029-a81ca92b8d43", "min_disk": 0, "protected": false, "id": "ec62a8ee-6ab0-4118-9029-a81ca92b8d43", "file": "/v2/images/ec62a8ee-6ab0-4118-9029-a81ca92b8d43/file", "checksum": "38d62e2e1909c89f72ba4d5f5c0005d5", "owner": "5274cf4a29534f68bb3305333aef3606", "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}, {"status": "active", "name": "cirros", "tags": [], "container_format": "bare", "created_at": "2016-04-21T08:59:42Z", "size": 13287936, "disk_format": "qcow2", "updated_at": "2016-04-21T08:59:42Z", "visibility": "public", "self": "/v2/images/ce64b039-6e40-4f13-b44e-5813c62dc082", "min_disk": 0, "protected": false, "id": "ce64b039-6e40-4f13-b44e-5813c62dc082", "file": "/v2/images/ce64b039-6e40-4f13-b44e-5813c62dc082/file", "checksum": "ee1eca47dc88f4879d8a229cc70a07c6", "owner": "5274cf4a29534f68bb3305333aef3606", "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}], "schema": "/v2/schemas/images", "first": "/v2/images"}
+</code>
+</pre>
+</li>
+<li><h4>c. cURL command hiển thị thông tin của một image</h4>
+Ví dụ ở đây lấy thông tin của image fedora, sử dụng id của image fedora lấy được từ lệnh liệt kê các image ở mục b.
+<pre>
+<code>
+curl -s \
+   $OS_IMAGE_URL/v2/images/ec62a8ee-6ab0-4118-9029-a81ca92b8d43 \
+   -X GET \
+   -H "X-Auth-Token: $OS_AUTH_TOKEN" \
+   
+{"status": "active", "name": "fedora", "tags": [], "container_format": "bare", "created_at": "2016-06-11T12:40:28Z", "size": 234363392, "disk_format": "qcow2", "updated_at": "2016-06-11T12:48:32Z", "visibility": "private", "self": "/v2/images/ec62a8ee-6ab0-4118-9029-a81ca92b8d43", "min_disk": 0, "protected": false, "id": "ec62a8ee-6ab0-4118-9029-a81ca92b8d43", "file": "/v2/images/ec62a8ee-6ab0-4118-9029-a81ca92b8d43/file", "checksum": "38d62e2e1909c89f72ba4d5f5c0005d5", "owner": "5274cf4a29534f68bb3305333aef3606", "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}
+</code>
+</pre>
+</li>
+<li><h4>d. cURL command tạo image mới (chưa có dữ liệu)</h4>
+Giả sử ở đây tạo mới image có tên "cirros-test" (chưa có dữ liệu)
+<pre>
+<code>
+curl -i -X POST -H "X-Auth-Token: $OS_AUTH_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d '{"name": "cirros-test", "tags": ["cirros"]}' \
+    $OS_IMAGE_URL/v2/images
+
+HTTP/1.1 201 Created
+Content-Length: 559
+Content-Type: application/json; charset=UTF-8
+Location: http://10.10.10.132:9292/v2/images/bb9b711d-0e48-42f4-9ee3-45548f5309bf
+X-Openstack-Request-Id: req-e10e4203-6bcf-416b-9db5-44bcf27af55d
+Date: Sat, 11 Jun 2016 15:19:35 GMT
+
+{"status": "queued", "name": "cirros-test", "tags": ["cirros"], "container_format": null, "created_at": "2016-06-11T15:19:34Z", "size": null, "disk_format": null, "updated_at": "2016-06-11T15:19:34Z", "visibility": "private", "self": "/v2/images/bb9b711d-0e48-42f4-9ee3-45548f5309bf", "min_disk": 0, "protected": false, "id": "bb9b711d-0e48-42f4-9ee3-45548f5309bf", "file": "/v2/images/bb9b711d-0e48-42f4-9ee3-45548f5309bf/file", "checksum": null, "owner": "2cf5f2f7d9754c2abb0059501c031ef9", "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}
+</code>
+</pre>
+</li>
+<li><h4>e. cURL command cập nhật các thuộc tính của image</h4>
+Ở đây ta sẽ cập nhật 2 thuộc tính quan trọng để tạo image mới là: <code>disk_format</code> và <code>container_format</code>
+<pre>
+<code>
+curl -i -X PATCH -H "X-Auth-Token: $OS_AUTH_TOKEN" \
+-H "Content-Type: application/openstack-images-v2.1-json-patch" \
+-d '[{"op": "add", "path": "/disk_format", "value": "qcow2"}, {"op": "add", "path": "/container_format", "value": "bare"}]' \
+$OS_IMAGE_URL/v2/images/bb9b711d-0e48-42f4-9ee3-45548f5309bf
+
+HTTP/1.1 200 OK
+Content-Length: 564
+Content-Type: application/json; charset=UTF-8
+X-Openstack-Request-Id: req-417345a8-7b1a-41d0-8bb8-df13046b66c7
+Date: Sat, 11 Jun 2016 15:53:42 GMT
+
+{"status": "queued", "name": "cirros-test", "tags": ["cirros"], "container_format": "bare", "created_at": "2016-06-11T15:19:34Z", "size": null, "disk_format": "qcow2", "updated_at": "2016-06-11T15:53:42Z", "visibility": "private", "self": "/v2/images/bb9b711d-0e48-42f4-9ee3-45548f5309bf", "min_disk": 0, "protected": false, "id": "bb9b711d-0e48-42f4-9ee3-45548f5309bf", "file": "/v2/images/bb9b711d-0e48-42f4-9ee3-45548f5309bf/file", "checksum": null, "owner": "2cf5f2f7d9754c2abb0059501c031ef9", "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}
+</code>
+</pre>
+Lúc này image vẫn chưa được khởi tạo hoàn toàn và đang trong trạng thái "queued":
+<pre>
+<code>
+root@controller:~/img-list# openstack image list
++--------------------------------------+-------------+--------+
+| ID                                   | Name        | Status |
++--------------------------------------+-------------+--------+
+| bb9b711d-0e48-42f4-9ee3-45548f5309bf | cirros-test | queued |
+| ec62a8ee-6ab0-4118-9029-a81ca92b8d43 | fedora      | active |
+| ce64b039-6e40-4f13-b44e-5813c62dc082 | cirros      | active |
++--------------------------------------+-------------+--------+
+</code>
+</pre>
+</li>
+<li><h4>f. cURL command upload dữ liệu nhị phân của image lên (tải lên dữ liệu cho image đã khởi tạo)</h4>
+Sau khi thiết lập hai thuộc tính <code>disk_format</code> và <code>container_format</code>, tiến hành upload dữ liệu image lên để hoàn thành quá trình tạo image:
+<pre>
+<code>
+curl -i -X PUT -H "X-Auth-Token: $OS_AUTH_TOKEN" \
+	-H "Content-Type: application/octet-stream" \
+	-d @/root/img-list/cirros-0.3.4-x86_64-disk.img \
+	$OS_IMAGE_URL/v2/images/bb9b711d-0e48-42f4-9ee3-45548f5309bf/file
+
+HTTP/1.1 100 Continue
+
+HTTP/1.1 204 No Content
+Content-Type: text/html; charset=UTF-8
+Content-Length: 0
+X-Openstack-Request-Id: req-4f88e148-5dd5-4e21-a08d-af0537b7e8b8
+Date: Sat, 11 Jun 2016 15:55:36 GMT
+</code>
+</pre>
+Tiến hành kiểm tra lại trạng thái của image cirros-test vừa mới khởi tạo, ta sẽ thấy image này ở trạng thái "active", nghĩa là sẵn sàng để sử dụng:
+<pre>
+<code>
+root@controller:~/img-list# openstack image list
++--------------------------------------+-------------+--------+
+| ID                                   | Name        | Status |
++--------------------------------------+-------------+--------+
+| bb9b711d-0e48-42f4-9ee3-45548f5309bf | cirros-test | active |
+| ec62a8ee-6ab0-4118-9029-a81ca92b8d43 | fedora      | active |
+| ce64b039-6e40-4f13-b44e-5813c62dc082 | cirros      | active |
++--------------------------------------+-------------+--------+
+</code>
+</pre>
+</li>
+<li><h4>g. cURL command xóa image</h4>
+Tiến hành xóa image cirros-test
+<pre>
+<code>
+curl -i -X DELETE -H "X-Auth-Token: $OS_AUTH_TOKEN" \
+     $OS_IMAGE_URL/v2/images/bb9b711d-0e48-42f4-9ee3-45548f5309bf
+
+HTTP/1.1 204 No Content
+Content-Type: text/html; charset=UTF-8
+Content-Length: 0
+X-Openstack-Request-Id: req-1e756ecb-e954-4c8b-b96b-0f3f3afb63ff
+Date: Sat, 11 Jun 2016 15:57:54 GMT
+</code>
+</pre>
+Kiểm tra lại danh sách các image, ta thấy image cirros đã bị loại bỏ:
+<pre>
+<code>
+root@controller:~/img-list# openstack image list
++--------------------------------------+--------+--------+
+| ID                                   | Name   | Status |
++--------------------------------------+--------+--------+
+| ec62a8ee-6ab0-4118-9029-a81ca92b8d43 | fedora | active |
+| ce64b039-6e40-4f13-b44e-5813c62dc082 | cirros | active |
++--------------------------------------+--------+--------+
+</code>
+</pre>
+</li>
+</ul>
 </div>
 
 <h3><a name="rest">9.3. Gửi yêu cầu tới API sử dụng REST client trên trình duyệt</a></h3>
@@ -522,5 +729,9 @@ Như vậy sau khi thực hiện lệnh <code>set</code>, quyền truy cập c�
 <a href="http://docs.openstack.org/developer/glance/configuring.html#configuring-logging-in-glance">http://docs.openstack.org/developer/glance/configuring.html#configuring-logging-in-glance</a>
 <br>
 <a href="http://docs.openstack.org/cli-reference/openstack.html">http://docs.openstack.org/cli-reference/openstack.html</a>
+<br>
+<a href="http://docs.openstack.org/user-guide/cli_manage_images_curl.html">http://docs.openstack.org/user-guide/cli_manage_images_curl.html</a>
+<br>
+<a href="http://developer.openstack.org/api-ref-image-v2.html">http://developer.openstack.org/api-ref-image-v2.html</a>
 </div>
 
