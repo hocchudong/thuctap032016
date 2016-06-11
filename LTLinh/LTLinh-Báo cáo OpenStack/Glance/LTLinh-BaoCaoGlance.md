@@ -15,6 +15,9 @@ Trong glance, images được lưu dưới dạng các template, được sử d
 - [7. Các chú ý đối với glance](#chu_y)
 - [8. Multiple store locations for Glance images](#multi_store)
 - [9. Glance Image Cache](#image_cache)
+	- [9.1 Configuration options for the Image Cache](#config_image_cache)
+	- [9.2 Cấu hình file `glance-cache.conf`](#config_glance_cache)
+	- [9.3 Các câu lệnh mở rộng](#lenh_mo_rong)
 - [10. Tài liệu tham khảo](#tailieuthamkhao)
 
 <a name="thanh_phan"></a>
@@ -234,7 +237,7 @@ Glance API server có thể cấu hình tùy chọn local image cache. Local ima
 
 Người dùng cuối không hề biết là Glance API lấy file từ local cache hay từ backend storage system.
 
-
+<a name="config_image_cache"></a>
 ###9.1 Configuration options for the Image Cache
 Cấu hình glance cache ở 2 file: Một cho cấu hình máy chủ và một cho các tiện ích. `glance-api.conf` cho server và `glance-cache.conf` cho tiện ích.
 
@@ -246,6 +249,7 @@ Những cấu hình dưới đây phải cấu hình giống nhau trên cả 2 f
 - **image_cache_max_size:** Kích thước tối đa của cache. `glance-cache-pruner` sẽ xóa bỏ những images cũ nhất cho đến dưới giá trị này. (Default:10 GB)
 - **image_cache_stall_time:** Khoảng thời gian một file image chưa hoàn thiện nằm trong bộ nhớ cache. Sau đó, fileimage chưa hoàn thiện này sẽ bị xóa. (Default:1 day)
 
+<a name="config_glance_cache"></a>
 ###9.2 Cấu hình file `glance-cache.conf`
 
 - **admin_user:** The username for an admin account, this is so it can get the image data into the cache.
@@ -256,6 +260,7 @@ Những cấu hình dưới đây phải cấu hình giống nhau trên cả 2 f
 - **filesystem_store_datadirs:** This is used to point to multiple filesystem stores.
 - **registry_host:** The URL to the Glance registry.
 
+<a name="lenh_mo_rong"></a>
 ###9.3 Các câu lệnh mở rộng
 - Controlling the Growth of the Image Cache: 
 Sử dụng lệnh `glance-cache-pruner` để xóa các file image cache sao cho bộ nhớ cache không vượt quá giới hạn tối đa, trong tùy chọn `image_cache_max_size`.
