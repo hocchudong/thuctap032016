@@ -224,6 +224,28 @@ stores = file,http
 filesystem_store_datadir = /var/lib/glance/images/
 ```
 
+Liệt kê và thực hành cách lệnh cơ bản của API: 
+
+upload image:
+```sh
+openstack image create "cirros" \				
+ --file cirros-0.3.4-x86_64-disk.img \			
+ --disk-format qcow2 --container-format bare \	
+ --public										
+```
+
+```sh
+image add project  Associate project with image
+image create   Create/upload an image
+image delete   Delete image(s)
+image list     List available images
+image remove project  Disassociate project with image
+image save     Save an image locally
+image set      Set image properties
+image show     Display image details
+```
+
+
 Tham Khảo:
 
 [1]- http://www.sparkmycloud.com/blog/openstack-glance/
