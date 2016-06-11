@@ -8,7 +8,18 @@
 <h4><a href="#conf">6. Các file cấu hình của glance</a></h4>
 <h4><a href="#img">7. Image và Instance</a></h4>
 <h4><a href="#manage_image">8. Quản lý các images</a></h4>
-<h4><a href="#ref">9. Tham khảo</a></h4>
+<ul>
+<li><a href="#image_details">8.1. Liệt kê và lấy thông tin về các images</a></li>
+<li><a href="#image_store">8.2. Cấu hình hệ thống lưu trữ backend cho các images</a></li>
+<li><a href="#image_log">8.3. Cấu hình file log của glance</a></li>
+</ul>
+<h4><a href="#image_api">9. Thao tác với glance bằng API</a></h4>
+<ul>
+<li><a href="#cli">9.1. Gửi yêu cầu tới API sử dụng OpenStack command line client</a></li>
+<li><a href="#cURL">9.2. Gửi yêu cầu tới API sử dụng cURL</a></li>
+<li><a href="#rest">9.3. Gửi yêu cầu tới API sử dụng REST client trên trình duyệt</a></li>
+</ul>
+<h4><a href="#ref">10. Tham khảo</a></h4>
 ---
 
 <h2><a name="intro">1. Giới thiệu OpenStack Glance</a></h2>
@@ -353,7 +364,154 @@ glance-api.log  glance_log_custom.log  glance-registry.log
 Ngoài ra, tham số <code>log_dir</code> sẽ thiết lập thưc mục lưu trữ các file log, nếu không thiết lập giá trị này, thì file log sẽ được lưu trong đường dẫn tuyệt đối chỉ ra bởi tham số <code>log_file</code>
 </div>
 
-<h2><a name="ref">9. Tham khảo</a></h2>
+<h2><a name="image_api">9. Thao tác với glance bằng API</a></h2>
+<div>
+<h3><a name="cli">9.1. Gửi yêu cầu tới API sử dụng OpenStack command line client</a></h3>
+<div>
+<ul>
+<li><h4>a. Upload(create) một image lên thư mục lưu trữ glance</h4>
+<pre>
+<code>
+root@controller:~/img-list# ls
+cirros-0.3.4-x86_64-disk.img  Fedora-Cloud-Base-23-20151030.x86_64.qcow2
+root@controller:~/img-list# openstack image create "fedora" \
+> --file Fedora-Cloud-Base-23-20151030.x86_64.qcow2 \
+> --disk-format qcow2 --container-format bare \
+> --public
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | 38d62e2e1909c89f72ba4d5f5c0005d5                     |
+| container_format | bare                                                 |
+| created_at       | 2016-06-11T12:24:32Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/0bd9c9c6-211e-4998-8dfc-a54a14a42ca9/file |
+| id               | 0bd9c9c6-211e-4998-8dfc-a54a14a42ca9                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | fedora                                               |
+| owner            | 5274cf4a29534f68bb3305333aef3606                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 234363392                                            |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2016-06-11T12:24:47Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | public                                               |
++------------------+------------------------------------------------------+
+</code>
+</pre>
+</li>
+
+<li><h4>b. Liệt kê danh sách các image đã upload</h4>
+<pre>
+<code>
+root@controller:~/img-list# openstack image list
++--------------------------------------+--------+--------+
+| ID                                   | Name   | Status |
++--------------------------------------+--------+--------+
+| 0bd9c9c6-211e-4998-8dfc-a54a14a42ca9 | fedora | active |
+| ce64b039-6e40-4f13-b44e-5813c62dc082 | cirros | active |
++--------------------------------------+--------+--------+
+</code>
+</pre>
+</li>
+
+<li><h4>c. Xem thông tin image</h4>
+<pre>
+<code>
+root@controller:~/img-list# openstack image show fedora
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | 38d62e2e1909c89f72ba4d5f5c0005d5                     |
+| container_format | bare                                                 |
+| created_at       | 2016-06-11T12:24:32Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/0bd9c9c6-211e-4998-8dfc-a54a14a42ca9/file |
+| id               | 0bd9c9c6-211e-4998-8dfc-a54a14a42ca9                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | fedora                                               |
+| owner            | 5274cf4a29534f68bb3305333aef3606                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 234363392                                            |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2016-06-11T12:24:47Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | public                                               |
++------------------+------------------------------------------------------+
+
+</code>
+</pre>
+</li>
+
+<li><h4>d. Xóa một image</h4>
+Ví dụ ở đây xóa image fedora (xóa theo tên hoặc id của image), kiểm tra lai danh sách các image sau khi xóa:
+<pre>
+<code>
+root@controller:~/img-list# openstack image delete fedora
+root@controller:~/img-list# openstack image list
++--------------------------------------+--------+--------+
+| ID                                   | Name   | Status |
++--------------------------------------+--------+--------+
+| ce64b039-6e40-4f13-b44e-5813c62dc082 | cirros | active |
++--------------------------------------+--------+--------+
+</code>
+</pre>
+</li>
+
+<li><h4>e. Phân quyền truy cập public hay private cho image</h4>
+Để thực hiện phân quyền truy cập cho image là "public" hay "private", sử dụng command <code>set</code>. Ví dụ, hiện tại image fedora đang có thuộc tính " visibility       | public  ", nghĩa là được truy cập public. Thiết lập lại quyền truy cập của image này sang private như sau:
+<pre>
+<code>
+root@controller:~/img-list# openstack image set --private fedora
+root@controller:~/img-list# openstack image show fedora
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | 38d62e2e1909c89f72ba4d5f5c0005d5                     |
+| container_format | bare                                                 |
+| created_at       | 2016-06-11T12:40:28Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/ec62a8ee-6ab0-4118-9029-a81ca92b8d43/file |
+| id               | ec62a8ee-6ab0-4118-9029-a81ca92b8d43                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | fedora                                               |
+| owner            | 5274cf4a29534f68bb3305333aef3606                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 234363392                                            |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2016-06-11T12:48:32Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | private                                              |
++------------------+------------------------------------------------------+
+</code>
+</pre>
+Như vậy sau khi thực hiện lệnh <code>set</code>, quyền truy cập của image fedora đã chuyển sang private. Lệnh <code>openstack image set</code> có thể sử dụng để thay đổi bất kì thuộc tính nào của image.
+</li>
+</ul>
+</div>
+
+<h3><a name="cURL">9.2. Gửi yêu cầu tới API sử dụng cURL</a></h3>
+<div>
+
+</div>
+
+<h3><a name="rest">9.3. Gửi yêu cầu tới API sử dụng REST client trên trình duyệt</a></h3>
+<div>
+
+</div>
+
+</div>
+
+<h2><a name="ref">10. Tham khảo</a></h2>
 <div>
 <a href="http://docs.openstack.org/developer/glance/architecture.html">http://docs.openstack.org/developer/glance/architecture.html</a>
 <br>
@@ -362,5 +520,7 @@ Ngoài ra, tham số <code>log_dir</code> sẽ thiết lập thưc mục lưu tr
 <a href="http://docs.openstack.org/user-guide/common/cli_manage_images.html">http://docs.openstack.org/user-guide/common/cli_manage_images.html</a>
 <br>
 <a href="http://docs.openstack.org/developer/glance/configuring.html#configuring-logging-in-glance">http://docs.openstack.org/developer/glance/configuring.html#configuring-logging-in-glance</a>
+<br>
+<a href="http://docs.openstack.org/cli-reference/openstack.html">http://docs.openstack.org/cli-reference/openstack.html</a>
 </div>
 
