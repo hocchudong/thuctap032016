@@ -24,7 +24,7 @@
 <div>
 Glance bao gồm các thành phần sau:
 <ul>
-<li><b>glance-api: </b>tiếp nhận lời gọi API để tìm kiems, thu thập và lưu trữ image</li>
+<li><b>glance-api: </b>tiếp nhận lời gọi API để tìm kiếm, thu thập và lưu trữ image</li>
 <li><b>glance-registry: </b>thực hiện tác vụ lưu trữ, xử lý và thu thập metadata của images</li>
 <li><b>database: </b>cơ sở dữ liệu lưu trữ metadata của image</li>
 <li><b>storage repository: </b>được tích hợp với nhiều thành phần khác trong OpenStack như hệ thống file thông thường, Amazon và HTTP phục vụ cho chức năng lưu trữ images</li>
@@ -70,7 +70,7 @@ Glance có kiến trúc client-server và cung cấp REST API thông qua đó y�
 <li><b>Glance Store: </b>tổ chức việc tương tác giữa Glance và các hệ thống lưu trữ dữ liệu</li>
 <li><b>Registry Layer: </b>lớp tùy chọn tổ chức việc giao tiếp một cách bảo mật giữa domain và DAL nhờ việc sử dụng một dịch vụ riêng biệt</li>
 </ul>
-<img src="http://www.sparkmycloud.com/blog/wp-content/uploads/2016/01/Untitled-drawing11.png"/>
+<img src="http://docs.openstack.org/developer/glance/_images/architecture.png"/>
 </div>
 </div>
 
@@ -170,7 +170,7 @@ Container Formats mô tả định dạng files và chứa các thông tin metad
 Luồng trạng thái của Glance cho biết trạng thái của image trong quá trình tải lên. Khi tạo một image, bước đầu tiên là queing, image được đưa vào hàng đợi trong một khoảng thời gian ngắn, được  bảo vệ và sẵn sàng để tải lên. Sau khi queuing image chuyển sang trạng thái Saving nghĩa là quá trình tải lên chưa hoàn thành. Một khi image được tải lên hoàn toàn,  trạng thái image chuyển sang Active. Khi quá trình tải lên thất bại nó sẽ chuyển sang trạng thái bị hủy hoặc bị xóa. Ta có thể deactive và reactive các image đã upload thành công bằng cách sử dụng command.
 <br>
 Luồng trạng thái của flow được mô tả theo hình sau:
-<img src="http://www.sparkmycloud.com/blog/wp-content/uploads/2016/01/Untitled-drawing1.jpg"/>
+<img src="http://docs.openstack.org/developer/glance/_images/image_status_transition.png"/>
 <br><br>
 Các trạng thái của image:
 <ul>
@@ -191,6 +191,9 @@ Các trạng thái của image:
 </li>
 <li><b>deleted</b>
 <div>Trạng thái này biểu thị việc Glance vẫn giữ thông tin về image nhưng nó không còn sẵn sàng để sử dụng nữa. Image ở trạng thái này sẽ tự động bị gỡ bỏ vào ngày hôm sau.</div>
+</li>
+<li><b>pending_delete: </b>
+Tương tự như trạng thái <b>deleted</b>, tuy nhiên Glance chưa gỡ bỏ dữ liệu của image ngay. Một image khi đã rơi vào trạng thái này sẽ không có khả năng khôi phục.
 </li>
 </ul>
 </div>
@@ -312,6 +315,9 @@ MariaDB [glance]> select id, image_id, status, value from image_locations;
 
 <h2><a name="ref">9. Tham khảo</a></h2>
 <div>
+<a href="http://docs.openstack.org/developer/glance/architecture.html">http://docs.openstack.org/developer/glance/architecture.html</a>
 <a href="http://www.sparkmycloud.com/blog/openstack-glance">http://www.sparkmycloud.com/blog/openstack-glance</a>
+<br>
+<a href="http://docs.openstack.org/user-guide/common/cli_manage_images.html">http://docs.openstack.org/user-guide/common/cli_manage_images.html</a>
 </div>
 
