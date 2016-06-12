@@ -3,23 +3,39 @@ Trong bài nào, mình sẽ hướng dẫn mọi người sử dụng các API m
 Mình sẽ hướng dẫn trên 2 công cụ, đó là **cURL** và **Advanced REST client** - addons của Chrome.
 
 #Mục Lục
+- [1. Advanced REST client(ARC)](#arc)
+- [2. cURL](#curl)
+- [3. Các thao tác cơ bản](#thao_tac)
+	- [3.1 Get token.](#get_token)
+	- [3.2. Get List images](#list_images)
+	- [3.3 Create image](#create_image)
+	- [3.4 Show image details](#image_deatils)
+	- [3.5 Delete image](#delete_image)
+	- [3.6 Deactivate image](#deactivate_image)
+	- [3.7 Reactivate image](#reactivate_image)
+	- [3.8 Upload binary image data](#up_image_data)
+	- [3.9 Download binary image data](#down_image_data)
+- [Tài liệu tham khảo](#tham_khao)
 
 
+<a name="arc"></a>
 #1. Advanced REST client(ARC)
 - Hướng dẫn sử dụng Advanced REST client(ARC), các bạn có thể tham khảo tại đây: https://github.com/hocchudong/API-Openstack
 
+<a name="curl"></a>
 #2. cURL
 curl is a command line tool for transferring data with URL syntax, supporting DICT, FILE, FTP, FTPS, Gopher, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP, SCP, SFTP, SMTP, SMTPS, Telnet and TFTP. curl supports SSL certificates, HTTP POST, HTTP PUT, FTP uploading, HTTP form based upload, proxies, cookies, user+password authentication (Basic, Digest, NTLM, Negotiate, kerberos...), file transfer resume, proxy tunneling and a busload of other useful tricks.
 
-
+<a name="thao_tac"></a>
 #3. Các thao tác cơ bản
+<a name="get_token"></a>
 ##3.1 Get token.
 |      |      |
 |:----:|:----:|
 |URL | /v3/auth/tokens|
 |method| POST|
 
-####3.1.1 ARC
+###3.1.1 ARC
 - Request Header
 ```sh
 Content-Type: application/json
@@ -128,7 +144,9 @@ Content-Type: application/json
 
 **Và kể từ bây giờ, mỗi hành động gì, các bạn phải chèn thêm trường X-Auth-Token, có giá trị là token và header thì câu lệnh mới có thể sử dụng được.
 
+<a name="list_images"></a>
 ##3.2. Get List images
+|      |      |
 |:----:|:----:|
 |URL | /v2/images |
 |method| GET |
@@ -320,7 +338,9 @@ Date: Sun, 12 Jun 2016 16:57:30 GMT
 
 ```
 
+<a name="create_image"></a>
 ##3.3 Create image
+|      |      |
 |:----:|:----:|
 |URL | /v2/images |
 |method| POST |
@@ -402,7 +422,9 @@ Date: Sun, 12 Jun 2016 17:14:17 GMT
 {"status": "queued", "name": "TESTLT", "tags": [], "container_format": "bare", "created_at": "2016-06-12T17:14:17Z", "size": null, "disk_format": "qcow2", "updated_at": "2016-06-12T17:14:17Z", "visibility": "private", "self": "/v2/images/0c1ffd08-68b4-4206-9f66-26a370228bc2", "min_disk": 0, "protected": false, "id": "0c1ffd08-68b4-4206-9f66-26a370228bc2", "file": "/v2/images/0c1ffd08-68b4-4206-9f66-26a370228bc2/file", "checksum": null, "owner": "5cfaded20e0c4959a807541ecad77a49", "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}
 ```
 
+<a name="image_details"></a>
 ##3.4 Show image details
+|      |      |
 |:----:|:----:|
 |URL | /v2/images/​{image_id}​ |
 |method| GET |
@@ -462,7 +484,9 @@ Date: Sun, 12 Jun 2016 18:02:08 GMT
 
 {"status": "active", "name": "TESTLT", "tags": [], "container_format": "bare", "created_at": "2016-06-12T17:14:17Z", "size": 6909873, "disk_format": "qcow2", "updated_at": "2016-06-12T17:56:58Z", "visibility": "private", "self": "/v2/images/0c1ffd08-68b4-4206-9f66-26a370228bc2", "min_disk": 0, "protected": false, "id": "0c1ffd08-68b4-4206-9f66-26a370228bc2", "file": "/v2/images/0c1ffd08-68b4-4206-9f66-26a370228bc2/file", "checksum": "c0d3bf29d8b72866322e3514a6a8b4a0", "owner": "5cfaded20e0c4959a807541ecad77a49", "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}
 ```
+<a name="delete_image"></a>
 ##3.5 Delete image
+|      |      |
 |:----:|:----:|
 |URL | /v2/images/{image_id}​ |
 |method| DELETE |
@@ -495,7 +519,9 @@ Content-Length: 0
 X-Openstack-Request-Id: req-89a16eb7-dcba-48ec-96a2-6ce561b68931
 Date: Sun, 12 Jun 2016 18:05:14 GMT
 ```
+<a name="deactivate_image"></a>
 ##3.6 Deactivate image
+|      |      |
 |:----:|:----:|
 |URL | /v2/images/{image_id}​/actions/deactivate |
 |method| POST |
@@ -532,7 +558,9 @@ Date: Sun, 12 Jun 2016 18:09:01 GMT
 
 ![](http://image.prntscr.com/image/5592933b253f4f9881dddf636ea9d44f.png)
 
+<a name="reactivate_image"></a>
 ##3.7 Reactivate image
+|      |      |
 |:----:|:----:|
 |URL | /v2/images/{image_id}​​/actions/reactivate |
 |method| POST |
@@ -569,8 +597,9 @@ Date: Sun, 12 Jun 2016 18:10:03 GMT
 
 ![](http://image.prntscr.com/image/418da789c1434645ba592bef4aa2ab7c.png)
 
-
+<a name="up_image_data"></a>
 ##3.8 Upload binary image data
+|      |      |
 |:----:|:----:|
 |URL | /v2/images/{image_id}​​​/file |
 |method| PUT |
@@ -596,7 +625,9 @@ Date: Sun, 12 Jun 2016 17:56:58 GMT
 ```
 **=> Sau khi thực hiện xong câu lệnh, image sẽ chuyển từ trạng thái `queued` sang trạng thái `active`**
 
+<a name="down_image_data"></a>
 ##3.9 Download binary image data
+|      |      |
 |:----:|:----:|
 |URL | /v2/images/{image_id}​​​/file |
 |method| GET |
@@ -623,6 +654,15 @@ curl -i \
   http://10.10.10.100:9292/v2/images/36bafa1e-082a-42d7-bfa7-4d6535f00754/file ; echo
 ```
 - Kết quả
+
+<a name="tham_khao"></a>
+#Tài liệu tham khảo
+http://developer.openstack.org/api-ref-image-v2.html
+
+http://docs.openstack.org/developer/keystone/api_curl_examples.html
+
+https://github.com/hocchudong/API-Openstack
+
 
 
 
