@@ -713,9 +713,47 @@ root@controller:~/img-list# openstack image list
 
 <h3><a name="rest">9.3. Gửi yêu cầu tới API sử dụng REST client trên trình duyệt</a></h3>
 <div>
-
+<ul>
+<li><h4>a. Cài đặt extention REST client trên trình duyệt</h4>
+Hai trình duyệt phổ thông là Firefox là Chrome đều cung cấp addon (extention) REST client. Demo dưới đây sử dụng extention Advanced REST client trên trình duyệt Chrome
+<br><br>
+<img src="http://i.imgur.com/T669fOK.png"/>
+<br><br>
+</li>
+<li><h4>b. Lấy Token</h4>
+Sử dụng api <code>/v3/auth/tokens</code>, gửi thông điệp <code>POST</code> tới api với header và payload phù hợp. Ví dụ ở đây xin cấp phát token ở phạm vị project (project scoped), do đó ta phải chỉ rõ <b>user id</b> và <b>project id</b> của project mà trên đó user được gán roles. 
+<br><br>
+<img src="http://i.imgur.com/eH4OClR.png"/>
+<br><br>
+Nếu thành công, bản tin phản hồi trở về với mã 200 OK như hình dưới, trả lại cho ta một token với role tương ứng. Chú ý lưu lại token này để thực hiện các yêu cầu khác, tương tự như khi ta sử dụng cURL.
+<br><br>
+<img src="http://i.imgur.com/1mXEyVK.png"/>
+<br><br>
+</li>
+<li><h4>c. Gửi yêu cầu liệt kê danh sách các image</h4>
+Sử dụng token nhận được gửi yêu cầu lấy danh sách các image tới API <code>/v2/images</code>, sử dụng token vừa nhận được ở trên chèn vào header của bản tin request.
+<br><br>
+<img src="http://i.imgur.com/uGnYina.png"/>
+<br><br>
+Nếu thành công ta sẽ nhận được bản tin phản hồi với danh sách các images.
+<br><br>
+<img src="http://i.imgur.com/A5E1ikc.png"/>
+<br><br>
+</li>
+<li><h4>d. Lấy thông tin về image</h4>
+Tương tự như khi sử dụng cURL, ta lấy id của image nào đó trong danh sách các image trả về để làm tham số cho request lấy thông tin image đó tới api <b>/v2/images/image_id</b>.  Như mọi request khác, ta phải đưa token vào header để xác thực và ủy quyền. Giả sử ở đây ta lấy thông tin của image <b>fedora</b> với id tương ứng.
+<br><br>
+<img src="http://i.imgur.com/6BUhcrT.png" />
+<br></br>
+Nếu request thành công, ta sẽ nhận được thông tin phản hồi với thông tin chi tiết của image fedora như sau.
+<br><br>
+<img src="http://i.imgur.com/U3LfTe8.png" />
+<br></br>
+</li>
+</ul>
+Các thao tác khác hoàn toàn tương tự như khi sử dụng cURL command, chú ý các tham số trên URI, header, payload, phương thức gửi request. 
 </div>
-
+<i><b>Chú ý:</b> Để biết thông tin chi tiết về cách sử dụng và tương tác với các API liên quan tới glance cũng như các dịch vụ khác, tham khảo <a href="http://developer.openstack.org/api-ref-image-v2.html" target="_blank">tại đây.</a></i>
 </div>
 
 <h2><a name="ref">10. Tham khảo</a></h2>
