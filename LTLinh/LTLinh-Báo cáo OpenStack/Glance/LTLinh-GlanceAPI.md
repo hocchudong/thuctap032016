@@ -14,6 +14,7 @@ curl is a command line tool for transferring data with URL syntax, supporting DI
 
 #3. Các thao tác cơ bản
 ##3.1 Get token.
+|      |      |
 |:----:|:----:|
 |URL | /v3/auth/tokens|
 |method| POST|
