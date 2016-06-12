@@ -613,7 +613,7 @@ Date: Sun, 12 Jun 2016 18:10:03 GMT
 |method| PUT |
 |Header|Content-Type: application/octet-stream|
 
-#3.8.1 cURL
+###3.8.1 cURL
 - **Lệnh**
 ```sh
 curl -i -X PUT -H "X-Auth-Token: gAAAAABXXZhNQDk4L9xXyLPBxHms3L_2u5Q96CY7rDHMWVj1kQqxdmx_v4ARcALf9t7nDcbJ5y8dR7pqi60VmGZEG5wgLzP1VbSUH9FWAzXqaHeio5H4stKjrxZGw6Hyd9eKYG7YGFo06aT-jmugYB35BV_wfc-LTbHDGlFhxdoyJqJg-y1Ow6A" -H "Content-Type: application/octet-stream" \
