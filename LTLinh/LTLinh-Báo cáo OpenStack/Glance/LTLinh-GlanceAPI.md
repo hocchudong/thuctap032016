@@ -36,7 +36,7 @@ curl is a command line tool for transferring data with URL syntax, supporting DI
 |method| POST|
 
 ###3.1.1 ARC
-- Request Header
+- **Request Header**
 ```sh
 Content-Type: application/json
 ```
@@ -99,13 +99,13 @@ Content-Type: application/json
 }
 ```
 
-- Demo
+- **Demo**
 ![](http://image.prntscr.com/image/b9f97a750fe343ca8a1aec00c445af42.png)
 
 ![](http://image.prntscr.com/image/a40fde237b2d487ab0ff2fb32e0c2d46.png)
 
 ###3.1.2 cURL
-- Lệnh: 
+- **Lệnh:**
 ```sh
 curl -i \
   -H "Content-Type: application/json" \
@@ -125,7 +125,7 @@ curl -i \
   http://10.10.10.100:5000/v3/auth/tokens ; echo
 ```
 
-- Kết quả
+- **Kết quả**
 ```sh
 HTTP/1.1 201 Created
 Date: Sun, 12 Jun 2016 16:36:50 GMT
@@ -142,7 +142,7 @@ Content-Type: application/json
 ```
 **=> Cũng như trên, token ta cần get nằm ở trường `X-Subject-Token`**
 
-**Và kể từ bây giờ, mỗi hành động gì, các bạn phải chèn thêm trường X-Auth-Token, có giá trị là token và header thì câu lệnh mới có thể sử dụng được.
+**Và kể từ bây giờ, mỗi hành động gì, các bạn phải chèn thêm trường X-Auth-Token, có giá trị là token và header thì câu lệnh mới có thể sử dụng được.**
 
 <a name="list_images"></a>
 ##3.2. Get List images
@@ -152,7 +152,7 @@ Content-Type: application/json
 |method| GET |
 
 ###3.2.1 ARC
-- Request Header
+- **Request Header**
 ```sh
 Content-Type: application/json
 X-Auth-Token: Chính là token mà bạn vừa get ở trên.
@@ -314,11 +314,11 @@ X-Auth-Token: Chính là token mà bạn vừa get ở trên.
   "first": "/v2/images"
 }
 ```
-- demo
+- **demo**
 ![](http://image.prntscr.com/image/d3e8e5087b55410698e4a93f47486ae4.png)
 
 ###3.2.2 cURL
-- Lệnh
+- **Lệnh**
 ```sh
 curl -i \
   -H "Content-Type: application/json" \
@@ -326,7 +326,7 @@ curl -i \
   http://10.10.10.100:9292/v2/images ; echo
 ```
 
-- Kết quả
+- **Kết quả**
 ```sh
 HTTP/1.1 200 OK
 Content-Length: 4157
@@ -346,12 +346,12 @@ Date: Sun, 12 Jun 2016 16:57:30 GMT
 |method| POST |
 
 ###3.3.1 ARC
-- Request Header
+- **Request Header**
 ```sh
 Content-Type: application/json
 X-Auth-Token: Chính là token mà bạn vừa get ở trên.
 ```
-- Request parameters
+- **Request parameters**
 ```sh
 {
     "container_format": "bare",
@@ -360,14 +360,14 @@ X-Auth-Token: Chính là token mà bạn vừa get ở trên.
     "id": "f7b66836-50ec-4c54-8b24-1d12888a8b80"
 }
 ```
-- Response Header
+- **Response Header**
 Trong Response Header có một trường trả về là
 ```sh
 Location: http://10.10.10.100:9292/v2/images/f7b66836-50ec-4c54-8b24-1d12888a8b80
 ```
-
 chỉ ra đường dẫn của file image vừa được tạo ra 
-- Response parameters
+
+- **Response parameters**
 ```sh
 {
   "status": "queued",
@@ -396,7 +396,7 @@ chỉ ra đường dẫn của file image vừa được tạo ra
 
 
 ###3.3.2 cURL
-- Lệnh
+- **Lệnh**
 ```sh
 curl -i \
   -H "Content-Type: application/json" \
@@ -410,7 +410,7 @@ curl -i \
 }' \
   http://10.10.10.100:9292/v2/images ; echo
 ```
-- Kết Quả
+- **Kết Quả**
 ```sh
 HTTP/1.1 201 Created
 Content-Length: 551
@@ -430,14 +430,14 @@ Date: Sun, 12 Jun 2016 17:14:17 GMT
 |method| GET |
 
 ###3.4.1 ARC
-- Request header: 
+- **Request header:**
 ```sh
 Content-Type: application/json
 X-Auth-Token: Chính là token mà bạn vừa get ở trên.
 ```
 
-- Request parameters: image_id
-- Response parameters
+- **Request parameters: `image_id`**
+- **Response parameters**
 ```sh
 {
   "status": "queued",
@@ -462,11 +462,11 @@ X-Auth-Token: Chính là token mà bạn vừa get ở trên.
 }
 ```
 
-- demo
+- **demo**
 ![](http://image.prntscr.com/image/86b476f8f2464fd1a0174abfa6ff5cd7.png)
 
 ###3.4.2 cURL
-- Lệnh
+- **Lệnh**
 ```sh
 curl -i \
   -H "Content-Type: application/json" \
@@ -474,7 +474,7 @@ curl -i \
   http://10.10.10.100:9292/v2/images/0c1ffd08-68b4-4206-9f66-26a370228bc2 ; echo
 ```
 
-- Kết quả
+- **Kết quả**
 ```sh
 HTTP/1.1 200 OK
 Content-Length: 584
@@ -492,26 +492,26 @@ Date: Sun, 12 Jun 2016 18:02:08 GMT
 |method| DELETE |
 
 ###3.5.1 ARC
-- Request header: 
+- **Request header: **
 ```sh
 Content-Type: application/json
 X-Auth-Token: Chính là token mà bạn vừa get ở trên.
 ```
 
-- Request parameters: image_id
+- **Request parameters: `image_id`**
 
-- demo
+- **demo**
 ![](http://image.prntscr.com/image/c4b9bf5cbf93470ead8361ec8e05b683.png)
 
 ###3.5.2 cURL
-- Lệnh
+- **Lệnh**
 ```sh
 curl -i -X DELETE \
   -H "Content-Type: application/json" \
   -H "X-Auth-Token: gAAAAABXXZhNQDk4L9xXyLPBxHms3L_2u5Q96CY7rDHMWVj1kQqxdmx_v4ARcALf9t7nDcbJ5y8dR7pqi60VmGZEG5wgLzP1VbSUH9FWAzXqaHeio5H4stKjrxZGw6Hyd9eKYG7YGFo06aT-jmugYB35BV_wfc-LTbHDGlFhxdoyJqJg-y1Ow6A" \
   http://10.10.10.100:9292/v2/images/f7b66836-50ec-4c54-8b24-1d12888a8b80 ; echo
 ```
-- Kết quả
+- **Kết quả**
 ```sh
 HTTP/1.1 204 No Content
 Content-Type: text/html; charset=UTF-8
@@ -527,15 +527,15 @@ Date: Sun, 12 Jun 2016 18:05:14 GMT
 |method| POST |
 
 ###3.6.1 ARC
-- Request header: 
+- **Request header:**
 ```sh
 Content-Type: application/json
 X-Auth-Token: Chính là token mà bạn vừa get ở trên.
 ```
 
-- Request parameters: image_id
+- **Request parameters: `image_id`**
 
-- demo
+- **demo**
 ![](http://image.prntscr.com/image/0dc456f7a08c4e08a18145f18f28ab38.png)
 
 ###3.6.2 
@@ -547,7 +547,7 @@ curl -i -X POST \
   http://10.10.10.100:9292/v2/images/0c1ffd08-68b4-4206-9f66-26a370228bc2/actions/deactivate ; echo
 ```
 
-- Kết quả
+- **Kết quả**
 ```sh
 HTTP/1.1 204 No Content
 Content-Type: text/html; charset=UTF-8
@@ -566,18 +566,19 @@ Date: Sun, 12 Jun 2016 18:09:01 GMT
 |method| POST |
 
 ###3.7.1 ARC
+- **Request header: **
 ```sh
 Content-Type: application/json
 X-Auth-Token: Chính là token mà bạn vừa get ở trên.
 ```
 
-- Request parameters: image_id
+- **Request parameters: `image_id`**
 
-- demo
+- **demo**
 ![](http://image.prntscr.com/image/4d9df57339414ba6b3bc6aa89106b807.png)
 
 ###3.7.2 cURL
-- Lệnh
+- **Lệnh**
 ```sh
 curl -i -X POST \
   -H "Content-Type: application/json" \
@@ -586,7 +587,7 @@ curl -i -X POST \
 
 ```
 
-- Kết quả
+- **Kết quả**
 ```sh
 HTTP/1.1 204 No Content
 Content-Type: text/html; charset=UTF-8
@@ -606,14 +607,15 @@ Date: Sun, 12 Jun 2016 18:10:03 GMT
 |Header|Content-Type: application/octet-stream|
 
 #3.8.1 cURL
-- Lệnh
+- **Lệnh**
 ```sh
 curl -i -X PUT -H "X-Auth-Token: gAAAAABXXZhNQDk4L9xXyLPBxHms3L_2u5Q96CY7rDHMWVj1kQqxdmx_v4ARcALf9t7nDcbJ5y8dR7pqi60VmGZEG5wgLzP1VbSUH9FWAzXqaHeio5H4stKjrxZGw6Hyd9eKYG7YGFo06aT-jmugYB35BV_wfc-LTbHDGlFhxdoyJqJg-y1Ow6A" -H "Content-Type: application/octet-stream" \
    -d @/root/cirros-0.3.4-x86_64-disk.img http://10.10.10.100:9292/v2/images/0c1ffd08-68b4-4206-9f66-26a370228bc2/file
 ```
-Trong đó: 
+**Trong đó:** 
 -d @/root/cirros-0.3.4-x86_64-disk.img: là nơi lưu file image gốc.
-- Kết quả
+
+- **Kết quả**
 ```sh
 HTTP/1.1 100 Continue
 
@@ -633,27 +635,27 @@ Date: Sun, 12 Jun 2016 17:56:58 GMT
 |method| GET |
 
 ###3.9.1 ARC
-- Request header: 
+- **Request header:** 
 ```sh
 Content-Type: application/json
 X-Auth-Token: Chính là token mà bạn vừa get ở trên.
 ```
 
-- Request parameters: image_id
+- **Request parameters: `image_id`**
 
-- demo
+- **demo**
 ![](http://image.prntscr.com/image/96fa4aafbe054e4098e3a0ad1353e53b.png)
 
 
 ###3.9.2 cURL
-- Lệnh
+- **Lệnh**
 ```sh
 curl -i \
   -H "Content-Type: application/json" \
   -H "X-Auth-Token: gAAAAABXXZhNQDk4L9xXyLPBxHms3L_2u5Q96CY7rDHMWVj1kQqxdmx_v4ARcALf9t7nDcbJ5y8dR7pqi60VmGZEG5wgLzP1VbSUH9FWAzXqaHeio5H4stKjrxZGw6Hyd9eKYG7YGFo06aT-jmugYB35BV_wfc-LTbHDGlFhxdoyJqJg-y1Ow6A" \
   http://10.10.10.100:9292/v2/images/36bafa1e-082a-42d7-bfa7-4d6535f00754/file ; echo
 ```
-- Kết quả
+- **Kết quả**
 
 <a name="tham_khao"></a>
 #Tài liệu tham khảo
