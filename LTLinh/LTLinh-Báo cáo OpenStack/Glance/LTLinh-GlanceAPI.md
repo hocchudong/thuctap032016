@@ -2,6 +2,8 @@
 Trong bài nào, mình sẽ hướng dẫn mọi người sử dụng các API mà OpenStack đã cung cấp cho chúng ta.
 Mình sẽ hướng dẫn trên 2 công cụ, đó là **cURL** và **Advanced REST client** - addons của Chrome.
 
+......SẼ TIẾP TỤC CẬP NHẬT............
+
 #Mục Lục
 - [1. Advanced REST client(ARC)](#arc)
 - [2. cURL](#curl)
