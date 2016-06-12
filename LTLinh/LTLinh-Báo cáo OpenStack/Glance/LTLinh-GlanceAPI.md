@@ -24,7 +24,12 @@ Mình sẽ hướng dẫn trên 2 công cụ, đó là **cURL** và **Advanced R
 
 <a name="curl"></a>
 #2. cURL
-curl is a command line tool for transferring data with URL syntax, supporting DICT, FILE, FTP, FTPS, Gopher, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP, SCP, SFTP, SMTP, SMTPS, Telnet and TFTP. curl supports SSL certificates, HTTP POST, HTTP PUT, FTP uploading, HTTP form based upload, proxies, cookies, user+password authentication (Basic, Digest, NTLM, Negotiate, kerberos...), file transfer resume, proxy tunneling and a busload of other useful tricks.
+- cURL là một công cụ dòng lệnh dùng để truyền dữ liệu bằng cú pháp URL.
+
+- cURL hỗ trợ các giao thức: DICT, FILE, FTP, FTPS, Gopher, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP, SCP, SFTP, SMTP, SMTPS, Telnet and TFTP.
+
+- Ngoài ra, Curl còn hỗ trợ SSL certificates, HTTP POST, HTTP PUT, FTP uploading, HTTP form based upload, proxies, cookies, user+password authentication (Basic, Digest, NTLM, Negotiate, kerberos...), file transfer resume, proxy tunneling and a busload of other useful tricks.
+
 
 <a name="thao_tac"></a>
 #3. Các thao tác cơ bản
@@ -613,7 +618,7 @@ curl -i -X PUT -H "X-Auth-Token: gAAAAABXXZhNQDk4L9xXyLPBxHms3L_2u5Q96CY7rDHMWVj
    -d @/root/cirros-0.3.4-x86_64-disk.img http://10.10.10.100:9292/v2/images/0c1ffd08-68b4-4206-9f66-26a370228bc2/file
 ```
 **Trong đó:** 
--d @/root/cirros-0.3.4-x86_64-disk.img: là nơi lưu file image gốc.
+`-d @/root/cirros-0.3.4-x86_64-disk.img:` là nơi lưu file image gốc.
 
 - **Kết quả**
 ```sh
