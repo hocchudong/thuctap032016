@@ -19,7 +19,8 @@
 <li><a href="#cURL">9.2. Gửi yêu cầu tới API sử dụng cURL</a></li>
 <li><a href="#rest">9.3. Gửi yêu cầu tới API sử dụng REST client trên trình duyệt</a></li>
 </ul>
-<h4><a href="#ref">10. Tham khảo</a></h4>
+<h4><a href="#cache">10. Glance image cache</a></h4>
+<h4><a href="#ref">11. Tham khảo</a></h4>
 ---
 
 <h2><a name="intro">1. Giới thiệu OpenStack Glance</a></h2>
@@ -756,20 +757,58 @@ Các thao tác khác hoàn toàn tương tự như khi sử dụng cURL command,
 <i><b>Chú ý:</b> Để biết thông tin chi tiết về cách sử dụng và tương tác với các API liên quan tới glance cũng như các dịch vụ khác, tham khảo <a href="http://developer.openstack.org/api-ref-image-v2.html" target="_blank">tại đây.</a></i>
 </div>
 
-<h2><a name="ref">10. Tham khảo</a></h2>
+<h2><a name="cache">10. Glance image cache</a></h2>
 <div>
-<a href="http://docs.openstack.org/developer/glance/architecture.html">http://docs.openstack.org/developer/glance/architecture.html</a>
+<ul>
+<li>Việc kích hoạt Glance cache thường được khuyên khi sử dụng hệ thống lưu trữ mặc định là <code>file</code>, tuy nhiên nếu sử dụng Ceph RBD backend sẽ có một số khác biệt.</li>
+<li>Kích hoạt glance cache dẫn tới việc tạo ra cached của image đó trong thư mục <code>/var/lib/glance/image-cache</code> mỗi lần boot máy ảo lên. Giả sửa ta có một máy ảo với kích thước VM image là cỡ 50GB, nếu như mỗi lần boot mà lại tạo cached như vây, hệ thống lưu trữ sẽ sớm bị cạn kiệt, trừ khi ta mount thư mục <code>/var</code> vào một ổ lưu trữ lớn.</li>
+<li>Cache sẽ được kích hoạt khi có image đưa vào thư mục <code>/var/lib/nova/instances/_base</code>, điều này xảy ra trong một số trường hợp như sau:
+<ul>
+<li>Sử dụng OpenStack phiên bản Juno nhưng sử dụng container format là QCOW2</li>
+<li>Sử dụng OpenStack phiên bản trước Juno mà không áp dụng bản vá hỗ trợ COW clones.</li>
+</ul>
+Như vậy nghĩa là người dùng chỉ sử dụng RAW images và COW cloens trong Nova thì sẽ không bị ảnh hưởng, bởi lẽ chẳng có image nào đưa vào thư mục <code>/var/lib/nova/instances/_base</code> cả. Mọi việc diễn ra ở cấp độ của Ceph (thực hiện snapshot image và clone image)
+</li>
+<li>Để kích hoạt hay tắt glance cache, tiến hành cấu hình trong file <code>/etc/glance/glance-api.conf</code>. Để kích hoạt cached, tìm tới dòng sau và cấu hình:
+<pre>
+<code>
+[paste_deploy]
+flavor = keystone+cachemanagement
+</code>
+</pre>
+Tắt glance cache:
+<pre>
+<code>
+[paste_deploy]
+flavor = keystone
+</code>
+</pre>
+Sau đó khởi động lại glance để áp dụng các thay đổi:
+<pre>
+<code>
+sudo glance-control all restart
+</code>
+</pre>
+</li>
+</ul>
+</div>
+
+<h2><a name="ref">11. Tham khảo</a></h2>
+<div>
+[1] - <a href="http://docs.openstack.org/developer/glance/architecture.html">http://docs.openstack.org/developer/glance/architecture.html</a>
 <br>
-<a href="http://www.sparkmycloud.com/blog/openstack-glance">http://www.sparkmycloud.com/blog/openstack-glance</a>
+[2] - <a href="http://www.sparkmycloud.com/blog/openstack-glance">http://www.sparkmycloud.com/blog/openstack-glance</a>
 <br>
-<a href="http://docs.openstack.org/user-guide/common/cli_manage_images.html">http://docs.openstack.org/user-guide/common/cli_manage_images.html</a>
+[3] - <a href="http://docs.openstack.org/user-guide/common/cli_manage_images.html">http://docs.openstack.org/user-guide/common/cli_manage_images.html</a>
 <br>
-<a href="http://docs.openstack.org/developer/glance/configuring.html#configuring-logging-in-glance">http://docs.openstack.org/developer/glance/configuring.html#configuring-logging-in-glance</a>
+[4] - <a href="http://docs.openstack.org/developer/glance/configuring.html#configuring-logging-in-glance">http://docs.openstack.org/developer/glance/configuring.html#configuring-logging-in-glance</a>
 <br>
-<a href="http://docs.openstack.org/cli-reference/openstack.html">http://docs.openstack.org/cli-reference/openstack.html</a>
+[5] - <a href="http://docs.openstack.org/cli-reference/openstack.html">http://docs.openstack.org/cli-reference/openstack.html</a>
 <br>
-<a href="http://docs.openstack.org/user-guide/cli_manage_images_curl.html">http://docs.openstack.org/user-guide/cli_manage_images_curl.html</a>
+[6] - <a href="http://docs.openstack.org/user-guide/cli_manage_images_curl.html">http://docs.openstack.org/user-guide/cli_manage_images_curl.html</a>
 <br>
-<a href="http://developer.openstack.org/api-ref-image-v2.html">http://developer.openstack.org/api-ref-image-v2.html</a>
+[7] - <a href="http://developer.openstack.org/api-ref-image-v2.html">http://developer.openstack.org/api-ref-image-v2.html</a>
+<br>
+[8] - <a href="https://www.sebastien-han.fr/blog/2014/11/03/openstack-glance-disable-cache-management-while-using-ceph-rbd/">https://www.sebastien-han.fr/blog/2014/11/03/openstack-glance-disable-cache-management-while-using-ceph-rbd/</a>
 </div>
 
