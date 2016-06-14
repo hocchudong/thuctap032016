@@ -36,7 +36,7 @@ Vấn đề đặt ra:
 
 `/etc/init.d/nfs-kernel-server restart`
 
-**PC NFS**
+**PC NFS**:
 
 - Cài đặt NFS client
 
