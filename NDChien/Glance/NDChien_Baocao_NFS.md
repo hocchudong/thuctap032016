@@ -2,6 +2,7 @@
 ##Mục lục:
 
 [1 Giới thiệu](#1)
+
 [2 NFS server](#2)
 - [2.1 File cấu hình, dịch vụ](#2.1)
 - [2.2 Các dịch vụ có liên quan](#2.2)
