@@ -23,6 +23,7 @@
 
 [11 Image cache](#11)
 
+[12 Quản lý image](#12)
 
 =====================================
 
@@ -207,7 +208,9 @@ Trước khi khởi động thì instance chọn một image, Flavors và các t
 
 OpenStack Glance Image Cache: Glance API server có thể cấu hình để có một local image cache. Một image cache chứa các bản copy của image. Về cơ bản thì cho phép nhiều API server chứa các file image giống nhau, dẫn tới khả năng mở rộng các endpoint cung cấp image. Mặc định tính năng bị disabled. 
 
-###12 Chú ý
+<a name="12"></a>
+###12 Quản lý image
+
 
 Thư mục chứa các image **/var/lib/glance/images**
 
@@ -217,6 +220,8 @@ File log:  /var/log/glance
 - **glance-registry.log**: Image service Registry server
 
 Phần cấu hình backend trong file `glance-api.conf`
+
+Ta có thể chỉnh sửa hệ thống backend lưu trữ và đường dẫn thư mục lưu trữ image.
 ```sh
 [glance_store]
 default_store = file
@@ -224,15 +229,7 @@ stores = file,http
 filesystem_store_datadir = /var/lib/glance/images/
 ```
 
-Liệt kê và thực hành cách lệnh cơ bản của API: 
-
-upload image:
-```sh
-openstack image create "cirros" \				
- --file cirros-0.3.4-x86_64-disk.img \			
- --disk-format qcow2 --container-format bare \	
- --public										
-```
+**Liệt kê và thực hành các lệnh cơ bản**
 
 ```sh
 image add project  Associate project with image
@@ -244,6 +241,80 @@ image save     Save an image locally
 image set      Set image properties
 image show     Display image details
 ```
+
+Upload image:
+```sh
+openstack image create "cirros" \				
+ --file cirros-0.3.4-x86_64-disk.img \			
+ --disk-format qcow2 --container-format bare \	
+ --public										
+```
+
+List image:
+```sh
+root@controller:~# openstack image list
++--------------------------------------+--------+--------+
+| ID                                   | Name   | Status |
++--------------------------------------+--------+--------+
+| 353a86da-b3d7-4c02-a494-b0b066903eaf | cirros | active |
++--------------------------------------+--------+--------+
+```
+
+show image:
+```sh
+root@controller:~# openstack image show cirros
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | ee1eca47dc88f4879d8a229cc70a07c6                     |
+| container_format | bare                                                 |
+| created_at       | 2016-06-10T09:03:06Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/353a86da-b3d7-4c02-a494-b0b066903eaf/file |
+| id               | 353a86da-b3d7-4c02-a494-b0b066903eaf                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | cirros                                               |
+| owner            | ec6a0ee076c5431e86ec46c758dce0af                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 13287936                                             |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2016-06-10T09:03:06Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | public                                               |
++------------------+------------------------------------------------------+
+```
+
+Set image: `openstack image set --help`
+```sh
+root@controller:~# openstack image set --private cirros
+root@controller:~# openstack image show cirros
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | ee1eca47dc88f4879d8a229cc70a07c6                     |
+| container_format | bare                                                 |
+| created_at       | 2016-06-10T09:03:06Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/353a86da-b3d7-4c02-a494-b0b066903eaf/file |
+| id               | 353a86da-b3d7-4c02-a494-b0b066903eaf                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | cirros                                               |
+| owner            | ec6a0ee076c5431e86ec46c758dce0af                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 13287936                                             |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2016-06-13T02:34:57Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | private                                              |
++------------------+------------------------------------------------------+
+```
+
 
 
 Tham Khảo:
