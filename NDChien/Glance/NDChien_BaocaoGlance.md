@@ -301,7 +301,7 @@ Phân quyền thư mục cho glance
 chown glance:glance /mnt/nfsshare/
 chown glance:glance /mnt/nfsshare_glance/
 ```
-Cấu hình đường dẫn trong file `/etc/glance/glance-api.conf` priority 200 có mức ưu tiên hơn 100. Mặc định là 0.
+Cấu hình đường dẫn trong file `/etc/glance/glance-api.conf` priority 200 có mức ưu tiên hơn 100.
 ```sh
 filesystem_store_datadirs = /mnt/nfsshare:200
 filesystem_store_datadirs = /mnt/nfsshare_glance:100
@@ -427,8 +427,7 @@ Tham Khảo:
 
 [4]- http://docs.openstack.org/developer/glance/cache.html
 
-
-
+[5]- http://egonzalez.org/multiple-store-locations-for-glance-images/
 
 
 
