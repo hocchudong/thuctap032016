@@ -208,6 +208,52 @@ Trước khi khởi động thì instance chọn một image, Flavors và các t
 
 OpenStack Glance Image Cache: Glance API server có thể cấu hình để có một local image cache. Một image cache chứa các bản copy của image. Về cơ bản thì cho phép nhiều API server chứa các file image giống nhau, dẫn tới khả năng mở rộng các endpoint cung cấp image. Mặc định tính năng bị disabled. 
 
+OpenStack khuyến cáo nên sử dụng Glance Cache khi lưu trữ dạng `file`, Còn với Ceph RBD thì khác.
+
+Khi kích hoạt Image Cache thì hệ thống sẽ tạo ra một Image Cache trong thư mục `/var/lib/glance/image-cache` mỗi khi Image được chuyển tới `/var/lib/nova/instances/_base` để boot máy ảo lên .
+
+Vấn đề đặt ra với dung lượng image lớn thì bộ nhớ của bạn sẽ nhanh chóng bị đầy.
+
+Cache sẽ được kích hoạt khi có image đưa vào thư mục /var/lib/nova/instances/_base, điều này xảy ra trong một số trường hợp như sau:
+- Sử dụng OpenStack phiên bản Juno nhưng sử dụng container format là QCOW2
+- Sử dụng OpenStack phiên bản trước Juno mà không áp dụng bản vá hỗ trợ COW clones.
+
+Như vậy nghĩa là người dùng chỉ sử dụng RAW images và COW cloens trong Nova thì sẽ không bị ảnh hưởng, vì image  không được đưa vào thư mục /var/lib/nova/instances/_base cả. Mọi việc diễn ra ở cấp độ của Ceph (thực hiện snapshot image và clone image)
+
+Command
+```sh
+List: glance-cache-manage list-cached
+Delete: glance-cache-manage -f delete-all-cached-images
+```
+Để kích hoạt hay tắt glance cache, tiến hành cấu hình trong file /etc/glance/glance-api.conf. 
+
+Kích hoạt cached:
+
+```sh
+[paste_deploy]
+flavor = keystone+cachemanagement
+```
+Tắt glance cache:
+```sh
+[paste_deploy]
+flavor = keystone
+```
+Sau đó khởi động lại glance để áp dụng các thay đổi:
+
+`sudo glance-control all restart`
+
+
+
+
+
+
+
+
+
+
+
+
+
 <a name="12"></a>
 ###12 Quản lý image
 
