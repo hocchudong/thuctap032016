@@ -288,8 +288,8 @@ Chú ý:
 
 Tạo các thư mục chứa image ví dụ:
 ```sh 
-sudo mkdir /mnt/lvm-images
-sudo mkdir /mnt/extended-images
+sudo mkdir /mnt/nfsshare
+sudo mkdir /mnt/nfsshare_glance
 ```
 Mount các devices tới các thư mục trên
 ```sh
