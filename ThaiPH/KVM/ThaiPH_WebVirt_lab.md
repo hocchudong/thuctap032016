@@ -253,6 +253,6 @@ Bật VNC viewer:
 <br>
 [2] - <a href="https://github.com/retspen/webvirtmgr">https://github.com/retspen/webvirtmgr</a>
 <br>
-[3] - <a href="https://github.com/caongocuy/Install-Webvirtmgr-KVM-simple">https://github.com/caongocuy/Install-Webvirtmgr-KVM-simple/a>
+[3] - <a href="https://github.com/caongocuy/Install-Webvirtmgr-KVM-simple">https://github.com/caongocuy/Install-Webvirtmgr-KVM-simple</a>
 </div>
 
