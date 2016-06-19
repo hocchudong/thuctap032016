@@ -57,12 +57,23 @@ Tiếp đó sử dụng Private Key đã tạo ở bước 2 để ký lên imag
 <li><b>Bước 13: </b>Nova yêu cầu Public Key Certificate từ Key Manager bằng việc sử dụng cert_uuid tương tác với giao diện Castellan</li>
 <li><b>Bước 14: </b>Key Manager trả về Public Key Certificate lại cho Nova</li>
 <li><b>Bước 15: </b>Nova xác nhận chứng chỉ. Chức năng này được thực hiện nếu chỉnh sửa module signature_utils của nova để kết hợp việc xác nhận chứng chỉ (certificate validation) vào  workflow của tiến trình xác thực chữ ký(signature verification).</li>
-<li><b>Bước 16: </b>Xác thực chữ ký của image. Để làm điều này, ta phải cấu hình trong file <b>nova.conf</b> của nova, thiết lập giá trị <b>verify_glance_signatures = true</b>. Như vậy, Nova sẽ sử dngj các thuộc tính của image, bao gồm các thuộc tính cần thiết cho quá trình xác thực chữ ký image(signature metadata). Nova sẽ đưa dữ liệu của image và các thuộc tính của nó tới module <b>signature_utils</b> để xác thực chữ ký.</li>
-<li><b>Bước 11: </b>Nếu việc xác thực chữ ký thành công, nova sẽ tiến hành boot máy ảo sử dụng image đó và ghi vào log chỉ ra rằng việc xác thực chữ ký thành côn kèm theo các thông tin về signing certificate. Ngược lại nếu xác nhận thất bại, Nova sẽ không boot image đó và lưu lại lỗi vào log.</li>
+<li><b>Bước 16: </b>Xác thực chữ ký của image. Để làm điều này, ta phải cấu hình trong file <b>nova.conf</b> của nova, thiết lập giá trị <b>verify_glance_signatures = true</b>. Như vậy, Nova sẽ sử dụng các thuộc tính của image, bao gồm các thuộc tính cần thiết cho quá trình xác thực chữ ký image(signature metadata). Nova sẽ đưa dữ liệu của image và các thuộc tính của nó tới module <b>signature_utils</b> để xác thực chữ ký.</li>
+<li><b>Bước 11: </b>Nếu việc xác thực chữ ký thành công, nova sẽ tiến hành boot máy ảo sử dụng image đó và ghi vào log chỉ ra rằng việc xác thực chữ ký thành công kèm theo các thông tin về signing certificate. Ngược lại nếu xác nhận thất bại, Nova sẽ không boot image đó và lưu lại lỗi vào log.</li>
 </ul>
 
 </li>
-<li><h3><a name="explain">2.2. Các tùy chọn thay thế</a></h3></li>
+<li><h3><a name="explain">2.2. Các tùy chọn thay thế</a></h3>
+<div>
+<ul>
+<li>Sử dụng cách tiếp cận "sign-the-data"(Mitaka) thay cho "sign-the-hash"(Liberty). Bởi MD5 về nguyên thủy thì không được sử dụng để xác thực mà là một hàm băm, nên nó không cung cấp giải pháp bảo vệ chống lại những thay đổi có hại cũng như mã độc. Việc sử dụng hàm băm MD5 do đó gây ra sự phức tạp không cần thiết.</li>
+<li>Một giải pháp thay thế để lưu trữ public key certificate là sử dụng chính Glance. Tuy nhiên, hướng tiếp cận này không an toàn so với việc sử dụng Key Manager, vì chính Glance cũng tiềm ẩn nguy cơ không tin cậy trong nhiều trường hợp, không sinh ra để lưu trữ key và các chứng chỉ gốc.</li>
+<li>Giải pháp thay vì sử dụng mã hóa khóa bất đối xứng là sử dụng mã hóa khóa đối xứng. Tuy nhiên cách này không an toàn vì như vậy, nếu Glance muốn xác thực image, nó cần có quyền truy cập vào key đã được sử dụng để tạo chữ ký. Việc truy cập này cho phép Glance chỉnh sửa image và tạo ra chữ ký mới mà không có tác động của người dùng. Sử dụng mã  hóa khóa bất đối xứng cho phép Glance xác thực chữ ký mà không cần phải được cấp quyền chỉnh sửa image hay signature. Và vì buộc phải sử dụng Public Key Certificate từ Key Manager để xác thực nên việc chỉnh sửa của Glance sẽ là không hợp lệ nếu như chỉnh sửa lại chữ ký.</li>
+<li>Một giải pháp đặt ra là sử dụng các thuộc tính của Glance để lưu trữ và thu thập signature metadata thông qua việc tạo các API mở rộng hỗ trợ chữ ký. Nghĩa là thay vì người dùng phải thiết lập metadata sử dụng các cặp key-value, các API mở rộng sẽ được sử dụng. Hiện tại, nếu một user được phép sử dụng metadata keys(cho các chứng chỉ và chữ ký) vì mục đích khác thì việc tải image lên sẽ gặp thất bại. Do đó các API mở rộng phải được phép quản lý nhiều chữ ký trên mỗi image một cách rõ ràng, nhưng điều này là không khả thi với hướng tiếp cận các thuộc tính. Tuy nhiên Image API cũng không hỗ trợ các API mở rộng, nên hướng tiếp cận này không phù hợp.</li>
+<li>Có một giải pháp khác để lưu trữ và thu thập signature metadata là sử dụng cú pháp thông điệp mật mã CMS(cryptographic message syntax) định nghĩa trong chuẩn RFC 5652 mục 5. Tuy nhiên, kích thước của định dạng sử dụng cho chuẩn này là biến số, không cố định và không thể sử dụng các thuộc tính hiện tại của Glance, điều này dẫn tới yêu cầu phải chỉnh sửa lại API. Việc chuyển sang sử dụng CMS trong tương lai sẽ được triển khai để đáp ứng nhu cầu tăng tính linh hoạt.</li>
+<li>Hướng mở rộng trong tương lại là hỗ trợ triển khai trên hệ thống multi-clouds thay thì single-cloud, để nếu như phát sinh nhu cầu trao đổi image giữa các cloud khác nhau, tiến trình xác thực chữ ký cũng có thể xác nhận các images có bị chỉnh sửa hay không.</li>
+</ul>
+</div>
+</li>
 </ul>
 <h2><a name="ref">3. Tham khảo</a></h2>
 <div>
