@@ -52,8 +52,8 @@ Tiếp đó sử dụng Private Key đã tạo ở bước 2 để ký lên imag
 <li><b>Bước 8: </b>Key Manager trả lại Public key Certificate</li>
 <li><b>Bước 9: </b>Xác thực Signature của image sử dụng public key thu được cùng với các signature metadata khi image được upload lên. Việc xác thực này được thực hiện bởi module <b>signature_utils</b>.</li>
 <li><b>Bước 10: </b>Lưu lại image nếu chứng thực thành công. Nếu chứng thực thất bại, Glance sẽ đưa image đó vào trạng thái <b>killed</b> và gửi thông báo lại cho người dùng kèm theo lý do tại sao image upload bị lỗi.</li>
-<li><b>Bước 11 : </b>Nova gửi yêu cầu tới Glance lấy Image và metadata để boot máy ảo.</li>
-<li><b>Bước 12 : </b>Glance gửi lại Nova image kèm theo metadata để chứng thực.</li>
+<li><b>Bước 11: </b>Nova gửi yêu cầu tới Glance lấy Image và metadata để boot máy ảo.</li>
+<li><b>Bước 12: </b>Glance gửi lại Nova image kèm theo metadata để chứng thực.</li>
 <li><b>Bước 13: </b>Nova yêu cầu Public Key Certificate từ Key Manager bằng việc sử dụng cert_uuid tương tác với giao diện Castellan</li>
 <li><b>Bước 14: </b>Key Manager trả về Public Key Certificate lại cho Nova</li>
 <li><b>Bước 15: </b>Nova xác nhận chứng chỉ. Chức năng này được thực hiện nếu chỉnh sửa module signature_utils của nova để kết hợp việc xác nhận chứng chỉ (certificate validation) vào  workflow của tiến trình xác thực chữ ký(signature verification).</li>
@@ -80,4 +80,6 @@ Tiếp đó sử dụng Private Key đã tạo ở bước 2 để ký lên imag
 [1] - <a href="https://specs.openstack.org/openstack/glance-specs/specs/mitaka/approved/image-signing-and-verification-support.html">https://specs.openstack.org/openstack/glance-specs/specs/mitaka/approved/image-signing-and-verification-support.html</a>
 <br>
 [2] - <a href="https://specs.openstack.org/openstack/nova-specs/specs/mitaka/implemented/image-verification.html">https://specs.openstack.org/openstack/nova-specs/specs/mitaka/implemented/image-verification.html</a>
+<br>
+[3] - <a href="http://www.slideshare.net/blpoulos/image-security-and-what-you-can-do-about-it">http://www.slideshare.net/blpoulos/image-security-and-what-you-can-do-about-it</a>
 </div>
