@@ -39,4 +39,31 @@ Từ bản IceHouse, keystone hỗ trợ federate authentication thông qua Apac
 - Nhược: Setup cho từng loại nguồn Identity 
 
 ### 1.2.5 Usecase cho ID backend
+<img src="http://i.imgur.com/QffXCN4.png">
+  
+## 1.3 Các loại xác thực
+- Password: Thông dụng và phổ biến nhất. User lấy token bằng phương pháp dùng các thông tin định danh của mình + mật khẩu + Project Scope (Project user được quyền truy cập) + Domain (Nếu triển khai xác thực cho nhiều domain).
+<img src="http://i.imgur.com/ZSs1gfc.png">  
+<img src="http://i.imgur.com/PG9wjW5.png">
 
+- Token: User yêu cầu token mới bằng việc đưa token đang có hiện tại:
+<img src="http://i.imgur.com/E7zKf5v.png">  
+
+## 1.4 Quản lý truy nhập (Access Management) và xác thực (Auth)
+Tệp tin Policy.json quy định quyền truy cập của các role trong endpoint.
+<img src="http://i.imgur.com/11WxEmK.png">  
+
+Mỗi một quyền truy cập sẽ tác động lên API tương ứng
+<img src="http://i.imgur.com/7hxAK8T.png">  
+
+## 1.5 Backend và Service  
+<img src="http://i.imgur.com/GYGGF1l.png">  
+
+## 1.6 Câu hỏi thường gặp:
+- Khác nhau giữa region và Domain: region là nơi địa lý để triển khai cloud. Domain chỉ là phân định giữa Project owner và identity source.
+- User có thể tồn tại ở nhiều domain? : Không thể. Mỗi user ở một domain khác nhau. Tên có thể giống nhau giữa các domain. 2 user có tên giống nhau trong 2 domain khác nhau được phân biệt bằng uniqueID  
+- Openstack Document đôi khi sử dụng từ "tenant", đôi khi lại sử dụng từ "Project": Vào thời kì đầu của OPS, các nguồn tài nguyên được nhóm gộp hay phân tách ra thành các tenant, nhưng qua thời gian thì cụm từ tenant dần được thay thế bằng Project để cho hợp lý hơn. Tuy nhiên không phải lúc nào cũng chuyển được tenant thành project.
+- Khác nhau giữa scoped token và unscoped token: Scoped token được tạo khi user xác thực ở một domain riêng hoặc một project riêng để xác định quyền được tác động lên project đó. 
+- Tôi đã xác thực và nhận được token, nhưng token đó ko có roles trong đấy? : bởi vì người dùng không cung cấp scope (vùng tác động) nên nhận về một unscoped token
+- Active Directory support: Keystone LDAP hỗ trợ mở rộng cho AD. tuy nhiên vẫn còn lỗi
+- Other auth method: hỗ trợ auth bằng certificate. tuy nhiên user đi với certificate phải tồn tại dưới identity backend
