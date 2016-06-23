@@ -21,6 +21,7 @@
 </ul>
 </li>
 </ul>
+<h3><a href="#ref">4. Tham khảo</a></h3>
 ---
 
 <h2><a name="sysarch">1. Giới thiệu Nova</a></h2>
@@ -319,4 +320,13 @@ Live Migration Workflow:
 </ul>
 </li>
 </ul>
+
+<h2><a name="ref">4. Tham khảo</a></h2>
+<div>
+[1] - <a href="https://www.openstack.org/summit/openstack-summit-atlanta-2014/session-videos/presentation/under-the-hood-with-nova-libvirt-and-kvm">https://www.openstack.org/summit/openstack-summit-atlanta-2014/session-videos/presentation/under-the-hood-with-nova-libvirt-and-kvm</a>
+<br>
+[2] - <a href="https://www.openstack.org/assets/presentation-media/OSSummitAtlanta2014-NovaLibvirtKVM2.pdf">https://www.openstack.org/assets/presentation-media/OSSummitAtlanta2014-NovaLibvirtKVM2.pdf</a>
+<br>
+[3] - <a href="http://docs.openstack.org/developer/nova/architecture.html">http://docs.openstack.org/developer/nova/architecture.html</a>
+</div>
 
