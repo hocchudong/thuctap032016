@@ -9,7 +9,17 @@
 <h3><a href="#nova">3. Nova, Libvirt và KVM</a></h3>
 <ul>
 <li><a href="#fundamental">3.1. Các khái niệm căn bản</a></li>
-<li><a href="#integrated">3.2. Tích hợp Nova với Libvirt, KVM quản lý máy ảo</a></li>
+<li><a href="#integrated">3.2. Tích hợp Nova với Libvirt, KVM quản lý máy ảo</a>
+<ul>
+<li><a href="#workflow">3.2.1. Workflow của Nova Compute</a></li>
+<li><a href="#spawn">3.2.2. Spawn</a></li>
+<li><a href="#reboot">3.2.3. Reboot</a></li>
+<li><a href="#suspend">3.2.4. Suspend</a></li>
+<li><a href="#migration">3.2.5. Live Migration</a></li>
+<li><a href="#resize">3.2.6. Resize/Migrate</a></li>
+<li><a href="#snapshots">3.2.7. Snapshots</a></li>
+</ul>
+</li>
 </ul>
 ---
 
@@ -105,7 +115,8 @@ Tiến trình xử lý của <b>nova-compute</b> khá phức tạp, về cơ b�
 Về cơ bản, OpenStack Compute hỗ trợ bất kỳ hệ quản trị cơ sở dữ liệu nào như SQLite3 (cho việc kiểm tra và phát triển công việc), MySQL, PostgreSQL.
 </li>
 </ul>
-<div>
+</div>
+
 <h2><a name="nova">3. Nova, Libvirt và KVM</a></h2>
 <ul>
 <li><h3><a name="fundamental">3.1. Các khái niệm căn bản</a></h3>
