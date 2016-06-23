@@ -27,6 +27,7 @@
 <h2><a name="sysarch">1. Giới thiệu Nova</a></h2>
 <div>
 <ul>
+<li>Quản lí các máy ảo trong môi trường OpenStack, chịu trách nhiệm khởi tạo, lập lịch, ngừng hoạt động của các máy ảo theo yêu cầu.</li>
 <li>Nova bao gồm nhiều tiến trình trên server, mỗi tiến trình lại thực hiện một chức năng khác nhau.</li>
 <li>Nova cung cấp REST API để tương tác với ứng dụng client phía người dùng, trong khi các thành phần bên trong Nova tương tác với nhau thông qua RPC.</li>
 <li>Các API servers thực hiện các REST request, điển hình nhất là thao tác đọc, ghi vào cơ sở dữ liệu, với tùy chọn là gửi các bản tin RPC tới các dịch vụ khác của Nova. Các bản tin RPC dược thực hiện nhờ thư viện  <b>oslo.messaging</b> - lớp trừu tượng ở phía trên của các message queue. Hầu hết các thành phần của nova có thể chạy trên nhiều server và có một trình quản lý lắng nghe các bản tin RPC. Ngoại trừ <b>nova-compute</b>, vì dịch vụ <b>nova-compute</b> được cài đặt trên các máy compute - các máy cài đặt hypervisor mà <b>nova-compute</b> quản lý.</li>
