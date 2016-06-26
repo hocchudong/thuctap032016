@@ -23,6 +23,9 @@
 
 [11 Image cache](#11)
 
+[12 Multiple store locations for Glance images](#12)
+
+[13 Quản lý image](#13)
 
 =====================================
 
@@ -207,7 +210,107 @@ Trước khi khởi động thì instance chọn một image, Flavors và các t
 
 OpenStack Glance Image Cache: Glance API server có thể cấu hình để có một local image cache. Một image cache chứa các bản copy của image. Về cơ bản thì cho phép nhiều API server chứa các file image giống nhau, dẫn tới khả năng mở rộng các endpoint cung cấp image. Mặc định tính năng bị disabled. 
 
-###12 Chú ý
+OpenStack khuyến cáo nên sử dụng Glance Cache khi lưu trữ dạng `file`, Còn với Ceph RBD thì khác.
+
+Khi kích hoạt Image Cache thì hệ thống sẽ tạo ra một Image Cache trong thư mục `/var/lib/glance/image-cache` mỗi khi Image được chuyển tới `/var/lib/nova/instances/_base` để boot máy ảo lên .
+
+Vấn đề đặt ra với dung lượng image lớn thì bộ nhớ của bạn sẽ nhanh chóng bị đầy.
+
+Cache sẽ được kích hoạt khi có image đưa vào thư mục /var/lib/nova/instances/_base, điều này xảy ra trong một số trường hợp như sau:
+- Sử dụng OpenStack phiên bản Juno nhưng sử dụng container format là QCOW2
+- Sử dụng OpenStack phiên bản trước Juno mà không áp dụng bản vá hỗ trợ COW clones.
+
+Như vậy nghĩa là người dùng chỉ sử dụng RAW images và COW cloens trong Nova thì sẽ không bị ảnh hưởng, vì image  không được đưa vào thư mục /var/lib/nova/instances/_base cả. Mọi việc diễn ra ở cấp độ của Ceph (thực hiện snapshot image và clone image)
+
+Command
+```sh
+List: glance-cache-manage list-cached
+Delete: glance-cache-manage -f delete-all-cached-images
+...
+```
+Để kích hoạt hay tắt glance cache, tiến hành cấu hình trong file /etc/glance/glance-api.conf. 
+
+Kích hoạt cached:
+
+```sh
+[paste_deploy]
+flavor = keystone+cachemanagement
+```
+Tắt glance cache:
+```sh
+[paste_deploy]
+flavor = keystone
+```
+Sau đó khởi động lại glance để áp dụng các thay đổi:
+
+`sudo glance-control all restart`
+
+
+**Cấu hình cho Image Cache**
+Glance sử dụng 2 thành phần: `glance-api.conf` cho server và `glance-cache.conf` cho các phần bổ trợ.
+
+Các options có trong cả 2 file và cần cấu hình giống nhau:
+```sh
+image_cache_dir: This is the base directory where Glance stores the cache data (Required to be set, as does not have a default).
+image_cache_sqlite_db: Path to the sqlite file database that will be used for cache manangement. This is a relative path from the image_cache_dir directory (Default:cache.db).
+image_cache_driver: The driver used for cache management. (Default:sqlite)
+image_cache_max_size: The size when the glance-cache-pruner will remove the oldest images, to reduce the bytes until under this value. (Default:10 GB)
+image_cache_stall_time: The amount of time an incomplete image will stay in the cache, after this the incomplete image will be deleted. (Default:1 day)
+```
+Các options riêng cho glance-cache.conf
+```sh
+Admin_user: The username for an admin account, this is so it can get the image data into the cache.
+Admin_password: The password to the admin account.
+Admin_tenant_name: The tenant of the admin account.
+Auth_url: The URL used to authenticate to keystone. This will be taken from the environment varibles if it exists.
+Filesystem_store_datadir: This is used if using the filesystem store, points to where the data is kept.
+Filesystem_store_datadirs: This is used to point to multiple filesystem stores.
+Registry_host: The URL to the Glance registry.
+```
+Chú ý:
+<ul>
+<li>Controlling the Growth: `glance-cache-pruner`
+<li>Cleaning: Image Cache có thể lưu dưới trạng thái stalled (Ghi thất bại) hoặc invaild (Ghi không đúng lên disk) dùng `glance-cache-cleaner` để xóa.
+<li>Prefetching Images into the Image Cache:(Nạp trước các image) Với các image phổ biến hay được dùng từ các local cache thì nên cho chúng vào `queue`.
+	- Nếu `cache_manage` middleware được enable thì có thể dùng `PUT /queued-images/<IMAGE_ID>` để queue các image với định danh `<IMAGE_ID>`.
+	- Có thể dùng `glance-cache-manage --host=<HOST> queue-image <IMAGE_ID>`.
+	- Sau khi đã có queue ta gõ `glance-cache-prefetcher` để **Prefetching**.
+<li>Finding Images in the Image Cache: 
+	- Nếu `cache_manage` middleware được enable thì có thể dùng `GET /cached-images`.
+	- Có thể dùng `glance-cache-manage --host=<HOST> list-cached`.
+	- Dùng `ls -lhR $IMAGE_CACHE_DIR` (Host that contains the image cache).
+<li>Removing Images from the Image Cache: 
+	- Nếu `cache_manage` middleware được enable thì có thể dùng `DELETE /cached-images/<IMAGE_ID>`
+	- Có thể dùng `glance-cache-manage --host=<HOST> delete-cached-image <IMAGE_ID>`.
+	
+<a name="12"></a>
+####12 Multiple store locations for Glance images
+
+Tạo các thư mục chứa image ví dụ:
+```sh 
+sudo mkdir /mnt/nfsshare
+sudo mkdir /mnt/nfsshare_glance
+```
+Mount các devices tới các thư mục trên
+```sh
+sudo mount /dev/sdc1 /mnt/nfsshare/
+sudo mount /dev/sdd1 /mnt/nfsshare_glance/
+```
+Phân quyền thư mục cho glance
+```sh
+chown glance:glance /mnt/nfsshare/
+chown glance:glance /mnt/nfsshare_glance/
+```
+Cấu hình đường dẫn trong file `/etc/glance/glance-api.conf` priority 200 có mức ưu tiên hơn 100.
+```sh
+filesystem_store_datadirs = /mnt/nfsshare:200
+filesystem_store_datadirs = /mnt/nfsshare_glance:100
+```
+Khởi động lại glance và up image mới.
+
+<a name="13"></a>
+###13 Quản lý image
+
 
 Thư mục chứa các image **/var/lib/glance/images**
 
@@ -217,6 +320,8 @@ File log:  /var/log/glance
 - **glance-registry.log**: Image service Registry server
 
 Phần cấu hình backend trong file `glance-api.conf`
+
+Ta có thể chỉnh sửa hệ thống backend lưu trữ và đường dẫn thư mục lưu trữ image.
 ```sh
 [glance_store]
 default_store = file
@@ -224,15 +329,7 @@ stores = file,http
 filesystem_store_datadir = /var/lib/glance/images/
 ```
 
-Liệt kê và thực hành cách lệnh cơ bản của API: 
-
-upload image:
-```sh
-openstack image create "cirros" \				
- --file cirros-0.3.4-x86_64-disk.img \			
- --disk-format qcow2 --container-format bare \	
- --public										
-```
+**Liệt kê và thực hành các lệnh cơ bản**
 
 ```sh
 image add project  Associate project with image
@@ -245,6 +342,80 @@ image set      Set image properties
 image show     Display image details
 ```
 
+Upload image:
+```sh
+openstack image create "cirros" \				
+ --file cirros-0.3.4-x86_64-disk.img \			
+ --disk-format qcow2 --container-format bare \	
+ --public										
+```
+
+List image:
+```sh
+root@controller:~# openstack image list
++--------------------------------------+--------+--------+
+| ID                                   | Name   | Status |
++--------------------------------------+--------+--------+
+| 353a86da-b3d7-4c02-a494-b0b066903eaf | cirros | active |
++--------------------------------------+--------+--------+
+```
+
+show image:
+```sh
+root@controller:~# openstack image show cirros
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | ee1eca47dc88f4879d8a229cc70a07c6                     |
+| container_format | bare                                                 |
+| created_at       | 2016-06-10T09:03:06Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/353a86da-b3d7-4c02-a494-b0b066903eaf/file |
+| id               | 353a86da-b3d7-4c02-a494-b0b066903eaf                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | cirros                                               |
+| owner            | ec6a0ee076c5431e86ec46c758dce0af                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 13287936                                             |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2016-06-10T09:03:06Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | public                                               |
++------------------+------------------------------------------------------+
+```
+
+Set image: `openstack image set --help`
+```sh
+root@controller:~# openstack image set --private cirros
+root@controller:~# openstack image show cirros
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | ee1eca47dc88f4879d8a229cc70a07c6                     |
+| container_format | bare                                                 |
+| created_at       | 2016-06-10T09:03:06Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/353a86da-b3d7-4c02-a494-b0b066903eaf/file |
+| id               | 353a86da-b3d7-4c02-a494-b0b066903eaf                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | cirros                                               |
+| owner            | ec6a0ee076c5431e86ec46c758dce0af                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 13287936                                             |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2016-06-13T02:34:57Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | private                                              |
++------------------+------------------------------------------------------+
+```
+
+
 
 Tham Khảo:
 
@@ -254,8 +425,9 @@ Tham Khảo:
 
 [3]- http://docs.openstack.org/developer/glance/
 
+[4]- http://docs.openstack.org/developer/glance/cache.html
 
-
+[5]- http://egonzalez.org/multiple-store-locations-for-glance-images/
 
 
 
