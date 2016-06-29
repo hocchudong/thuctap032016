@@ -101,3 +101,40 @@ postgresql_user: db=module_test
                   port=5432
                   login_user=postgres
 ```
+
+- Bây giờ chúng ta có một user đã sẵn sàng, chúng ta có thể gán cho user một vài role để cho user `ada` này login và tạo CSDL .
+
+```sh
+postgresql_user: name=ada
+                  role_attr_flags=LOGIN,CREATEDB
+                  login_host=db.example.com
+                  port=5432
+                  login_user=postgres
+```
+
+- CHúng ta có thể cung cấp các đặc quyền dựa trên global hoặc table chẳng hạn như "INSERT" , "UPDATE" , "SELECT" , và "DELETE" sử dụng tham số `priv`. Một trong những điểm quan trọng cần xem xét là một user không thể loại bỏ cho tới khi tất cả các đặc quyền (privileges) được cấp bị thu hồi.
+
+**postgresql_privs**
+
+- Module core này cấp hoặc thu hồi các đặc quyền trên các đối tượng cơ sở dữ liệu PostgreSQL . Các đối tượng được hỗ trợ là : table, sequence, function, database, schema, langue, tablespace và gruop.
+- Các tham số yêu cầu là "database" ; tên của cơ sở dữ liệu để cấp/thu hồi các đặc quyền và "role"; một danh sách tên các role được ngăn cách bằng dấu phẩy;
+- Các tham số tùy chon quan trọng nhất là : 
+ <ul>
+ <li>Type : kiểu đối tượng thiết lập đặc quyền. CÓ thể là một trong các kiểu table, sequence, function, database, schema, language, tablesace, group. Giá trị mặc định là table.</li>
+ <li>obj : Các đối tượng cơ sở sữ liệu được thiết lập đặc quyền. Có thể có nhiều giá trị. Trong trường hợp đó, các đối tượng sẽ được ngăn cách bằng dấu phẩy.</li>
+ <li>privs : Một danh sách các đặc quyền được ngăn cách bằng dấy phẩy để gọi hoặc thu hồi. Các giá trị có thể bao gồm : ALL, SELECT, UPDATE, INSERT.</li>
+ </ul>
+
+- Một ví dụ cụ thể :
+
+```sh
+postgresql_privs: db=module_test
+                   privs=ALL
+                   type=schema
+                   objs=public
+                   role=ada
+                   login_host=db.example.com
+                   port=5432
+                   login_user=postgres
+```
+
