@@ -55,8 +55,8 @@ Kiến trúc linux bridge minh họa như hình vẽ trên. Một số khái ni�
 <div>
 <ul>
 <li>Một máy tính với 2 card eth1, eth2 (có thể sử dụng máy ảo), cài ubuntu 14.04.</li>
-<li><b>Trường hợp 1</b>: Tạo một switch ảo và gán interface eth1 vào switch đó, tạo một máy ảo bên trong máy host, gắn vào tab interface của switch và kiểm tra địa chỉ được cấp phát. (Có thể tạo 2 VM trong host cùng gắn vào tab interface của switch, ping kiểm tra kết nối).</li>
-<li><b>Trường hợp 2</b>: Gắn cả 2 card mạng eth1, eth2 của host vào switch ảo, set priority cho hai port ứng với 2 card. Kiểm tra xem máy ảo (gắn vào tab interface của switch ảo) nhận ip cùng dải với card mạng vật lý nào.</li>
+<li><b>Trường hợp 1</b>: Tạo một switch ảo và gán interface eth1 vào switch đó, tạo một máy ảo bên trong máy host, gắn vào tap interface của switch và kiểm tra địa chỉ được cấp phát. (Có thể tạo 2 VM trong host cùng gắn vào tap interface của switch, ping kiểm tra kết nối).</li>
+<li><b>Trường hợp 2</b>: Gắn cả 2 card mạng eth1, eth2 của host vào switch ảo, set priority cho hai port ứng với 2 card. Kiểm tra xem máy ảo (gắn vào tap interface của switch ảo) nhận ip cùng dải với card mạng vật lý nào.</li>
 </ul>
 </div>
 
@@ -113,7 +113,7 @@ Kết quả kiểm tra cấu hình sẽ tương tự như sau:
 bridge name	bridge id		STP enabled	interfaces
 br0		8000.000c29586f24	yes		eth0
 br1		8000.000c29586f2e	yes		eth1
-lxcbr0		8000.000000000000	no		
+lxcbr0		8000.000000000000	no
 virbr0		8000.000000000000	yes
 </code>
 </pre>
@@ -132,11 +132,11 @@ brctl setportprio br1 eth1 1
 brctl setportprio br1 eth2 2
 </code>
 </pre>
-Theo lý thuyết, port nào có độ ưu tiên cao hơn thì các VM khi gắn vào tab interface của switch ảo sẽ nhận IP cùng dải với NIC của máy host đã gán vào switch ảo đó. Theo như cấu hình trên, port tương ứng với NIC eth2 có độ ưu tiên cao hơn. Như vậy VM sẽ nhận IP cùng dải với eth2.
+Theo lý thuyết, port nào có độ ưu tiên cao hơn thì các VM khi gắn vào tap interface của switch ảo sẽ nhận IP cùng dải với NIC của máy host đã gán vào switch ảo đó. Theo như cấu hình trên, port tương ứng với NIC eth2 có độ ưu tiên cao hơn. Như vậy VM sẽ nhận IP cùng dải với eth2.
 <br>
 Trong bài lab này, card <b>eth1</b> thuộc dải mạng <b>10.10.10.0/24</b> và card <b>eth2</b> thuộc dải mạng <b>10.10.2.0/24</b>. Như vậy VM sẽ nhận IP thuộc dải <b>10.10.2.0/24</b>. Minh họa:
 <br><br>
-<img src="http://i.imgur.com/CjGhbFS.png"/>
+<img src="http://i.imgur.com/p6dNZV8.png"/>
 <br><br>
 <img src="http://i.imgur.com/gWcAeq1.png"/>
 <br><br>
