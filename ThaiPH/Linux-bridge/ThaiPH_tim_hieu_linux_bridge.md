@@ -134,7 +134,7 @@ brctl setportprio br1 eth2 2
 </pre>
 Theo lý thuyết, port nào có độ ưu tiên cao hơn thì các VM khi gắn vào tap interface của switch ảo sẽ nhận IP cùng dải với NIC của máy host đã gán vào switch ảo đó. Theo như cấu hình trên, port tương ứng với NIC eth2 có độ ưu tiên cao hơn. Như vậy VM sẽ nhận IP cùng dải với eth2.
 <br>
-Trong bài lab này, card <b>eth1</b> thuộc dải mạng <b>10.10.10.0/24</b> và card <b>eth2</b> thuộc dải mạng <b>10.10.2.0/24</b>. Như vậy VM sẽ nhận IP thuộc dải <b>10.10.2.0/24</b>. Minh họa:
+Trong bài lab này, card <b>eth1</b> thuộc dải mạng <b>10.10.10.0/24</b> và card <b>eth2</b> thuộc dải mạng <b>10.0.2.0/24</b>. Như vậy VM sẽ nhận IP thuộc dải <b>10.0.2.0/24</b>. Minh họa:
 <br><br>
 <img src="http://i.imgur.com/p6dNZV8.png"/>
 <br><br>
