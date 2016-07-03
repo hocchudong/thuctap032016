@@ -272,5 +272,5 @@ Partner Churned Count: 1
 <div>
 [1] - <a href="https://www.kernel.org/doc/Documentation/networking/bonding.txt">https://www.kernel.org/doc/Documentation/networking/bonding.txt</a>
 <br>
-[2] - <a href="https://raymii.org/s/tutorials/NIC_Bonding_on_Ubuntu_12.04.html">https://www.kernel.org/doc/Documentation/networking/bonding.txt</a>
+[2] - <a href="https://raymii.org/s/tutorials/NIC_Bonding_on_Ubuntu_12.04.html">https://raymii.org/s/tutorials/NIC_Bonding_on_Ubuntu_12.04.html</a>
 </div>
