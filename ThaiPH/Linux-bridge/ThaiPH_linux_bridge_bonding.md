@@ -62,6 +62,13 @@ Kiểm tra thư mục cấu hình bonding:
 ls -l /proc/net/bonding
 </code>
 </pre>
+Kết quả sẽ tương tự như sau:
+<pre>
+<code>
+total 0
+-r--r--r--. 1 root root 0 Jul  3 16:57 bond0
+</code>
+</pre>
 </li>
 <li><h3><a name="cfg">3.1. Cấu hình bonding network</a></h3>
 Mở file:
@@ -70,6 +77,8 @@ Mở file:
 vim /etc/network/interfaces
 </code>
 </pre>
+<ul>
+<li><b>Mode 0 - Round-robin</b>:
 Cấu hình bond0 kết hợp hai interfaces eth0 và eth1 như sau (cơ chế Round-robin - Mode 0 - balance-rr):
 <pre>
 <code>
@@ -88,7 +97,7 @@ auto bond0
 iface bond0 inet static
     # For jumbo frames, change mtu to 9000
     mtu 1500
-    address 172.16.69.1
+    address 172.16.69.133
     netmask 255.255.255.0
     network 172.16.69.0
     broadcast 172.16.69.255
@@ -105,7 +114,159 @@ Khởi động lại các card mạng để áp dụng thay đổi:
 <code>ifdown -a && ifup -a</code>
 </pre>
 </li>
+Kiểm tra lại cấu hình bonding:
+<pre>
+<code> cat /proc/net/bonding/bond0
+</code>
+</pre>
+Kết quả trả về sẽ tương tự như sau:
+<pre>
+<code>
+Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
 
+Bonding Mode: load balancing (round-robin)
+MII Status: up
+MII Polling Interval (ms): 100
+Up Delay (ms): 200
+Down Delay (ms): 200
+
+Slave Interface: eth1
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 00:0c:29:67:61:60
+Slave queue ID: 0
+
+Slave Interface: eth0
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 00:0c:29:67:61:56
+Slave queue ID: 0
+</code>
+</pre>
+</li>
+<li><b>Mode 802.3ad</b>:
+<ul>
+<li>
+Tạo bond interfaces tên là bond0 kết hợp hai interfaces eth0 và eth1:
+<pre>
+<code>
+ifenslave bond0 eth1
+ifenslave bond0 eth2
+</code>
+</pre>
+</li>
+<li>Tạo swith ảo br-bonding và gán bond0 interface vào switch đó:
+<pre>
+<code>
+brctl addbr br-bonding
+brctl addif bridgename bond0
+</code>
+</pre>
+Kiểm tra lại cấu hình:
+<pre>
+<code>
+brctl show
+</code>
+</pre>
+Kết quả sẽ tương tự như sau:
+<pre>
+<code>
+bridge name     bridge id               STP enabled     interfaces
+br-bonding      8000.000c29676160       no              bond0
+virbr0          8000.5254004468fb       yes             virbr0-nic
+</code>
+</pre>
+</li>
+<li>Lưu giữ lại cấu hình này trong file <code>vi /etc/network/interfaces</code></li>
+<pre>
+<code>
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet manual
+bond-master bond0
+
+auto eth1
+iface eth1 inet manual
+bond-master bond0
+
+auto bond0
+iface bond0 inet manual
+ bond-slaves none
+ bond-mode 802.3ad
+ bond-miimon 100
+ bond-lacp-rate 1
+
+auto br-bonding
+iface br-bonding inet static
+ bridge-ports bond0
+ address 172.16.69.133
+ netmask 255.255.255.0
+ gateway 172.16.69.1
+ bridge_fd 0
+ bridge_hell0 2
+ bridge_maxage 12
+
+</code>
+</pre>
+<li>Khởi động các card mạng: <code>ifdown -a && ifup -a</code></li>
+<li>Kiểm tra cấu hình bonding: <code>cat /proc/net/bonding/bond0</code></li>. Kết quả sẽ tương tự như sau:
+<pre>
+<code>
+Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
+
+Bonding Mode: IEEE 802.3ad Dynamic link aggregation
+Transmit Hash Policy: layer2 (0)
+MII Status: up
+MII Polling Interval (ms): 100
+Up Delay (ms): 0
+Down Delay (ms): 0
+
+802.3ad info
+LACP rate: fast
+Min links: 0
+Aggregator selection policy (ad_select): stable
+
+Slave Interface: eth1
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 00:0c:29:67:61:60
+Slave queue ID: 0
+Aggregator ID: 1
+Actor Churn State: none
+Partner Churn State: churned
+Actor Churned Count: 0
+Partner Churned Count: 1
+
+Slave Interface: eth0
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 00:0c:29:67:61:56
+Slave queue ID: 0
+Aggregator ID: 2
+Actor Churn State: churned
+Partner Churn State: churned
+Actor Churned Count: 1
+Partner Churned Count: 1
+</code>
+</pre>
+
+</ul>
+
+</li>
+
+</ul>
+
+</li>
 </ul>
 <h2><a name="ref">4. Tham khảo</a></h2>
 <div>
