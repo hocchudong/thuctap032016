@@ -134,30 +134,30 @@ ovs_version: "2.0.2"
 <li>Cấu hình network tương ứng br-ex: <code>vi ovs-vlan.xml</code>
 <pre>
 <code>
-<network>
-  <name>ovs-network</name>
-  <forward mode='bridge'/>
-  <bridge name='br-ex'/>
-  <virtualport type='openvswitch'/>
-  <portgroup name='vlan-00' default='yes'>
-  </portgroup>
-  <portgroup name='vlan-100'>
-    <vlan>
-      <tag id='100'/>
-    </vlan>
-  </portgroup>
-  <portgroup name='vlan-200'>
-    <vlan>
-      <tag id='200'/>
-    </vlan>
-  </portgroup>
-  <portgroup name='vlan-all'>
-    <vlan trunk='yes'>
-      <tag id='100'/>
-      <tag id='200'/>
-    </vlan>
-  </portgroup>
-</network>
+&lt;network&gt;
+  &lt;name&gt;ovs-network&lt;/name&gt;
+  &lt;forward mode='bridge'/&gt;
+  &lt;bridge name='br-ex'/&gt;
+  &lt;virtualport type='openvswitch'/&gt;
+  &lt;portgroup name='vlan-00' default='yes'&gt;
+  &lt;/portgroup&gt;
+  &lt;portgroup name='vlan-100'&gt;
+    &lt;vlan&gt;
+      &lt;tag id='100'/&gt;
+    &lt;/vlan&gt;
+  &lt;/portgroup&gt;
+  &lt;portgroup name='vlan-200'&gt;
+    &lt;vlan&gt;
+      &lt;tag id='200'/&gt;
+    &lt;/vlan&gt;
+  &lt;/portgroup&gt;
+  &lt;portgroup name='vlan-all'&gt;
+    &lt;vlan trunk='yes'&gt;
+      &lt;tag id='100'/&gt;
+      &lt;tag id='200'/&gt;
+    &lt;/vlan&gt;
+  &lt;/portgroup&gt;
+&lt;/network&gt;
 </code>
 </pre>
 
@@ -166,32 +166,33 @@ ovs_version: "2.0.2"
 <li>Cấu hình network tương ứng với br-ex1: <code>vi ovs-vlan_br-ex1.xml</code>
 <pre>
 <code>
-<network>
-  <name>ovs-network-1</name>
-  <forward mode='bridge'/>
-  <bridge name='br-ex1'/>
-  <virtualport type='openvswitch'/>
-  <portgroup name='vlan-00' default='yes'>
-  </portgroup>
-  <portgroup name='vlan-100'>
-    <vlan>
-      <tag id='100'/>
-    </vlan>
-  </portgroup>
-  <portgroup name='vlan-200'>
-    <vlan>
-      <tag id='200'/>
-    </vlan>
-  </portgroup>
-  <portgroup name='vlan-all'>
-    <vlan trunk='yes'>
-      <tag id='100'/>
-      <tag id='200'/>
-    </vlan>
-  </portgroup>
-</network>
+&lt;network&gt;
+  &lt;name&gt;ovs-network-1&lt;/name&gt;
+  &lt;forward mode='bridge'/&gt;
+  &lt;bridge name='br-ex1'/&gt;
+  &lt;virtualport type='openvswitch'/&gt;
+  &lt;portgroup name='vlan-00' default='yes'&gt;
+  &lt;/portgroup&gt;
+  &lt;portgroup name='vlan-100'&gt;
+    &lt;vlan&gt;
+      &lt;tag id='100'/&gt;
+    &lt;/vlan&gt;
+  &lt;/portgroup&gt;
+  &lt;portgroup name='vlan-200'&gt;
+    &lt;vlan&gt;
+      &lt;tag id='200'/&gt;
+    &lt;/vlan&gt;
+  &lt;/portgroup&gt;
+  &lt;portgroup name='vlan-all'&gt;
+    &lt;vlan trunk='yes'&gt;
+      &lt;tag id='100'/&gt;
+      &lt;tag id='200'/&gt;
+    &lt;/vlan&gt;
+  &lt;/portgroup&gt;
+&lt;/network&gt;
 </code>
 </pre>
+
 </li>
 
 <li>Áp dụng cấu hình network mới:
@@ -226,12 +227,12 @@ virsh edit kvm-th0
  Thiết lập cho máy ảo này thuộc vlan-100 và gán vào switch br-ex (tương ứng với ovs-network). Ta chỉnh sửa section <interface> như sau:
 <pre>
 <code>
-<interface type='network'>
-  <mac address='52:54:00:10:aa:1c'/>
-  <source network='ovs-network' portgroup='vlan-100'/>
-  <model type='virtio'/>
-  <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
-</interface>
+&lt;interface type='network'&gt;
+  &lt;mac address='52:54:00:10:aa:1c'/&gt;
+  &lt;source network='ovs-network' portgroup='vlan-100'/&gt;
+  &lt;model type='virtio'/&gt;
+  &lt;address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/&gt;
+&lt;/interface&gt;
 </code>
 </pre>
 Tiến hành cấu hình tương tự cho các máy ảo khác theo đúng topology.
