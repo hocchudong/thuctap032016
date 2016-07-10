@@ -133,7 +133,7 @@ ovs_version: "2.0.2"
 <ul>
 <li>Cấu hình network tương ứng br-ex: <code>vi ovs-vlan.xml</code>
 <pre>
-<```
+<code>
 <network>
   <name>ovs-network</name>
   <forward mode='bridge'/>
@@ -158,14 +158,14 @@ ovs_version: "2.0.2"
     </vlan>
   </portgroup>
 </network>
-```>
+</code>
 </pre>
 
 </li>
 
 <li>Cấu hình network tương ứng với br-ex1: <code>vi ovs-vlan_br-ex1.xml</code>
 <pre>
-```
+<code>
 <network>
   <name>ovs-network-1</name>
   <forward mode='bridge'/>
@@ -190,15 +190,14 @@ ovs_version: "2.0.2"
     </vlan>
   </portgroup>
 </network>
-
-```
+</code>
 </pre>
 </li>
 
 <li>Áp dụng cấu hình network mới:
 
 <pre>
-```
+<code>
 # define new networks
 virsh net-define ovs-vlan.xml
 virsh net-define ovs-vlan_br-ex1.xml
@@ -210,7 +209,7 @@ virsh net-start ovs-network-1
 # auto start networks when turning on
 virsh net-autostart ovs-network
 virsh net-autostart ovs-network-1
-```
+</code>
 </pre>
 
 
@@ -219,21 +218,21 @@ virsh net-autostart ovs-network-1
 <h4>Tạo các máy ảo và thiết lập network cho các máy ảo</h4>
 Tạo 4 máy ảo và thực hiện cấu hình network cho 4 máy ảo sử dụng công cụ <b>virsh</b>. Ví dụ ở đây ta cấu hình network cho máy ảo kvm-th0 theo topo. Cấu hình các máy ảo thiết lập trong 1 file <i>*.xml</i> nằm trong thư mục <code>/etc/libvirt/qemu/</code>. Để chỉnh sửa cấu hình một máy ảo, ta sử dụng lệnh:
 <pre>
-```
+<code>
 # virsh edit vm_name
 virsh edit kvm-th0
-```
+</code>
 </pre>
  Thiết lập cho máy ảo này thuộc vlan-100 và gán vào switch br-ex (tương ứng với ovs-network). Ta chỉnh sửa section <interface> như sau:
 <pre>
-```
+<code>
 <interface type='network'>
   <mac address='52:54:00:10:aa:1c'/>
   <source network='ovs-network' portgroup='vlan-100'/>
   <model type='virtio'/>
   <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
 </interface>
-```
+</code>
 </pre>
 Tiến hành cấu hình tương tự cho các máy ảo khác theo đúng topology.
 
