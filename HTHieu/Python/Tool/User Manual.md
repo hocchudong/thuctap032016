@@ -86,7 +86,7 @@ if __name__ == "__main__":
     RegisterPy()
 ```
 <ul>
-<li>Download `py2exe` tại link `https://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/`</li>
+<li>Download `py2exe` tại link https://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/</li>
 <li>Chạy như file exe bình thường<li>
 <li>để chạy tool dùng lệnh `python tool.py py2exe`</li>
 </ul>
