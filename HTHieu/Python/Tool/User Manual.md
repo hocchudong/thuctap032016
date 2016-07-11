@@ -88,8 +88,10 @@ if __name__ == "__main__":
 <ul>
 <li>Download `py2exe` tại link https://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/</li>
 <li>Chạy như file exe bình thường</li>
-<li>Để chạy tool dùng lệnh ```
+<li>Để chạy tool dùng lệnh 
+```
 python tool.py py2exe
-```</li>
+```
+</li>
 </ul>
 - C2 thực hiện phức tạp hơn nhưng sau khi hoàn thành ta có 1 file `exe` không phải thực hiện bất cứ lệnh nào để chạy
