@@ -89,7 +89,7 @@ if __name__ == "__main__":
     RegisterPy()
 
 ```
-<p>
+
 Dùng lệnh `python <dường dẫn file .py>`
 
 Đoạn script này để khai báo registry cho `python
@@ -101,8 +101,8 @@ Chạy như file vừa down về
 Để chạy `tool` dùng lệnh `python tool.py py2exe` 
 
 C2 thực hiện phức tạp hơn nhưng sau khi hoàn thành ta có 1 file `exe` không phải thực hiện bất cứ lệnh 
+
 nào để chạy
-</p>
 
 - Hướng dẫn sử dụng
 
