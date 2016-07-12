@@ -2,8 +2,10 @@
 Cho phép kết hợp nhiều network interface vào thành 1 interface sử dụng bonding module của Linux kernel và một interface bonding. Điều này cho phép 2 network interface hoạt động như 1 interface. Điều này đem lại 2 lợi ích:
 - Tăng độ tin cậy. Bonding module có thể cho phép 2 interface hoạt động ở chế độ active-standby. Khi đường truyền active interface bị lỗi, dẫn đến việc không truyền tải được nội dung, Linux kernel sẽ tự động chuyển qua standby interface.
 - Tăng bandwidth. Nếu là cable G thì thông lượng tối đa của 1 Giga NIC là 1Gbps. Bằng việc load-balancing qua 2 NIC, ta có thể tăng thông lượng truyền tải lên 2Gbps.
+
 #1. Các chế độ Network Bonding
 Các chế độ này xác định cách thức mà lưu lượng gửi ra bởi interface bonded được thực sự phân tán qua các interface thật.
+
 ##1.1 Mode=0 (balance-rr)
 Round-robin : Là chế độ mặc định. Nó truyền các gói tin theo thứ tự tuần tự từ slave đầu tiên đến cuối cùng.Nếu có 2 interface thật và 2 gói tin đến, thì gói tin đầu tiên sẽ đi vào interface1 và gói tin thứ 2 sẽ đi vào interface2. Chế độ này cung cấp cân bằng tải và chịu lỗi.
 

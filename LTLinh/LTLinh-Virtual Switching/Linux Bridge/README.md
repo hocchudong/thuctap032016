@@ -25,6 +25,88 @@
 #4. So sánh với các giải pháp khác.
 #5. LAB.
 - note: Đường dẫn cấu hình card mạng trong kvm. `/var/lib/libvirt/network`
+##5.1 Cài các gói phần mềm cần thiết
+Cài đặt các gói sau để hỗ trợ vlan
+```sh
+apt-get install vlan
+```
+
+##5.2 Cấu hình VLAN
+- Cấu hình 2 VLAN subinterfaces trên card eth2 và up 2 interfaces này lên:
+```sh
+vconfig add eth2 101
+vconfig add eth2 102
+ifconfig eth2.101 up
+ifconfig eth2.102 up
+```
+
+- Kết quả khi tạo thành công
+```sh
+Added VLAN with VID == 101 to IF -:eth2:-
+Added VLAN with VID == 102 to IF -:eth2:-
+```
+
+- Kiểm tra: `cat /proc/net/vlan/config`
+```sh
+VLAN Dev name    | VLAN ID
+Name-Type: VLAN_NAME_TYPE_RAW_PLUS_VID_NO_PAD
+eth2.101       | 101  | eth2
+eth2.102       | 102  | eth2
+```
+
+- Tạo hai switch ảo và gán 2 VLAN subinterfaces trên vào hai switch tương ứng này:
+```sh
+brctl addbr br-vl101
+brctl addbr br-vl102
+brctl addif br-vl101 eth2.101
+brctl addif br-vl102 eth2.102
+```
+
+- Kiểm tra việc gán interfaces đã thành công chưa sử dụng lệnh:`brctl show`
+```sh
+bridge name bridge id       STP enabled interfaces
+br-vl101    8000.000c29586f38   yes         eth2.101
+br-vl102    8000.000c29586f38   yes         eth2.102
+br0      8000.000c29586f24  yes         eth0
+lxcbr0    8000.000000000000 no
+```
+
+- Lưu giữ lại cấu hình này để tránh bị mất khi khởi động lại bằng cách chỉnh sửa trong file `/etc/network/interfaces:`
+```sh
+# config vlan 101
+auto eth2.101
+iface eth2.101 inet manual
+vlan-raw-device eth2
+
+auto br-vl101
+iface br-vl101 inet static
+address 10.0.2.141/24
+bridge_ports eth2.101
+bridge_stp on
+bridge_fd 9
+bridge_maxwait 0
+up /sbin/ifconfig $IFACE up || /bin/true
+
+# config vlan 102
+auto eth2.102
+iface eth2.102 inet manual
+vlan-raw-device eth2
+
+auto br-vl102
+iface br-vl102 inet static
+address 10.0.2.152/24
+bridge_ports eth2.102
+bridge_stp on
+bridge_fd 9
+bridge_maxwait 0
+up /sbin/ifconfig $IFACE up || /bin/true
+```
+
+- Khởi động lại các interfaces để áp dụng thay đổi:
+```sh
+ifdown -a && ifup -a
+```
+
 
 
 #Tài liệu tham khảo.
