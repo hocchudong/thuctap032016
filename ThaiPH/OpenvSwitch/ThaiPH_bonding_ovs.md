@@ -63,8 +63,11 @@ Lưu lượng có thể được cân bằng giữa các thành viên của liê
 <ul>
 <li>Bonding với 2 card eth1 và eth2 của máy ảo</li>
 <li>Kiểm tra tính năng link Aggregation và LACP với Open vSwitch theo mô hình sau:
+<ul>
 <li>Dùng OVS tạo hai switch ảo br0 và br1 và tạo 2 port trên mỗi switch</li>
 <li>Tiến hành nối các port giữa hai switch thành 2 đường dự phòng hỗ trợ nhau như hình minh họa. Tiến hành bond 2 port trên mỗi switch. Để kiểm tra tính dự phòng, tạo 2 máy ảo, mỗi máy ảo cắm vào 1 switch ảo như trên. Tiến hành ping giữa hai máy, kiểm tra kết nối khi ta ngắt một trong hai đường kết nối.</li>
+</ul>
+
 <br><br>
 <img src="https://qiita-image-store.s3.amazonaws.com/0/43114/4a30c4f1-3255-0902-163f-70748a2892e0.jpeg"/>
 <br><br>
@@ -277,8 +280,14 @@ Trong khoảng thời gian ngắn sau khi thực hiện cấu hình ngắt kết
 [2] - <a href="http://blog.scottlowe.org/2012/10/19/link-aggregation-and-lacp-with-open-vswitch/">http://blog.scottlowe.org/2012/10/19/link-aggregation-and-lacp-with-open-vswitch/</a>
 <br>
 [3] - <a href="http://ryoogata.github.io/2015/02/20/openvswitch/">http://ryoogata.github.io/2015/02/20/openvswitch/</a>
-</div>
+
 <br>
 [4] - <a href="http://qiita.com/STomohiko/items/ebbc2654e10bc62aed0d">http://qiita.com/STomohiko/items/ebbc2654e10bc62aed0d</a>
 <br>
 [5] - <a href="http://brezular.com/2011/12/04/openvswitch-playing-with-bonding-on-openvswitch/">http://brezular.com/2011/12/04/openvswitch-playing-with-bonding-on-openvswitch/</a>
+<br>
+[6] - <a href="https://www.youtube.com/watch?v=gziYnsvsCdQ">https://www.youtube.com/watch?v=gziYnsvsCdQ</a>
+<br>
+[7] - <a href="https://next.nutanix.com/t5/Nutanix-Connect-Blog/Network-Load-Balancing-with-Acropolis-Hypervisor/ba-p/6463">https://next.nutanix.com/t5/Nutanix-Connect-Blog/Network-Load-Balancing-with-Acropolis-Hypervisor/ba-p/6463</a>
+
+</div>
