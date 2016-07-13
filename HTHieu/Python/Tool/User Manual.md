@@ -1,20 +1,23 @@
 # Hướng dẫn dùng tool
 
+## Cài đặt môi trường
+
 - Yêu cầu cần có `Python 2.7` cùng các thư viện sau: `paramiko, pyside`
 
 - Chú ý để chạy các lênh python một cách dễ dàng thì dùng `power shell` với `run with addmin`
 
-- C1: Dùng lệnh `python <dường dẫn cái tool>`
+- Cách 1: Dùng lệnh `python <dường dẫn tool.py>` ví dụ file `tool.py` có đường dẫn:
 
-- C1: Đơn giản dễ dùng nhưng mỗi lần chạy là phải thục hiện lênh
+ `f:\workspace\testplace\tool.py` ta có lệnh `python f:\workspace\testplace\tool.py`
 
-- C2: Dùng `p2exe` để chạy
+Cách này đơn giản dễ dùng nhưng mỗi lần chạy là phải thục hiện lênh `python`
 
-<ul>
-<li>chạy đoạn script có nội dung như sau bằng lênh `python + <đường dẫn của script>`:</li>
-</ul>
+- Cách 2: Dùng `p2exe` để chạy < Cách này chỉ dùng trên `Window` >
+
+Tạo một file `.py` bằng `notepad` và copy đoạn code sau:
 
 ```sh
+
 import sys
 
 from _winreg import *
@@ -84,12 +87,46 @@ def RegisterPy():
 if __name__ == "__main__":
 
     RegisterPy()
+
 ```
 
-- Download `py2exe` tại link https://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/
+Dùng lệnh `python <dường dẫn file .py>`
 
-- Chạy như file `exe` bình thường
+Đoạn script này để khai báo registry cho `python
 
-- Để chạy `tool` dùng lệnh `python tool.py py2exe` 
+Download `py2exe` tại link https://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/
 
-- C2 thực hiện phức tạp hơn nhưng sau khi hoàn thành ta có 1 file `exe` không phải thực hiện bất cứ lệnh nào để chạy
+Chạy như file vừa down về 
+
+Để chạy `tool` dùng lệnh `python tool.py py2exe` 
+
+C2 thực hiện phức tạp hơn nhưng sau khi hoàn thành ta có 1 file `exe` không phải thực hiện bất cứ lệnh 
+
+nào để chạy
+
+- Hướng dẫn sử dụng
+
+B1: Đăng nhập
+
+<img src=http://imgur.com/xJNXXDH.png>
+
+B2: Lấy file về
+
+<img src=http://i.imgur.com/2zBuLPk.png>
+
+Tìm kiếm
+
+<img src=http://imgur.com/zShdEws.png>
+
+Thay thế:
+
+<img src=http://imgur.com/kbQZccz.png>
+
+B3: Đẩy file sau chỉnh sửa lên máy remote
+
+<img src=http://imgur.com/Q7GjnEP.png>
+
+Kết quả :
+
+<img src=http://imgur.com/t8IOeLM.png>
+
