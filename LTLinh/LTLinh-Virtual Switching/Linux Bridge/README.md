@@ -25,6 +25,10 @@
 #4. So sánh với các giải pháp khác.
 #5. LAB.
 - note: Đường dẫn cấu hình card mạng trong kvm. `/var/lib/libvirt/network`
+##5.0 Mô hình.
+
+
+
 ##5.1 Cài các gói phần mềm cần thiết
 Cài đặt các gói sau để hỗ trợ vlan
 ```sh
@@ -111,3 +115,4 @@ ifdown -a && ifup -a
 
 #Tài liệu tham khảo.
 https://wiki.debian.org/BridgeNetworkConnections
+https://github.com/thaihust/Thuc-tap-thang-03-2016/blob/master/ThaiPH/Linux-bridge/ThaiPH_linux_bridge_VLAN.md

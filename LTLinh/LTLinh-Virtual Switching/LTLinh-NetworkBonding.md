@@ -155,3 +155,112 @@ Jul 12 14:59:56 adk kernel: [ 2134.472804] bond0: making interface eth1 the new 
 
 
 Nhìn log ta thấy khi card eth0 down, thì card bond0 lập tức remove card eth0 và chuyển card eth1 từ trạng thái `standby` sang `active`
+
+
+#Tài liệu tham khảo
+https://www.kernel.org/doc/Documentation/networking/bonding.txt
+
+
+#3. LAB Linux Bridge kết hợp Bonding
+##3.1 Mô hình
+![](http://i.imgur.com/nazBTxy.png)
+
+
+=> **Mục đích: Khi một trong 2 đường mạng eth0 hoặc eth1 bị down, thì máy ảo của khách hàng vẫn có thể kết nối với mạng.**
+##3.2 Tạo bond interfaces tên là bond0 kết hợp hai interfaces eth0 và eth1:
+```sh
+ifenslave bond0 eth0
+ifenslave bond0 eth1
+```
+
+**=> Bước này thực chất là bước cấu hình `bond-master bond0` trong file `/etc/network/interfaces`**
+
+##3.3 Tạo switch ảo br0 và gán bond0 interface vào switch đó:
+```sh
+brctl addbr br0
+brctl addif br0 bond0
+```
+
+- Gán hai con ubuntu vào switch br0
+
+![](http://image.prntscr.com/image/3ff0fdb257b24e76aef0d9735d6a6fd8.png)
+
+![](http://image.prntscr.com/image/e70ec59b42294203a7983051dea18ba6.png)
+
+- Kiểm tra lại cấu hình: `brctl show`
+```sh
+root@adk:~# brctl show
+bridge name	bridge id		STP enabled	interfaces
+br0		8000.000c297c7fef	no		bond0
+							                vnet0
+							                vnet1
+```
+
+##3.4 Cấu hình này trong file `/etc/network/interfaces`
+```sh
+###############
+auto eth0
+iface eth0 inet manual
+bond-master bond0
+bond-primary eth0
+################
+auto eth1
+iface eth1 inet manual
+bond-master bond0
+################
+auto bond0
+iface bond0 inet manual
+bond-slaves none
+bond-mode active-backup
+bond-miimon 100
+bond-downdelay 200
+bond-updelay 200
+##############
+auto br0
+iface br0 inet static
+address 10.10.10.195
+netmask 255.255.255.0
+bridge_ports bond0
+bridge_fd 9
+bridge_hello 2
+bridge_maxage 12
+bridge_stp off
+```
+
+- Khởi động các card mạng:
+```sh
+ifdown -a && ifup -a
+```
+
+
+- Kiểm tra cấu hình bonding: `/proc/net/bonding/bond0`
+```sh
+root@adk:~# cat /proc/net/bonding/bond0
+Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
+
+Bonding Mode: fault-tolerance (active-backup)
+Primary Slave: eth0 (primary_reselect always)
+Currently Active Slave: eth0
+MII Status: up
+MII Polling Interval (ms): 100
+Up Delay (ms): 200
+Down Delay (ms): 200
+
+Slave Interface: eth1
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 00:0c:29:7c:7f:f9
+Slave queue ID: 0
+
+Slave Interface: eth0
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 00:0c:29:7c:7f:ef
+Slave queue ID: 0
+```
+
+4. Tham khảo
