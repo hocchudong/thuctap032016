@@ -163,7 +163,7 @@ https://www.kernel.org/doc/Documentation/networking/bonding.txt
 
 #3. LAB Linux Bridge kết hợp Bonding
 ##3.1 Mô hình
-![](http://i.imgur.com/nazBTxy.png)
+![](http://i.imgur.com/c9si160.png)
 
 
 => **Mục đích: Khi một trong 2 đường mạng eth0 hoặc eth1 bị down, thì máy ảo của khách hàng vẫn có thể kết nối với mạng.**
