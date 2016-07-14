@@ -23,10 +23,17 @@
 - FDB (forwarding database): chuyển tiếp các gói tin theo database để nâng cao hiệu năng switch. Database lưu các địa chỉ MAC mà nó học được. Khi gói tin Ethernet đến, bridge sẽ tìm kiếm trong database có chứa MAC address không. Nếu không, nó sẽ gửi gói tin đến tất cả các cổng.
 
 #4. So sánh với các giải pháp khác.
+
 #5. LAB.
 - note: Đường dẫn cấu hình card mạng trong kvm. `/var/lib/libvirt/network`
-##5.0 Mô hình.
 
+##5.0 Mô hình.
+![](https://camo.githubusercontent.com/63f5533db8796466637c4718029b1cb1b7146db1/687474703a2f2f692e696d6775722e636f6d2f4152654d6164772e6a7067)
+
+Máy host cài ubuntu 14.04, có một card mạng (eth2)
+Cấu hình 2 VLAN subinterfaces 101 và 102 trên card mạng (eth2) của máy host
+Cấu hình 2 switch (do linux bridge tạo ra) và gán 2 VLAN subinterfaces ở trên tương ứng vào 2 bridge này
+Cài đặt một số VM và gắn card mạng của các VM này vào các tap interfaces của 2 switch ảo trên để kiểm tra kết nối
 
 
 ##5.1 Cài các gói phần mềm cần thiết
@@ -111,8 +118,7 @@ up /sbin/ifconfig $IFACE up || /bin/true
 ifdown -a && ifup -a
 ```
 
-
-
 #Tài liệu tham khảo.
 https://wiki.debian.org/BridgeNetworkConnections
+
 https://github.com/thaihust/Thuc-tap-thang-03-2016/blob/master/ThaiPH/Linux-bridge/ThaiPH_linux_bridge_VLAN.md
