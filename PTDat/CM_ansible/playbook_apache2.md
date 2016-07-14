@@ -76,8 +76,21 @@
      - name: config file
        lineinfile:
 		dest=/etc/apache2/sites-available/000-default.conf
-	   regexp="(.)+DocumentRoot /var/www/html"
-	   line="DocumentRoot /var/www/wordpress"
+	    regexp="(.)+DocumentRoot /var/www/html"
+	    line="DocumentRoot /var/www/wordpress"
      - name: restart apache
-      	service: name=apache2 state=restarted
+       service: name=apache2 state=restarted
+	 - name: install php5
+	   apt: name={{item}} update_cache=yes state=present
+ 	   with_items:
+		php5
+		libapache2-mod-php5
+		php5-mcrypt
+	 - name: install mysql
+	   apt: name=mysql-server
+	 #- mysql_user_home: /root
+	 #- mysql_root_username: root
+	 #- mysql_root_password: root
+	 #- mysql_ root_password_update: no
+	 #- mysql_enable_on_startup: yes
 ```
