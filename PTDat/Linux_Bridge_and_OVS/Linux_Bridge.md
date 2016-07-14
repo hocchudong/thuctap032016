@@ -132,21 +132,22 @@ echo bonding >> etc/modules
 
 - Sau khi nạp thành công module vào nhân, thư mục cấu hình bonding sẽ xuất hiện ở `/proc/net/bonding`
 
-######Các tùy chọn bonding
-
- 1. bond-mode: Linux bridge hỗ trợ các mode bonding sau:
-  <li>mode 1: actice-backup</li>
-  <li>mode 2: balance-xor</li>
-  <li>mode 3: broadcast</li>
-  <li>mode 4: 802.3ad - Là chuẩn cho việc triển khai LACP</li>
-  <li>mode 5: balance-tlb</li>
-  <li>mode 6: balance-alb</li>
+#####Các tùy chọn bonding
+- bond-mode: Linux bridge hỗ trợ các mode bonding sau:
+ <ul> 
+ <li>mode 1: actice-backup</li>
+ <li>mode 2: balance-xor</li>
+ <li>mode 3: broadcast</li>
+ <li>mode 4: 802.3ad - Là chuẩn cho việc triển khai LACP</li>
+ <li>mode 5: balance-tlb</li>
+ <li>mode 6: balance-alb</li>
+ </ul>
  
- 2. bond-slave: danh sách các interface được bond
- 3.bond-miimon: thời gian kiểm tra downlink
- 4. bond-use-carrier: cách xác định trạng thái đường link
- 5. bond-xmit-hash-policy: thuật toán xác định link sẽ dùng khi truyền thông
- 6. bond-min-links: số đương link tối thiểu cần trong trạng thái active
+- bond-slave: danh sách các interface được bond
+- bond-miimon: thời gian kiểm tra downlink
+- bond-use-carrier: cách xác định trạng thái đường link
+- bond-xmit-hash-policy: thuật toán xác định link sẽ dùng khi truyền thông
+- bond-min-links: số đương link tối thiểu cần trong trạng thái active
 
 - Sau khi bond, các inteface slave sẽ có chung MAC của bond interface. Thông thường, interface nào được add vào bond đầu tiên sẽ có MAC được dùng làm MAC cho bond interface.
 - Tạo bond interface:
