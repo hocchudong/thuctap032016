@@ -28,12 +28,12 @@
 - note: Đường dẫn cấu hình card mạng trong kvm. `/var/lib/libvirt/network`
 
 ##5.0 Mô hình.
-![](https://camo.githubusercontent.com/63f5533db8796466637c4718029b1cb1b7146db1/687474703a2f2f692e696d6775722e636f6d2f4152654d6164772e6a7067)
+![](http://i.imgur.com/aq6uBqO.png))
 
-Máy host cài ubuntu 14.04, có một card mạng (eth2)
-Cấu hình 2 VLAN subinterfaces 101 và 102 trên card mạng (eth2) của máy host
-Cấu hình 2 switch (do linux bridge tạo ra) và gán 2 VLAN subinterfaces ở trên tương ứng vào 2 bridge này
-Cài đặt một số VM và gắn card mạng của các VM này vào các tap interfaces của 2 switch ảo trên để kiểm tra kết nối
+- Máy host cài ubuntu 14.04, có một card mạng (eth2)
+- Cấu hình 2 VLAN subinterfaces 101 và 102 trên card mạng (eth2) của máy host
+- Cấu hình 2 switch (do linux bridge tạo ra) và gán 2 VLAN subinterfaces ở trên tương ứng vào 2 bridge này
+- Cài đặt một số VM và gắn card mạng của các VM này vào các tap interfaces của 2 switch ảo trên để kiểm tra kết nối
 
 
 ##5.1 Cài các gói phần mềm cần thiết
@@ -42,7 +42,14 @@ Cài đặt các gói sau để hỗ trợ vlan
 apt-get install vlan
 ```
 
-##5.2 Cấu hình VLAN
+##5.2 Nạp module 8021q vào kernel:
+```sh
+echo 8021q >> /etc/modules
+modprobe 8021q
+```
+
+##5.3 Cấu hình VLAN
+
 - Cấu hình 2 VLAN subinterfaces trên card eth2 và up 2 interfaces này lên:
 ```sh
 vconfig add eth2 101
@@ -91,7 +98,7 @@ vlan-raw-device eth2
 
 auto br-vl101
 iface br-vl101 inet static
-address 10.0.2.141/24
+address 10.10.10.141/24
 bridge_ports eth2.101
 bridge_stp on
 bridge_fd 9
@@ -105,7 +112,7 @@ vlan-raw-device eth2
 
 auto br-vl102
 iface br-vl102 inet static
-address 10.0.2.152/24
+address 10.10.10.152/24
 bridge_ports eth2.102
 bridge_stp on
 bridge_fd 9
@@ -117,6 +124,16 @@ up /sbin/ifconfig $IFACE up || /bin/true
 ```sh
 ifdown -a && ifup -a
 ```
+
+##5.4 Cấu hình mỗi máy thuộc 1 dải vlan khác nhau.
+![](http://image.prntscr.com/image/4968ad9fe2904a098e98d5804ee34063.png)
+
+![](http://image.prntscr.com/image/9c94cb54b1f04a9eae09b3c5f8175222.png)
+
+
+##5.5 Kết quả
+
+![](http://image.prntscr.com/image/10bc671578984dcd9702a5aeca48b987.png)
 
 #Tài liệu tham khảo.
 https://wiki.debian.org/BridgeNetworkConnections
