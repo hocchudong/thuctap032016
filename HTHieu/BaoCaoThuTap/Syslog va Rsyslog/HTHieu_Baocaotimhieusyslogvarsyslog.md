@@ -1,4 +1,4 @@
-# Báo cáo tìm hiểu về syslog và rsyslog
+﻿# Báo cáo tìm hiểu về syslog và rsyslog
 
 ## I.Tổng quát
 
@@ -130,6 +130,56 @@ Qua các module đầu vào, các thông điệp sẽ vào `rsyslog` rồi sao �
 
 - Mọi tập quy tắc đều luôn luôn được xử lý, không vấn đê gì nếu bộ lọc có phù hợp hay không. Nếu xử lý thông điệp có vấn đề thì hành động loại bỏ(`discard`) sẽ thực hiện,sau đó thông điệp sẽ dừng lại lập tức và không đánh giá thêm quy tắc nào nữa
 
-- Một danh sách hành động thì gôm nhiều hành động và không có thêm bộ lọc nào nữa
+- Một danh sách hành động thì gồm một hoặc nhiều hành động và không có thêm bộ lọc nào nữa
 
-- 
+- Để thực hiện nhiều hoạt động cùng lúc thì có dấu `$` trong bộ lọc và nằm giữa hai hoạt động
+
+- Các hoạt động bao gồm hoạt động gọi đến chính nó như các câu lệnh cấu hình tất cả hành động xác định????
+
+- Nếu như định dạng `legacy` được $Action(hoạt động)... phải được xác định trước hành động họ định cấu hình
+
+- Vài cấu hình  tự động chỉ thị cầu hình tham khảo  tới giá trị cũ sau khi được áp dụng, một số khác lại không
+
+### 3.Đâu vào và đầu ra(input and output)
+
+- Mọi đầu vào cần có module để tải chúng và định nghĩa hoạt động ,khi được nạp vào đầu vào được định nghĩa qua đối tượng `input()`
+
+- Đầu ra thường dược gọi là `action`(hành động),một tập nhỏ các đầu ra sẽ được nạp vào còn lại sẽ nạp giống đầu vào
+
+
+### 4. Các loại lệnh và file cáu hình
+
+- File cấu hình là `/etc/rsyslog.conf`
+
+- `sysklogd`: định dạng lệnh cũ , dùng cho các trường hợp sử dụng nhỏ,vài cấu trúc không được hỗ trợ và không tương thích với tính năng mới
+
+- `legacy syslog`:tập câu lệnh bắt đầu với dấu '$',thiết lập cấu hình và sử đổi cách thức vận hành của hoạt động, định dạng duy nhất của các phiên bản trước v6 và vẫn được hỗ trợ bởi v6 và mới hơn, một tính năng chỉ hỗ trợ định dạng này  
+
+- `RainerScript`:định dạng mới, dùng cho trường hợp sử dụng(`use case`) phức tạp
+
+### 5.Lệnh điều khiển dòng thông điệp và và dữ liệu
+
+- Điều khiển dòng thông điệp cung cấp bởi:
+<ul>
+<li>Cấu trúc lệnh điều khiển: http://www.rsyslog.com/doc/v8-stable/rainerscript/control_structures.html</li>
+<li>Điều kiện bộ lọc</li>
+</ul>
+
+#### Điều kiện lọc
+
+- Gồm có 4 loại:
+<ul>
+<li>Lựa chon theo kiểu truyền thống dựa trên mức độ nghiêm trọng và cơ sở</li>
+<li>Lọc theo thuộc tính</li>
+<li>Lọc theo biểu hiện</li>
+<li>Theo khả năng tương thích với khối BSD</li>
+</ul>
+
+##### 1.Selector
+
+- Cách truyền thống lọc thông điệp ,lưu trong `rsyslog` với cú pháp nguyên bản, vì nó phổ biến, hiệu năng cao và khả năng tương thích với file cấu hình của `syslogd`.Loại này dùng cho trường hợp lọc theo mức ưu tiên và theo cơ sở
+
+- Gồm 2 thành phần: cơ sở và độ ưu tiên phân cách bởi dấu "."
+
+- Cơ sở là một trong số lựa chọn sau:`auth`, `authpriv`, `cron`, `daemon`, `kern`, `lpr`, `mail`, `mark`, `news`, `security` (như `auth`), `syslog`, `user`, `uucp` và `local0` thông qua `local7`
+.Mức độ ưu tiên định nghĩa mức độ nghiêm trọng  của thông điệp ,không phải qua các từ như lỗi thảm họa,...
