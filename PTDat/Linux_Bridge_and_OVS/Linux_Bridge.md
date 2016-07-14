@@ -9,7 +9,7 @@
 
 ###b. Components.
 
-![1]()
+![1bfffc.png](http://www.upsieutoc.com/images/2016/07/14/1bfffc.png)
 
 - Kiến trúc linux bridge minh họa như hình vẽ trên. Một số khái niệm liên quan tới linux bridge:
  <ul>
@@ -29,7 +29,7 @@ apt-get install bridge-utils
 
 - Khi cài đặt gói này thành công, ta có thể sử dụng công cụ brctl để tạo và sửa các switch ảo:
 
-![scr1]()
+![Screenshot_1.png](http://www.upsieutoc.com/images/2016/07/14/Screenshot_1.png)
 
 - Tạo switch ảo và gắn các card mạng:
 
