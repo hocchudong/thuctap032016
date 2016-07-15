@@ -133,7 +133,18 @@ ifdown -a && ifup -a
 
 ##5.5 Kết quả
 
+###5.5.1 Trường hợp 1, 2 máy khác vlan.
 ![](http://image.prntscr.com/image/10bc671578984dcd9702a5aeca48b987.png)
+
+###5.5.2 Trường hợp 2, máy cùng dải vlan.
+Ở đây, mình đã chuyển đổi chế độ card mạng của máy ubuntu2-clone sang br-vlan101
+![](http://image.prntscr.com/image/bb6602a951b343de9d349e2ca3e4f4c1.png)
+
+
+Kết quả.
+![](http://image.prntscr.com/image/f04fc7cf516b45c6864b838e8f795d0f.png)
+
+
 
 #Tài liệu tham khảo.
 https://wiki.debian.org/BridgeNetworkConnections
