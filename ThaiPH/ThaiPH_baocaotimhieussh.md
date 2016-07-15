@@ -331,7 +331,7 @@ thaihust@u1604:~$
 </li>
 <li><b>d. Cho phép đăng nhập thông qua key đó</b>
 <br>
-Trên remote host, thêm nội dung trong file <code>~/<user>/.ssh/id_rsa.pub</code> vào file ~/.ssh/authorized_keys.
+Trên remote host, thêm nội dung trong file <code>~/.ssh/id_rsa.pub</code> vào file ~/.ssh/authorized_keys.
 <br>
 Copy file id_rsa.pub lên host:
 <pre>
