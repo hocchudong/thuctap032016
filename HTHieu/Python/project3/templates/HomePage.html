@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<form action="/app/HomePage/getatrr/" method="post">{% csrf_token %}
+    <label>Domain:</label>
+    <input type="text" name="domain" id="id_domain">
+    <label>Username:</label>
+    <input type="text" name="username" id="id_username">
+    <label>Password:</label>
+    <input type="password" name="password" id="id_password">
+    <input type="submit" name="submit" value="Connect"><br><br>
+</form>
+<form method="post" action="/app/HomePage/execute/">{% csrf_token %}
+    <label>Command:</label>
+    <input type="text" name="command">
+    <input type="submit" value="Execute"><br><br>
+    {% for i in stdout %}
+        {{ i }}
+        <br><br>
+    {% endfor %}
+</form>
+<form action="/app/HomePage/getpath/" method="post">{% csrf_token %}
+    <label>Path:</label>
+    <input type="text" name="path">
+    <input type="submit" name="submit"><br><br>
+</form>
+<form method="post">{% csrf_token %}
+    <select name="select">
+        {% for i in dir %}
+            <option>{{ i }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" name="submit" value="Longfile" formaction="/app/HomePage/getfile/ "><br><br>
+    Replace:<input type="text" name="replace">
+    With:<input type="text" name="with">
+    <input type="submit" name="submit" formaction="/app/HomePage/shortfile/"><br><br>
+</form>
+<form method="post" action="/app/HomePage/changefile/">{% csrf_token %}
+    <textarea cols="100" rows="50" name="textarea">
+        {{ output }}
+    </textarea>
+    <br><br>
+    <input type="submit" name="submit">
+</form>
+</body>
+</html>
