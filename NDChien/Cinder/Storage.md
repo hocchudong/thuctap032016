@@ -111,9 +111,13 @@ Tạo filesystem:
 
 
 Tham khảo:
+
 [1]- http://www.quantrimang.com.vn/print/84900.aspx
+
 [2]- https://www.digitalocean.com/community/tutorials/how-to-perform-basic-administration-tasks-for-storage-devices-in-linux
+
 [3]- https://www.digitalocean.com/community/tutorials/an-introduction-to-storage-terminology-and-concepts-in-linux
+
 [4]- https://www.digitalocean.com/community/tutorials/how-to-partition-and-format-storage-devices-in-linux
 
 
