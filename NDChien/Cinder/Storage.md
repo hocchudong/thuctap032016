@@ -1,9 +1,24 @@
 #Storage
+*Mục lục:*
 
+[1 Block storage](#1)
+
+[2 Disk partition](#2)
+
+[3 Formatting and Filesystems](#3)
+
+[4 Quản lý Storage Devices](#4)
+
+[5 Partition and Format Storage Devices in Linux](#5)
+
+==========================
+
+<a name="1"></a>
 ###1 Block storage
 
 Block storage là tên khác của block device. Một block device là một phần cứng dùng để chứa data (HDD,SSD,flash memory ...).
 
+<a name="2"></a>
 ###2 Disk partition
 
 Partitioning cho phép phân chia thành các phân vùng khác nhau cho các mục đích sử dụng. Disk có thể format và sử dụng mà không phải phân chia (partitioning).
@@ -14,6 +29,7 @@ Có 2 kiểu format là MBR hoặc GPT.
 <li>GPT: Đưa ra để giải quyết các hạn chế của MBR. </li>
 </ul>
 
+<a name="3"></a>
 ###3 Formatting and Filesystems
 
 Để sử dụng disk cần phải format. Formatting là tiến trình của việc viết filesystem lên disk và chuẩn bị nó cho các file hệ thống. Một filesystem là một hệ thống, nó cấu trúc dữ liệu và điều khiển cách viết và thu hồi.
@@ -29,6 +45,7 @@ Các filesystems phổ biến:
 <li>JFS: Tốn ít tài nguyên. Đạt hiệu suất tốt với nhiều file dung lượng lớn, nhỏ khác nhau.</li> 
 </ul>
 
+<a name="4"></a>
 ###4 Quản lý Storage Devices
 
 Trong linux mọi thứ đều được định nghĩa bằng 1 file. Storage drives được xác định như 1 file trong thư mục /dev ví dụ /dev/sda.
@@ -71,6 +88,7 @@ TARGET SOURCE    FSTYPE OPTIONS
 /mnt   /dev/sda1 ext4   ro,relatime,data=ordered
 ```
 
+<a name="5"></a>
 ###5 Partition and Format Storage Devices in Linux
 
 Tool: parted
