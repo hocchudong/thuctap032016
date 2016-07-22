@@ -8,10 +8,12 @@ Block storage là tên khác của block device. Một block device là một ph
 
 Partitioning cho phép phân chia thành các phân vùng khác nhau cho các mục đích sử dụng. Disk có thể format và sử dụng mà không phải phân chia (partitioning).
 Có 2 kiểu format là MBR hoặc GPT.
-```sh
-MBR: Là một phân vùng hệ thống có nhiều giới hạn. Ko thể dùng disk lớn hơn 2TB, và chỉ có tối đa 4 primary partition.
-GPT: Đưa ra để giải quyết các hạn chế của MBR. 
-```
+
+<ul>
+<li>MBR: Là một phân vùng hệ thống có nhiều giới hạn. Ko thể dùng disk lớn hơn 2TB, và chỉ có tối đa 4 primary partition.</li>
+<li>GPT: Đưa ra để giải quyết các hạn chế của MBR. </li>
+</ul>
+
 ###3 Formatting and Filesystems
 
 Để sử dụng disk cần phải format. Formatting là tiến trình của việc viết filesystem lên disk và chuẩn bị nó cho các file hệ thống. Một filesystem là một hệ thống, nó cấu trúc dữ liệu và điều khiển cách viết và thu hồi.
@@ -32,18 +34,17 @@ Các filesystems phổ biến:
 Trong linux mọi thứ đều được định nghĩa bằng 1 file. Storage drives được xác định như 1 file trong thư mục /dev ví dụ /dev/sda.
 Các thư mục con được xác định bằng các dạng
 
-```sh
-- By-LABEL, UUID
-- Partlabel, Partuuid (Được dùng với GPT)
-- ID, Path
-```
+<ul><
+<li>By-LABEL, UUID</li>
+<li>Partlabel, Partuuid (Được dùng với GPT)</li>
+<li>ID, Path</li>
+</ul>
+
 Dùng lệnh df với các options để biết các thông tin về về storage device
 
-
 - df -h 
-
 - df -h -x tmpfs 
-... 
+- ... 
 
 Dùng lệnh lsblk với các options để có thông tin về các Block-devices
 <ul>
