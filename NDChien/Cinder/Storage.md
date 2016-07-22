@@ -100,11 +100,11 @@ parted /dev/sda mklabel gpt
 parted /dev/sda mklabel msdos
 ```
 
-Tạo partition
+Tạo partition:
 
 `parted -a opt /dev/sdc mkpart primary ext4 0% 100%`
 
-Tạo filesystem 
+Tạo filesystem:
 
 `mkfs.ext4 /dev/sdc1`
 
