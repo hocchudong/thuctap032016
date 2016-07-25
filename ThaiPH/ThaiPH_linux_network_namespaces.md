@@ -361,3 +361,10 @@ ip netns exec green ip a
     </li>
 </ul>
 <h2><a name="ref">3. Tham khảo</a></h2>
+<div>  
+[1] - <a href="http://blog.scottlowe.org/2013/09/04/introducing-linux-network-namespaces/">http://blog.scottlowe.org/2013/09/04/introducing-linux-network-namespaces/</a>
+<br>
+[2] - <a href="http://www.opencloudblog.com/?p=42">http://www.opencloudblog.com/?p=42</a>
+<br>
+[3] - <a href="https://www.youtube.com/watch?v=_WgUwUf1d34">https://www.youtube.com/watch?v=_WgUwUf1d34</a>
+</div>
