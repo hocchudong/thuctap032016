@@ -13,10 +13,10 @@
 <div>
     Thông thường, một bản cài đặt Linux sẽ chia sẻ chung tập hợp các network interfaces và các bản ghi trên bảng định tuyến. Ta có thể chỉnh sửa bảng định tuyến sử dụng các chính sách định tuyến, tuy nhiên về căn bản thì điều đó không thay đổi thực tế là các network interfaces và các bảng định tuyến vẫn chia sẻ chung khi xét trên toàn bộ hệ điều hành. 
     <br>
-    Linux network namespaces được đưa ra để giải quyết vấn đề đó. VỚi linux namespaces, ta có thể có các máy ảo tách biệt nhau về network interfaces cũng như bảng định tuyến khi mà các máy ảo này vận hành trên các namespaces khác nhau. Mỗi network namespaces có bản định tuyến riêng, các thiết lập iptables riêng cung cấp cơ chết NAT và lọc đối với các máy ảo thuộc namespace đó. Linux network namespaces cũng cung cấp thêm khả năng để chạy các tiến trình riêng biệt trong nội bộ mỗi namespace.
+    Linux network namespaces được đưa ra để giải quyết vấn đề đó. Với linux namespaces, ta có thể có các máy ảo tách biệt nhau về network interfaces cũng như bảng định tuyến khi mà các máy ảo này vận hành trên các namespaces khác nhau. Mỗi network namespaces có bản định tuyến riêng, các thiết lập iptables riêng cung cấp cơ chế NAT và lọc đối với các máy ảo thuộc namespace đó. Linux network namespaces cũng cung cấp thêm khả năng để chạy các tiến trình riêng biệt trong nội bộ mỗi namespace.
 </div>
 <h2><a name="labs">2. Lab thử nghiệm tính năng Linux Network Namespaces</a></h2>
-<i><b>Chú ý:</b>Cả hai bài lab đều thực hiện trên Ubuntu 14.04 có cài sẵn OpenvSwitch.</i>
+<i><b>Chú ý: </b>Cả hai bài lab đều thực hiện trên Ubuntu 14.04 có cài sẵn OpenvSwitch.</i>
 <ul>
     <li><h3><a name="simple">2.1. Kết nối hai host trên 2 namespaces sử dụng OpenvSwitch</a></h3>
     <ul>
@@ -143,10 +143,10 @@ ip link set dev eth0-g up
 ip address add 10.0.0.2/24 dev eth0-g        
     </code>
 </pre>
-            Kiểm tra địa chỉ IP các interface và bảng định tuyến của red namespace sẽ tương tự như sau:
+            Kiểm tra địa chỉ IP các interface và bảng định tuyến của green namespace sẽ tương tự như sau:
 <pre>
     <code>
-# kiem tra dia chi cac interface trong red namespace
+# kiem tra dia chi cac interface trong green namespace
 ip netns exec green ip a
 # ket qua
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default
@@ -162,7 +162,7 @@ ip netns exec green ip a
     inet6 fe80::7c55:3dff:fe4d:b02b/64 scope link
        valid_lft forever preferred_lft forever
 
-# kiem tra bang dinh tuyen cua red namespace
+# kiem tra bang dinh tuyen cua green namespace
 ip netns exec green ip route
 # ket qua
 10.0.0.0/24 dev eth0-g  proto kernel  scope link  src 10.0.0.2
@@ -189,11 +189,11 @@ PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
     <li><h3><a name="complex">2.2. Lab DHCP cấp IP cho các host thuộc các namespaces khác nhau</a></h3>
     <li><b>a. Topology</b>
     <br>
-    Topology sau đây lấy ý tưởng từ hệ thống OpenStack. Trên mỗi máy Compute, các máy ảo thuộc về mỗi vlan đại diện cho các máy của một tenant. Chúng tách biệt về layer 2 và được cấp phát IP bởi các DNS server ảo cùng VLAN (các DHCP server ảo này thuộc về các namespaces khác nhau và không cùng namespace với các máy ảo của các tenant, được cung cấp bởi dịch vụ dnsmasq). Các DNS server này hoàn toàn có thể cấp dải địa chỉ trùng nhau do tính chất của namespace. Sau đây mà mô hình:
+    Topology sau đây lấy ý tưởng từ hệ thống OpenStack. Trên mỗi máy Compute, các máy ảo thuộc về mỗi vlan đại diện cho các máy của một tenant. Chúng tách biệt về layer 2 và được cấp phát IP bởi các DHCP server ảo cùng VLAN (các DHCP server ảo này thuộc về các namespaces khác nhau và không cùng namespace với các máy ảo của các tenant, được cung cấp bởi dịch vụ dnsmasq). Các DHCP server này hoàn toàn có thể cấp dải địa chỉ trùng nhau do tính chất của namespace. Sau đây là mô hình:
     <br><br>
     <img src="http://i.imgur.com/fbnJ94q.png">
     <br><br>
-    Mô hình bài lab bao gồm 2 DNS namespace (dhcp-r, dhcp-g) và hai namespaces dành cho các máy ảo của 2 tenant (red, green), các máy ảo trên 2 tenant này thuộc về hai vlan khác nhau (vlan 100 và vlan 200). DHCP server trên các namespace dhcp-r, dhcp-g sẽ cấp địa chỉ IP cho các máy ảo của 2 tenant trên 2 namespace tương ứng là red và green. 
+    Mô hình bài lab bao gồm 2 DHCP namespace (dhcp-r, dhcp-g) và hai namespaces dành cho các máy ảo của 2 tenant (red, green), các máy ảo trên 2 tenant này thuộc về hai vlan khác nhau (vlan 100 và vlan 200). DHCP server trên các namespace dhcp-r, dhcp-g sẽ cấp địa chỉ IP cho các máy ảo của 2 tenant trên 2 namespace tương ứng là red và green. 
     </li>
 
     <li><b>b. Cấu hình</b><br>
