@@ -36,6 +36,8 @@ Khởi động máy VM GNS3, ta được hính sau:
 ##1.5 Upload IOU
 Để upload IOU, truy cập vào địa chỉ `http://<ip_server>:3080/upload`
 
+
+
 ![](http://image.prntscr.com/image/fa147885527240f6b0f8e28fc512d32f.png)
 
 - Chọn các file IOU mà bạn đã tải ở trên và tiến hành upload IOU.
@@ -51,6 +53,7 @@ Khởi động máy VM GNS3, ta được hính sau:
 ![](http://image.prntscr.com/image/b33796df66344b3283fab067365a6d88.png)
 
 - ADD license IOU
+
 Nội dung file `iourc.txt`:
 ```sh
 [license]
@@ -82,7 +85,7 @@ channel-group 20 mode passive
 ```sh
 configure t
 int range e0/0 -1
-channel-group 20 mode active
+channel-group 10 mode active
 ```
 
 - Kết quả: Chạy lệnh `show etherchannel summary` trên SW1
@@ -113,10 +116,11 @@ Group  Port-channel  Protocol    Ports
 
 <a name="thamkhao"></a>
 #Tài liệu tham khảo
+
 http://svuit.vn/threads/cai-dat-gns3-tich-hop-iou-1183/
 
 http://svuit.vn/threads/invalid-iou-license-key-1184/
 
-https://github.com/hocchudong/Thuc-tap-thang-03-2016/blob/master/ThaiPH/CiscoNetworkLab/ThaiPH_gns3_network_bonding.md#iouvm_vir
+https://github.com/hocchudong/Thuc-tap-thang-03-2016/blob/master/ThaiPH/CiscoNetworkLab/ThaiPH_gns3_network_bonding.md
 
 http://letusexplain.blogspot.com/2015/07/cisco-iou-l2-l3-lab-with-gns3-switching.html
