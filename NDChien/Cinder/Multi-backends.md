@@ -3,7 +3,7 @@
 
 [1 Triển khai multi-backends](#1)
 
-[2 Tính năng Oversubscription in thin provisioning trên LVM](#2)
+[2 Tính năng Oversubscription in thin provisioning trên LVM,GlusterFS](#2)
 
 ==========================
 
