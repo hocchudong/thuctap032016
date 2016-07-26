@@ -1,5 +1,14 @@
 #OpenVSwitch
 #Mục Lục
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [1. Giới thiệu](#gioithieu)
+- [2. Kiến trúc - các thành phần.](#kientruc)
+- [3. Các chức năng mà OpenVSwitch hỗ trợ](#tinhnang)
+- [4. LAB cấu hình GRE Tunnels.](#lab)
+- [Tài liệu tham khảo.](#thamkhao)
+
+<a name="gioithieu"></a>
 #1. Giới thiệu
 ![](http://networkstatic.net/wp-content/uploads/2012/06/open-vswitch-lab.png)
 
@@ -12,6 +21,7 @@ Cũng giống như Linux Bridge, OpenVSwitch là phần mềm cung cấp các gi
 - OpenVSwitch có thể chạy trên các Linux-based virtualization platform (KVM,VirtualBox, Xen, Xen Cloud Platform, XenServer).
 - OpenVSwitch có thể chạy trên các nền tảng Linux, FreeBSD, Windows, non-POSIX embedded Systems,...
 
+<a name="kientruc"></a>
 #2. Kiến trúc - các thành phần.
 
 ![](https://camo.githubusercontent.com/c700cb8cb0eb3b651bb66ebe69d39365384258e9/687474703a2f2f686162726173746f726167652e6f72672f67657470726f2f686162722f706f73745f696d616765732f3336652f3064342f6137352f33366530643461373530626332313230336433316437316466383566303839312e6a7067)
@@ -23,6 +33,7 @@ Cũng giống như Linux Bridge, OpenVSwitch là phần mềm cung cấp các gi
 - ovs-appctl, a utility that sends commands to running Open vSwitch daemons.
 
 
+<a name="tinhnang"></a>
 #3. Các chức năng mà OpenVSwitch hỗ trợ
 
 ![](http://openvswitch.org/assets/featured-image.jpg)
@@ -44,6 +55,7 @@ Cũng giống như Linux Bridge, OpenVSwitch là phần mềm cung cấp các gi
 - Multi-table forwarding pipeline with flow-caching engine
 - Forwarding layer abstraction to ease porting to new software and hardware platforms
 
+<a name="lab"></a>
 #4. LAB cấu hình GRE Tunnels.
 ##4.1 Mô hình
 ![](http://i.imgur.com/eFh29bb.jpg)
@@ -81,7 +93,7 @@ sudo ovs-vsctl add-port br2 gre0 -- set interface gre0 type=gre options:remote_i
 
 ![](http://image.prntscr.com/image/8ca4921e7b98434ab6b88d9e3f9d8661.png)
 
-
+<a name="thamkhao"></a>
 #Tài liệu tham khảo.
 - [1] http://openvswitch.org/support/dist-docs-2.5/FAQ.md.html
 - [2] http://www.slideshare.net/teyenliu/the-basic-introduction-of-open-vswitch?from_action=save

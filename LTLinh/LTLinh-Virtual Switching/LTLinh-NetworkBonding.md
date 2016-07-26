@@ -3,6 +3,15 @@ Cho phép kết hợp nhiều network interface vào thành 1 interface sử d�
 - Tăng độ tin cậy. Bonding module có thể cho phép 2 interface hoạt động ở chế độ active-standby. Khi đường truyền active interface bị lỗi, dẫn đến việc không truyền tải được nội dung, Linux kernel sẽ tự động chuyển qua standby interface.
 - Tăng bandwidth. Nếu là cable G thì thông lượng tối đa của 1 Giga NIC là 1Gbps. Bằng việc load-balancing qua 2 NIC, ta có thể tăng thông lượng truyền tải lên 2Gbps.
 
+#Mục lục
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [1. Các chế độ Network Bonding](#bonding)
+- [2. LAB cấu hình Bonding theo mode 2 (active-backup)](#ladmode2)
+- [3. LAB Linux Bridge kết hợp Bonding](#lab)
+- [Tài liệu tham khảo](#thamkhao)
+
+<a name="bonding"></a>
 #1. Các chế độ Network Bonding
 Các chế độ này xác định cách thức mà lưu lượng gửi ra bởi interface bonded được thực sự phân tán qua các interface thật.
 
@@ -51,6 +60,7 @@ Yêu cầu:
 Adaptive load balancing: Là sự kết hợp giữa balance-tlb và receive load balancing(rlb) cho lưu lượng của ipv4. Việc cân bằng tải nhận được đạt được bằng thương lượng ARP. The bonding driver chặn ARP Trả lời được gửi bởi các máy chủ trên đường ra và ghi đè địa chỉ HW SRC với địa chỉ HW của một trong những người slave như vậy mà các khách hàng khác nhau sử dụng các địa chỉ hw khác nhau cho các máy chủ.
 
 
+<a name="labmode2"></a>
 #2. LAB cấu hình Bonding theo mode 2 (active-backup)
 ##2.1 Mô hình
 ![](http://i.imgur.com/ReJmZM4.png)
@@ -156,11 +166,7 @@ Jul 12 14:59:56 adk kernel: [ 2134.472804] bond0: making interface eth1 the new 
 
 Nhìn log ta thấy khi card eth0 down, thì card bond0 lập tức remove card eth0 và chuyển card eth1 từ trạng thái `standby` sang `active`
 
-
-#Tài liệu tham khảo
-https://www.kernel.org/doc/Documentation/networking/bonding.txt
-
-
+<a name="lab"></a>
 #3. LAB Linux Bridge kết hợp Bonding
 ##3.1 Mô hình
 ![](http://i.imgur.com/c9si160.png)
@@ -263,4 +269,9 @@ Permanent HW addr: 00:0c:29:7c:7f:ef
 Slave queue ID: 0
 ```
 
-4. Tham khảo
+<a name="thamkhao"></a>
+#Tài liệu tham khảo
+https://www.kernel.org/doc/Documentation/networking/bonding.txt
+
+https://github.com/hocchudong/Thuc-tap-thang-03-2016/blob/master/ThaiPH/VirtualSwitch/Linux-bridge/ThaiPH_linux_bridge_bonding.md
+
