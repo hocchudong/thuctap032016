@@ -1,7 +1,15 @@
 #LAB OpenVSwitch sử dụng chức năng QoS, dùng công cụ iperf để đo kết quả.
 
 #Mục lục
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
+- [1. Giới thiệu](#gioithieu)
+- [2. Mô hình](#mohinh)
+- [3. Cấu hình](#cauhinh)
+- [4. Sử dụng Iperf để đo kết quả.](#iperf)
+	- [4.1 Kết quả rước khi sử dụng chức năng QoS](#truoc)
+	- [4.2 Kết quảSau khi sử dụng chức năng QoS](#sau)
+- [Tài liệu tham khảo](#thamkhao)
 
 <a name="gioithieu"></a>
 #1. Giới thiệu
@@ -14,7 +22,7 @@ QoS (Quality of Service) trong OpenVSwitch là tính năng cho phép điều khi
 
 <a name="cauhinh"></a>
 #3. Cấu hình
-#3.1 Trên VM1
+##3.1 Trên VM1
 - Chạy lệnh:
 ```sh
 ovs-vsctl set interface vnet0 ingress_policing_rate=10
@@ -56,7 +64,7 @@ status              : {driver_name=tun, driver_version="1.6", firmware_version="
 type                : ""
 ```
 
-#3.2 Trên VM2
+##3.2 Trên VM2
 - Chạy lệnh
 ```sh
 ovs-vsctl set interface vnet1 ingress_policing_rate=10
@@ -106,10 +114,12 @@ type                : ""
   - Trên VM2, chạy lệnh `iperf -s -u -p 8080`
   - Trên VM1, chạy lệnh `iperf -c 172.16.69.131 -u -p 8080 -b 100m`
 
+<a name="truoc"></a>
 ##4.1 Kết quả rước khi sử dụng chức năng QoS
 
 ![](http://image.prntscr.com/image/621187ca3c0d408baa98b7ba1c5ecc5f.png)
 
+<a name="sau"></a>
 ##4.2 Kết quảSau khi sử dụng chức năng QoS
 
 ![](http://image.prntscr.com/image/e79fc373203c4ad68cbce624badade99.png)
