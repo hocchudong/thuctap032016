@@ -1,6 +1,13 @@
 #LAB Bonding kết hợp GNS3
 #Mục lục
 
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [1. Cài đặt GNS3 tích hợp với IOU](#gns3iou)
+- [2. LAB cấu hình Bonding 2 Switch](#lab)
+- [Tài liệu tham khảo](#thamkhao)
+
+<a name="gns3iou"></a>
 #1. Cài đặt GNS3 tích hợp với IOU
 - Cisco IOS trên nền Unix được biết đến như là Cisco IOU (internal Cisco use only).
 - IOU cho phép chạy IOS Cisco trên nền x86 trong khi GNS3 phải giả lập phần cứng.
@@ -58,7 +65,8 @@ gns3vm = dcf51841aaabfb0d;
 ![](http://image.prntscr.com/image/e9182c38bbe541d08a288d0bc46a5726.png)
 
 
-#2. LAB
+<a name="lab"></a>
+#2. LAB cấu hình Bonding 2 Switch
 ##2.1 Mô hình
 ![](http://image.prntscr.com/image/f46aec00a1714a5e99bda0429308d71b.png)
 
@@ -101,3 +109,14 @@ Group  Port-channel  Protocol    Ports
 ```
 
 Ở cột Protocol giá trị là LACP, và cột Port thấy kí hiệu P (ý nghĩa là hai đường kết nối đã được "bó" lại trên 1 kênh logic) thì cấu hình đã chính xác.
+
+
+<a name="thamkhao"></a>
+#Tài liệu tham khảo
+http://svuit.vn/threads/cai-dat-gns3-tich-hop-iou-1183/
+
+http://svuit.vn/threads/invalid-iou-license-key-1184/
+
+https://github.com/hocchudong/Thuc-tap-thang-03-2016/blob/master/ThaiPH/CiscoNetworkLab/ThaiPH_gns3_network_bonding.md#iouvm_vir
+
+http://letusexplain.blogspot.com/2015/07/cisco-iou-l2-l3-lab-with-gns3-switching.html
