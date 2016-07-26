@@ -27,7 +27,13 @@ so sánh tcp và dp:
 
 |TCP|UDP|
 |---|---|
-|Đều là giao thưc mạng để truyên tin|
+|Đều là giao thưc mạng để truyên tin||
 | 20buyte header|8bytes header|
 |Hoạt động theo hướng kết nối|Hoạt động theo hướng không kết nối|
 |Bảo mật cao|Bảo mật thấp|
+|Vì có theo dõi gói tin gửi đi nên khi mất mát gói tin thì ta sẽ biết được và thực hiện thao tác phòng ngừa bảo mật|không giám sát gói tin nên dễ bị giả mạo ip đích đến dẫn đến mất dữ liệu|
+|Dùng khi hệ thống mạng nhiều nguy cơ như internet hoặc trong hệ thống mạng có tính bảo mật cao nhưng dung lượng chuyển log không quá lớn hoặc file gửi đi có mức độ quan trọng lớn|dùng trong mạng hệ thống bảo mật cao hoặc file gửi đi mức độ quan trọng thấp|
+|use case: có 1tb gói tin gửi từ vn đến sing thì dùng giao thức nào||
+|dùng tcp vì để chuyển 1tb dữ liệu dung lượng tuy lớn nhưng sử dụng internet vì từ vn qua sing không dùng mạng lan được thế nên đảm bảo an toàn thì phải dùng tcp||
+|nếu co 1tb dữ liệu nhưng trong cùng một tòa nhà cùng hệ thống mạng lan vì nhanh và mạng lan có tính bảo mật cao||
+|tcp chậm hơn udp vì phải thực hiên 2 thao tác gửi và đợi,kiểm tra gói tin gửi đi còn udp thì chỉ gửi không kiểm tra gói tin||
