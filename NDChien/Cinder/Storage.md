@@ -17,6 +17,7 @@
 ###1 Block storage
 
 Block storage là tên khác của block device. Một block device là một phần cứng dùng để chứa data (HDD,SSD,flash memory ...).
+về cơ bản nó sẽ hoạt động như 1 phần mở rộng của filesystem tree và có thể viết và đọc thông tin từ ổ 1 cách liền mạch.
 
 <a name="2"></a>
 ###2 Disk partition
@@ -26,7 +27,7 @@ Có 2 kiểu format là MBR hoặc GPT.
 
 <ul>
 <li>MBR: Là một phân vùng hệ thống có nhiều giới hạn. Ko thể dùng disk lớn hơn 2TB, và chỉ có tối đa 4 primary partition.</li>
-<li>GPT: Đưa ra để giải quyết các hạn chế của MBR. </li>
+<li>GPT: Đưa ra để giải quyết các hạn chế của MBR. GPT không giới hạn kích thước đĩa và bảng partition table. </li>
 </ul>
 
 <a name="3"></a>
@@ -49,7 +50,8 @@ Các filesystems phổ biến:
 ###4 Quản lý Storage Devices
 
 Trong linux mọi thứ đều được định nghĩa bằng 1 file. Storage drives được xác định như 1 file trong thư mục /dev ví dụ /dev/sda.
-Các thư mục con được xác định bằng các dạng
+
+Các thư mục con được xác định bằng các dạng:
 
 <ul><
 <li>By-LABEL, UUID</li>
@@ -71,6 +73,9 @@ Dùng lệnh lsblk với các options để có thông tin về các Block-devic
 <li>lsblk -o NAME,FSTYPE,LABEL,UUID,MOUNTPOINT</li>
 <li>...</li>
 </ul>
+
+Mounting là 1 quá trình gắn một phân vùng định dạng hoặc drive tới 1 thư mục trong file hệ thống Linux, nội dung của ổ đĩa sau đó có thể được truy cập từ thư mục đó. Driver luôn được mount trên các thư mục trống. Có các chế độ khác nhau để thiết lập mounted device như đọc, viết.. Các filesystem tiêu chuẩn khuyến cáo sử dụng thư mục /mnt
+
 Mount command:
 
 <ul>

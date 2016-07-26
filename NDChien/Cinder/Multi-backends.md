@@ -99,16 +99,24 @@ File nfsshares khai báo:  *10.10.10.9:/mnt/nfs* Khai báo thư mục lưu trữ
 <a name="2"></a>
 ###2 Tính năng Oversubscription in thin provisioning trên LVM
 
+Cho phép tạo ra số ổ có tổng dung lượng lớn hơn dung lượng backend cung cấp.
+
+Chú ý: Dung lượng sử dụng thật ko vượt quá dung lượng backend cung cấp.
 
 Khai báo vào section [lvm]
 ```sh
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinder-volumes
+iscsi_protocol = iscsi
+iscsi_helper = tgtadm
+volume_backend_name=LVM-1
 lvm_type = thin 
 lvm_max_over_subscription _ratio = Mức độ muốn tăng lên ví dụ 2.0 3.5 ...
 ```
 
 Kết quả:
 
-<img src=
+<img src=http://i.imgur.com/WmsbzmC.png>
 
 
 
