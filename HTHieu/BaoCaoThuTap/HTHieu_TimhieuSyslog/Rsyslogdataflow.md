@@ -37,3 +37,5 @@ so sánh tcp và dp:
 |dùng tcp vì để chuyển 1tb dữ liệu dung lượng tuy lớn nhưng sử dụng internet vì từ vn qua sing không dùng mạng lan được thế nên đảm bảo an toàn thì phải dùng tcp||
 |nếu co 1tb dữ liệu nhưng trong cùng một tòa nhà cùng hệ thống mạng lan vì nhanh và mạng lan có tính bảo mật cao||
 |tcp chậm hơn udp vì phải thực hiên 2 thao tác gửi và đợi,kiểm tra gói tin gửi đi còn udp thì chỉ gửi không kiểm tra gói tin||
+
+- Rsyslog là một ứng dụng trên linux
