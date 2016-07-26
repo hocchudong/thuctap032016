@@ -38,10 +38,10 @@ Backend 20GB replicate
 
 Storage Note ram 2GB
 ```sh
-1- backup 1GB volume trống - OK
-2- backup 3GB volume trống - Error memory 
-3- backup 2GB volume trống - Error memory
-4- backup 1GB volume chứa image 12mb - Error memory
+1- backup volume 1GB trống - OK
+2- backup volume 3GB  trống - Error memory 
+3- backup volume 2GB trống - Error memory
+4- backup volume 1GB chứa image 12mb - Error memory
 ```
 
 - NFS
@@ -50,9 +50,9 @@ Backend 20GB
 
 Storage Note ram 3GB
 ```sh
-1- backup 1GB volume trống - OK
-2- backup 2GB volume trống - Error memory
-3- backup 1GB volume chứa image 12mb - OK
+1- backup volume 1GB trống - OK
+2- backup volume 2GB trống - Error memory
+3- backup volume 1GB chứa image 12mb - OK
 ```
 Nhận xét: Mức độ tiêu thụ ram của service cinder_backup lớn hơn dung lượng volume cần backup.
 
