@@ -8,7 +8,7 @@ Mô hình 3 PC:
 
 3- Backend glusterfs hoặc nfs
 
-**Cấu hình**
+**Cấu hình:**
 
 Chú ý các thư mục lưu trữ cần cấp quyền write. 
 
@@ -30,7 +30,7 @@ backup_mount_point_base = /mnt/backup_mount
 backup_share = 10.10.10.9:/mnt/cinder_backup
 ```
 
-**Test**
+**Test:**
 
 - GlusterFS
 
