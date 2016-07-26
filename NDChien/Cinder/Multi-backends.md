@@ -94,6 +94,8 @@ Trên [nfs] vào [glusterfs] có thêm khai báo tới tập tin chứa đườn
 
 Ví dụ: nfs_shares_config = /etc/cinder/nfsshares 
 
+File nfsshares khai báo:  *10.10.10.9:/mnt/nfs* Khai báo thư mục lưu trữ bên backend. 
+
 <a name="2"></a>
 ###2 Tính năng Oversubscription in thin provisioning trên LVM
 
