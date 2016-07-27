@@ -16,7 +16,6 @@ cinder backup-list
 cinder backup-restore BACKUP_ID
 
 
-
 Manage snapshoot
 
 cinder snapshot-manage VOLUME_ID IDENTIFIER --id-type ID-TYPE \
