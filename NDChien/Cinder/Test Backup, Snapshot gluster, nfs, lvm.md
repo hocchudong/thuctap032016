@@ -116,7 +116,7 @@ Command: nova image-create --poll myInstance myInstanceSnapshot
 
 ###2.2 Backend LVM
 
-* VOLUME
+* Volume
 
 `1- Volume attack instance, status: in-use - OK`
 
