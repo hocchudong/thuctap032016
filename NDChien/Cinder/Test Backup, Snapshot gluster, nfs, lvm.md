@@ -7,7 +7,8 @@ Mục lục:
 
 
 <a name="1"></a>
-###1 Backup với Glusterfs, NFS
+
+##1 Backup với Glusterfs, NFS
 
 Mô hình 3 PC:
 
@@ -73,13 +74,14 @@ Nhận xét: Mức độ tiêu thụ ram của service cinder_backup lớn hơn 
 
 
 <a name="2"></a>
-###2 Snapshot Instance,volume
+
+##2 Snapshot Instance,volume
 
 **Check: NFS ko có tính năng snapshot**
 
 <img src=http://i.imgur.com/VXaGmR8.png>
 
-#2.1 Backend GlusterFS 
+###2.1 Backend GlusterFS 
 
 * Volume
 
@@ -112,7 +114,7 @@ Command: nova image-create --poll myInstance myInstanceSnapshot
 2- Instance create from volume, status: Running,SHUTOFF - fault
 ```
 
-2.2 Backend LVM
+###2.2 Backend LVM
 
 * VOLUME
 
