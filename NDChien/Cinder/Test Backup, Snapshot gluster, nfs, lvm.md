@@ -104,8 +104,6 @@ Từ snapshot có thể tạo volume mới.
 
 * Instance
 
-File snapshot chứa trong thư mục /var/lib/glance/images
-
 Command: nova image-create --poll myInstance myInstanceSnapshot
 
 **Test:**
