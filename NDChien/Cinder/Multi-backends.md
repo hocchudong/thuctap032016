@@ -3,7 +3,7 @@
 
 [1 Triển khai multi-backends](#1)
 
-[2 Tính năng Oversubscription in thin provisioning trên LVM](#2)
+[2 Tính năng Oversubscription in thin provisioning trên LVM,GlusterFS](#2)
 
 ==========================
 
@@ -97,7 +97,7 @@ Ví dụ: nfs_shares_config = /etc/cinder/nfsshares
 File nfsshares khai báo:  *10.10.10.9:/mnt/nfs* Khai báo thư mục lưu trữ bên backend. 
 
 <a name="2"></a>
-###2 Tính năng Oversubscription in thin provisioning trên LVM
+###2 Tính năng Oversubscription in thin provisioning trên LVM, GlusterFS
 
 Cho phép tạo ra số ổ có tổng dung lượng lớn hơn dung lượng backend cung cấp.
 
@@ -118,7 +118,24 @@ Kết quả:
 
 <img src=http://i.imgur.com/WmsbzmC.png>
 
+Khai báo vào section [glusterfs]
+```sh
+[glusterfs]
+volume_driver = cinder.volume.drivers.glusterfs.GlusterfsDriver
+volume_backend_name = GlusterFS
+glusterfs_shares_config = /etc/cinder/glusterfs_shares
+nas_volume_prov_type = thin
+```
 
+Kết quả:
+
+Dung lượng glusterfs cung cấp 20GB
+
+<img src=http://i.imgur.com/5GSw69u.png>
+
+Tổng dung lượng volume tạo ra 52GB
+
+<img src=http://i.imgur.com/NAInedd.png>
 
 
 
