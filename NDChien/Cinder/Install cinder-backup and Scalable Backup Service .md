@@ -35,7 +35,7 @@ Trên Storage 1 cài **cinder-volume**
 
 Trên Storage 2 cài **cinder-backup**, ta cài thêm **cinder-volume** và **apt-get install sysfsutils** sau đó stop cinder-volume lại. 
 
-Trường hợp ko cài cinder-volume thì sẽ ko mount đc backend về. 
+Trường hợp ko cài cinder-volume thì sau khi tạo backup ta sẽ check cinder-backup.log và mount thư mục thủ công. 
 
 Log cinder-backup:
 
