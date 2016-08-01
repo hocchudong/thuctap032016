@@ -10,14 +10,6 @@ Mục lục:
 
 ##1 Backup với Glusterfs, NFS
 
-Mô hình 3 PC:
-
-1- Controller Note 
-
-2- Storage Note
-
-3- Backend glusterfs hoặc nfs
-
 Command: 
 
 cinder backup-create [--incremental] [--force] VOLUME
