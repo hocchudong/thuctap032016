@@ -10,13 +10,13 @@
 <a name="1"></a>
 ###1 Triển khai multi-backends
 
-<img src=http://i.imgur.com/TpE8mSB.png>
+<img src=http://i.imgur.com/K38igmX.png>
+
+Mô hình triển khai Multi-Backend
 
 Tham khảo các bước cấu hình: https://www.server-world.info/en/note?os=Ubuntu_14.04&p=openstack_liberty2&f=2
 
-Các backends chạy các dịch vụ server còn trên Cinder ta chạy các dịch vụ client
-
-Ví dụ file cấu hình trên storage Cinder: /etc/cinder/cinder.config
+Ví dụ file cấu hình trên Storage Note Cinder: /etc/cinder/cinder.config
 ```sh
 [DEFAULT]
 rootwrap_config = /etc/cinder/rootwrap.conf
@@ -32,7 +32,7 @@ volumes_dir = /var/lib/cinder/volumes
 rpc_backend = rabbit
 auth_strategy = keystone
 my_ip = 10.10.10.42
-enabled_backends = lvm,lvm1,nfs,glusterfs
+enabled_backends = lvm,nfs,glusterfs
 glance_api_servers = http://controller:9292
 
 [database]
@@ -54,19 +54,12 @@ project_name = service
 username = cinder
 password = Welcome123
 
-[lvm1]
-volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
-volume_group = cinder-volumes-1
-iscsi_protocol = iscsi
-iscsi_helper = tgtadm
-volume_backend_name=LVM
-
 [lvm]
 volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
 volume_group = cinder-volumes
 iscsi_protocol = iscsi
 iscsi_helper = tgtadm
-volume_backend_name=LVM-1
+volume_backend_name=LVM
 
 [nfs]
 volume_driver = cinder.volume.drivers.nfs.NfsDriver
@@ -94,7 +87,7 @@ Trên [nfs] vào [glusterfs] có thêm khai báo tới tập tin chứa đườn
 
 Ví dụ: nfs_shares_config = /etc/cinder/nfsshares 
 
-File nfsshares khai báo:  *10.10.10.9:/mnt/nfs* Khai báo thư mục lưu trữ bên backend. 
+File `nfsshares` khai báo:  %*10.10.10.9:/mnt/nfs** thư mục lưu trữ bên backend. 
 
 <a name="2"></a>
 ###2 Tính năng Oversubscription in thin provisioning trên LVM, GlusterFS
