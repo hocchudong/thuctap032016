@@ -18,7 +18,8 @@ Trong glance, images được lưu dưới dạng các template, được sử d
 	- [9.1 Configuration options for the Image Cache](#config_image_cache)
 	- [9.2 Cấu hình file `glance-cache.conf`](#config_glance_cache)
 	- [9.3 Các câu lệnh mở rộng](#lenh_mo_rong)
-- [10. Tài liệu tham khảo](#tailieuthamkhao)
+- [10. Glance Image Signing and Verification](#Image_Signing_and_Verification)
+- [11. Tài liệu tham khảo](#tailieuthamkhao)
 
 <a name="thanh_phan"></a>
 ##1. Các thành phần trong Glance.
@@ -290,9 +291,80 @@ ls -lhR $IMAGE_CACHE_DIR
 $> glance-cache-manage --host=<HOST> delete-cached-image <IMAGE_ID>
 ```
 
+<a name="Image_Signing_and_Verification"></a>
+##10. Glance Image Signing and Verification
+Hiện tại, OpenStack không hỗ trợ các chức năng sau:
+	- Signature validation of uploaded signed images
+
+Triển khai xác thực sẽ bảo vệ toàn vẹn hình ảnh bằng cách xác minh rằng một hình ảnh chưa được sửa đổi sau khi tải lên bởi người sử dụng.
+
+###10.1 Mô tả vấn đề.
+Không có phương pháp cho người sử dụng để xác minh rằng một hình ảnh tải lên trước đây chưa được sửa đổi. Một hình ảnh có khả năng có thể được sửa đổi trong quá trình chuyển giao giữa các thành (chẳng hạn như khi nó được tải lên Glance hoặc chuyển giao cho Nova) hoặc Glance có thể không đáng tin cậy và chỉnh sửa ảnh mà không cần kiến ​​thức của người dùng. Một hình ảnh được sửa đổi có thể bao gồm các mã độc hại. Cung cấp hỗ trợ cho chữ ký hình ảnh và chữ ký xác nhận sẽ cho phép người sử dụng để xác minh rằng một hình ảnh chưa được sửa đổi trước khi khởi động hình ảnh.
+
+Use cases that this feature will support: 
+- Một imgae sẽ được signed bởi private key của người dùng. Người dùng tải lên một image to glance cùng với chữ ký được tạo ra và reference to the user’s public key certificate. Glance sẽ sử dụng thông tin để xác nhận chữ ký là hợp lệ và báo cho người dùng.
+-  Một image được tạo bởi nova, và Nova ký hình ảnh theo yêu cầu của người dùng. Khi image upload lên glance, chữ kỹ và public key certificate sẽ được cung cấp. Glance sẽ xác nhận chữ ký trước khi lưu trữ image, và báo cho Nova nếu xác minh chữ ký thất bại.
+-  Một image đã được signed được request bởi nova, và Glance cung cấp chữ ký và reference đến public key certificate đến Nova cùng với image để nova có thể xác minh chữ ký trước khi boot image.
+
+
+###10.2 Đề xuất thay đổi.
+
+Đối với việc thực hiện ban đầu, sự thay đổi này sẽ sử dụng các tính năng hữu của Glance để lưu trữ các metadata cần thiết để ký kết hình ảnh và xác minh. Chúng bao gồm publick key certificate reference và chữ ký. Chúng được cung cấp khi image được tạo ra và truy cập khi image đã được tải lên. Chú ý rằng đề xuất thay đổi này chỉ hỗ trợ upload image trên Glance API v2 (không hỗ trợ Glance API v1). Nhiều định dạng cho key(như SubjectPublicKeyInfo) và signature (PSS) cũng được hỗ trợ. Định dạng chữ ký sẽ được lưu trong properties.
+
+Certificate reference sẽ được sử dụng để truy cập certificate từ key manager, là nơi mà certificate sẽ được lưu trữ. Certificate được thêm vào key manager bởi người dùng cuối trước khi upload một image. Chú ý rằng chữ ký được thực hiện offline.
+
+Glance đã hỗ trợ tính toán checksums image khi image được upload và giá trị checksum được lưu trữ cùng với image. Một mã băm (md5) sẽ được sử dụng để xác minh chữ ký.
+
+Mã băm checksum được tính toán trong glance_store (nơi mà image data được upload), và được sử dụng để xác minh chữ ký. Glance frontend sử dụng reference publick key certificate để lấy certificate từ key manager và sử dụng public key cùng với signature, tính toán checksum và phần còn lại của metadata để xác minh chữ ký. nếu xác minh chữ ký thất bại, image sẽ di chuyển đến trạng thái killed state và user sẽ được thông báo rằng upload image bị thất bại và đưa ra lý do tại sao.
+
+###10.3 Alternatives
+
+Một thay thế cho việc sử dụng băm đã được tạo ra trong các store backend cho xác minh chữ ký /tạo là để tính toán băm một trong các store frontend. Tuy nhiên, `eventlet.wsgi.Input` đối tượng tập tin giống như là đại diện cho các dữ liệu hình ảnh chỉ có thể được đọc một lần, và cần phải được đọc trong các store backend để tải lên hình ảnh. Để đọc các dữ liệu hình ảnh trong Glance frontend, Glance có thể sao chép dữ liệu vào một tập tin, sử dụng các tập tin để xác minh / tạo chữ ký, và sau đó cung cấp cho tập tin này đến các store backend để tải lên. Tuy nhiên, phương pháp này sẽ mất thời gian nhiều hơn đáng kể (trong thời gian tải lên hình ảnh), và sẽ không thể đạt được nhiều.
+
+Một thay thế cho việc sử dụng băm đã được tạo ra trong các store backend cho xác minh chữ ký / tạo là để tính toán băm trong frontend. 
+
+Một thay thế cho lưu trữ một tham chiếu đến các chứng chỉ khóa công khia trong glance sẽ được lưu trữ giấy chứng nhận khóa công khai thực tế trong glance. Tuy nhiên, phương pháp này sẽ không an toàn, vì glance, không giống như một người quản lý keys chuyên dụng, đã không được tạo ra với lưu trữ keys hoặc giấy chứng nhận trong tâm trí.
+
+
+Một thay thế cho cách sử dụng khóa bất đối xứng cho toàn vẹn và bảo mật là sử dụng khóa đối xứng. Tuy nhiên, để cho Glance để có thể xác minh hình ảnh, nó sẽ cần phải có quyền truy cập vào các keys được sử dụng để tạo chữ ký. truy cập này sẽ cho phép Glance để sửa đổi hình ảnh và tạo ra một chữ ký mới mà không có kiến ​​thức của người sử dụng. Sử dụng phím bất đối xứng cho phép Glance để xác minh chữ ký mà không cho Glance sức mạnh để thay đổi hình ảnh và chữ ký.
+
+Một thay thế cho sử dụng các thuộc tính Glance để lưu trữ và truy xuất các metadata chữ ký sẽ được để tạo ra một phần mở rộng API hỗ trợ chữ ký. Sau đó, thay vì các thiết lập metadata bằng cách sử dụng tài sản các cặp giá trị key quan trọng của người dùng, mở rộng API sẽ được sử dụng. Hiện nay, nếu người dùng sử dụng các metadata keys (đối với giấy chứng nhận và chữ ký) cho các mục đích khác, tải lên hình ảnh sẽ thất bại. Một mục chú ý là một phần mở rộng API sẽ cho phép việc quản lý nhiều chữ ký cho mỗi hình ảnh một cách sạch sẽ, đó là không thể với các phương pháp tính. Tuy nhiên, các hình ảnh API không hỗ trợ phần mở rộng, vì vậy đây không phải là một cách tiếp cận hợp lệ.
+
+
+Một cách khác để sử dụng các tính Glance để lưu trữ và truy xuất các metadata chữ ký sẽ được sử dụng các định dạng CMS (cú pháp nhắn mật mã) được định nghĩa trong RFC 5652 Phần 5. Tuy nhiên, kích thước này sẽ là biến, và không thể sử dụng hiện có tính trong Glance, mà sẽ yêu cầu sửa đổi API. Đối với việc thực hiện ban đầu, tài sản Glance sẽ được sử dụng, với kế hoạch chuyển sang sử dụng CMS trong việc thực hiện trong tương lai khi nhu cầu tăng cường tính linh hoạt phát sinh.
+
+Một thay thế cho yêu cầu người dùng cung cấp chữ ký riêng biệt từ các hình ảnh là để hỗ trợ hình ảnh đó đã có một chữ ký nhúng. Mặc dù điều này có thể được bao gồm như là một sự cải thiện trong tương lai, việc thực hiện ban đầu sẽ không cung cấp hỗ trợ chữ ký nhúng, vì nó là thuận lợi để tiếp tục các nỗ lực ban đầu tập trung và nhỏ.
+
+Một thay thế cho việc sử dụng thuật toán MD5 hash hiện tại là tạo một hash cấu hình riêng biệt để sử dụng với xác minh / tạo chữ ký. Tuy nhiên, việc tạo ra một băm riêng biệt ảnh hưởng tiêu cực đến hiệu suất, mà không cung cấp nhiều lợi ích. Lưu ý rằng kể từ khi có những thuật toán băm MD5 thích hợp hơn để được an toàn hơn, một sự thay đổi riêng biệt đang được đề xuất để cho phép cấu hình của thuật toán băm này [2]. Điều này sẽ không được bao gồm như là một phần của sự thay đổi này, vì lợi ích của việc có một thực hiện ban đầu đơn giản
+
+Một thay thế cho tập trung vào việc thực hiện đơn đám mây sẽ được bao gồm hỗ trợ đa đám mây trong việc thực hiện ban đầu. Nếu hình ảnh được trao đổi giữa các đám mây khác nhau, xác minh chữ ký có thể được sử dụng để xác nhận rằng hình ảnh đã không được sửa đổi. Tuy nhiên, vì lợi ích của việc thực hiện ban đầu đơn giản hơn, rõ ràng hỗ trợ cho đa đám mây sẽ được lưu lại cho lần lặp lại trong tương lai.
+
+###10.4 Security impact
+- Cải thiện tư thế sẵn sàng của doanh nghiệp, bằng cách cho phép ký chữ ký và xác minh.
+- Key được giả định lưu trữ trong key manager và chỉ reference đến certificate được lưu trong glance.
+- Lưu ý rằng chiều dài chữ ký hiện đang giới hạn ở 255 byte, vì đây là kích thước tối đa được hỗ trợ bởi glance. Đổi lại, điều này hạn chế kích thước của các keys có thể được dùng để tạo chữ ký.
+
+###10.5 Hiệu suất.
+- Tính năng này sẽ chỉ được sử dụng nếu người dùng đã cung cấp các thuộc tính thích hợp khi tải lên hình ảnh. Nếu không, không có chữ ký xác nhận được tạo ra.
+- Khi xác minh chữ ký xảy ra, sẽ có một số độ trễ liên quan đến certificate từ key manager. Kể từ khi băm đã được tạo ra cho hình ảnh, tạo ra băm không có tác động đến hiệu suất.
+
+###10.6 Work Items
+ - Enable Glance to verify signatures provided by the user during an image upload initiated by the user.
+ - Enable Glance to verify signatures provided by Nova during an image upload of a snapshot taken by Nova.
+
+###10.7 
+- signature: the signature of the “checksum hash” encoded in base64 format
+- signature_hash_method: the hash method used to create the signature
+- signature_key_type: the key type used in creating the signature
+	- valid values are: “RSA-PSS”
+- signature_certificate_uuid: the uuid used to retrieve the certificate from castellan
+- mask_gen_algorithm: only used for RSA-PSS, defines the mask generation algorithm used in the signature generation, - optional and defaults to “MGF1”
+	- valid values are: “MGF1”
+- pss_salt_length: only used for RSA-PSS, defines the salt length used in the signature generation, optional and defaults to PSS.MAX_LENGTH
+
 
 <a name="tailieuthamkhao"></a>
-##10. Tài liệu tham khảo
+##11. Tài liệu tham khảo
 
 [http://docs.openstack.org/developer/glance/cache.html](http://docs.openstack.org/developer/glance/cache.html)
 
@@ -304,5 +376,6 @@ $> glance-cache-manage --host=<HOST> delete-cached-image <IMAGE_ID>
 
 [http://egonzalez.org/multiple-store-locations-for-glance-images/](http://egonzalez.org/multiple-store-locations-for-glance-images/)
 
+[https://specs.openstack.org/openstack/glance-specs/specs/liberty/image-signing-and-verification-support.html](https://specs.openstack.org/openstack/glance-specs/specs/liberty/image-signing-and-verification-support.html)
 
 
