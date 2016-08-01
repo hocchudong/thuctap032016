@@ -20,9 +20,15 @@
 
 - Ứng dung <b>`Graylog`</b> trong `cloud computing`:
 <ul>
+<<<<<<< HEAD
 <li><b>SSH</b> : Thống kê <b>user</b>, <b>ip</b> đăng nhập, số lần đăng nhập <b>SSH</b> thành công, thất bại, tổng số lần đăng nhập.</li>
 <li><b>OpenVPN</b> : Thống kê <b>user</b>, <b>ip</b> đăng nhập , <b>ip</b> được cấp <b>VPN</b> trên hệ thống Lab và hệ thống thực.</li>
 <li><b>OpenStack</b> : Thống kê <b>user</b>, số lần đăng nhập <b>dashboard</b> thành công và thật bại, số máy ảo được tạo, xóa, hỏng.</li>
+=======
+<li> `SSH` : Thống kê `user`, `ip` đăng nhập, số lần đăng nhập `ssh` thành công, thất bại, tổng số lần đăng nhập.</li>
+<li> `OpenVPN` : Thống kê `user`, `ip` đăng nhập , `ip` được cấp `VPN` trên hệ thống Lab và hệ thống thực.</li>
+<li> <b>OpenStack</b> : Thống kê `user`, số lần đăng nhập `dashboard` thành công và thật bại, số máy ảo được tạo, xóa, hỏng.</li>
+>>>>>>> origin/master
 </ul>
 
 ## II.Kiến trúc Graylog
@@ -40,7 +46,11 @@
 <li><b>`Web-interface`</b></li>
 </ul>
 <br>
+<<<<<<< HEAD
 - 2 mô hình triển khai là [`all-in-one`](#all in one),[`mô hình mở rông ( Bigger Production )`](#mo rong)
+=======
+- 2 mô hình triển khai là [`all-in-one`](#all in one)
+>>>>>>> origin/master
 
 - Trong mô hình <b>`Graylog2-server`</b> sẽ nhận `log` từ các `log source` từ các `Log Source` qua các giao thức mạng là <b>`TCP,UDP,HTTP`</b>
 
@@ -58,7 +68,11 @@
 <br>
 <img src=http://docs.graylog.org/en/2.0/_images/simple_setup.png>
 <br>
+<<<<<<< HEAD
 #### 2.2.2 Mô hình triển khai mở rộng ( Bigger Production )<a name="mo rong"/>
+=======
+#### 2.2.2 Mô hình triển khai mở rộng ( Bigger Production )
+>>>>>>> origin/master
 <br>
 <img src=http://docs.graylog.org/en/2.0/_images/extended_setup.png>
 <br>
@@ -68,6 +82,7 @@
 <img src=http://i.imgur.com/VtXdsGw.png>
 <br>
 - <b>`Graylog-server`</b> được coi như là một `Node` trong `Elasticsearch Cluster` tương tác `Node` qua `API` cụ thể là `Discovery-zen-ping`
+<<<<<<< HEAD
 
 - <b>`Graylog-server`</b> sẽ phải khai báo như là một `Node` để kết nối với `Elasticsearch Cluster`
 
@@ -131,6 +146,48 @@ hay đơn giản là một `search engine`
 - `Index` là 1 bộ các tài liệu(`document`) có đặc điểm tương tự nhau xác định bằng tên
 
 -
+=======
+
+- <b>`Graylog-server`</b> sẽ phải khai báo như là một `Node` để kết nối với `Elasticsearch Cluster`
+
+- Phiên bản <b>`Elasticsearch`</b> với <b>`Graylog-server`</b>
+
+|Graylog version|Elasticsearch version|
+|---------------|---------------------|
+|1.2.0-1.2.1|1.7.1|
+|1.3.0-1.3.3|1.7.3|
+|1.3.4|1.7.5|
+|2.0.0|2.3.1|
+|2.0.1-2.0.3|2.3.2|
+<br>
+#### Tương tác Mongodb với Graylog-server
+<br>
+<img src=http://i.imgur.com/ZhUFhBg.png>
+<br>
+- <b>`Graylog-server`</b> tương tác với <b>`Mongodb`</b> theo cơ chế `client-server` với <b>`Graylog-server`</b> là `client` được cài `Mongodb client driver` và  <b>`Mongodb`</b> là `server`
+
+## III.Elasticsearch
+
+### 3.1 Tổng quát Elasticsearch
+- <b>`Elasticsearch`</b> là server chạy trên nền tảng `Apache Lucene` cung cấp `API` tìm kiếm lưu trữ
+
+- `Node` là một `server` `Elasticsearch`, trung tâm hoạt động của `Elasticsearch`. Lưu trữ toàn bộ dữ liệu để có thể thực hiện công việc lưu trữ và tìm kiếm.
+
+- `Cluster` là tập hợp `node` chia sẻ cùng thuộc tính `Cluster.name`. Mỗi `Cluster` có một node chính(`master`) được lựa chọn tự động . Một `server` có thể có 1 hoặc nhiều `node`.Các nốt kết nối với nhau qua giao thức `unicast`
+
+- `Index` là 1 bộ các tài liệu có đặc điểm tương tự nhau xác định bằng tên
+
+- `Type` là thành phần trong index,có thể có 1 hoặc nhiều type là một danh mục/phân vùng logic trong index, có vài trường phổ biến,
+
+- `Document` là đơn vị cơ bản của thông tin mà có thể đánh chỉ số,có thể lưu số lượng tùy ý trong 1 index/Type,cho dù trong 1 index nhưng vẫn phải phân vào type nhát định trong type
+
+- `Shard` là các đối tượng của Lucene dùng để lưu trữ dữ liệu có hai loại là primary shard và replica shard
+
+- `Primary Shard` Nếu hình dung quan hệ master-slave như MySQL thì primary shard là master. Dữ liệu được lưu tại 1 primary shard, được đánh index ở đây trước khi chuyển đến replica shard
+
+- `Replica Shard` có thể có hoặc không có, đảm bảo khi primary shard có sự cố thì dữ liệu vẫn toàn vẹn và thay thế được primary shard, đồng thời tăng tốc độ đọc
+
+>>>>>>> origin/master
 
 - Điểm mạnh của Elasticsearch chính là tính phân tán cũng như khả năng mở rộng rất tốt của nó.
 
