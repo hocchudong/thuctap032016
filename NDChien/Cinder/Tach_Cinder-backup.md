@@ -1,8 +1,20 @@
 #Cinder Backup
+Mục lục:
 
-1 Cài đặt cinder-backup
+[1 Cài đặt cinder-backup](#1)
+
+[2 Tính năng Scalable Backup Service](#2)
+
+===========================
+
+<a name="1"></a>
+##1 Cài đặt cinder-backup
+
+Cài đặt trên Storage đã cài cinder-volume 
 
 <img src=http://i.imgur.com/K38igmX.png>
+
+Mô hình
 
 command: 
 ```sh
@@ -10,9 +22,7 @@ apt-get install sysfsutils
 apt-get install cinder-backup
 ```
 
-2 Tính năng Scalable Backup Service
-
-
+<a name="2"></a>
 ##2 Tính năng Scalable Backup Service
 
 Tách 2 dịch vụ cinder-volume và cinder-backup trên 2 note khác nhau.
