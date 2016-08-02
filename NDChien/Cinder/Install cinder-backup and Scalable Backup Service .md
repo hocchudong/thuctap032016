@@ -7,6 +7,8 @@ Mục lục:
 
 [2.1 Scalable Backup + backend GlusterFS](#2.1)
 
+[2.2 Scalable Backup + Backend Volume GlusterFS(Lab-6) + Backend Backup NFS(Lab-9)](#2.2)
+
 ===========================
 
 <a name="1"></a>
