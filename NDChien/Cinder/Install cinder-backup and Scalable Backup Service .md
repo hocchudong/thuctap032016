@@ -37,7 +37,11 @@ Trên Storage 1 cài **cinder-volume**
 
 Trên Storage 2 cài **cinder-backup**, ta cài thêm **cinder-volume** và **apt-get install sysfsutils** sau đó stop cinder-volume lại. 
 
+<<<<<<< HEAD:NDChien/Cinder/Tach_Cinder-backup.md
 Trường hợp ko cài cinder-volume thì sẽ phải mount thư mục chứa volume và backup thủ công.
+=======
+Trường hợp ko cài cinder-volume thì sau khi tạo backup ta sẽ check cinder-backup.log và mount thư mục thủ công. 
+>>>>>>> origin/master:NDChien/Cinder/Install cinder-backup and Scalable Backup Service .md
 
 Log tạo backup khi chỉ cài cinder-backup. 
 
