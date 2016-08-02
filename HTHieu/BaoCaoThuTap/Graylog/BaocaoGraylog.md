@@ -219,6 +219,9 @@ Elasticsearch vẫn có biện pháp giải quyết cho việc phân trang sâu,
 ## V.Tài liệu
 
 https://viblo.asia/dinhhoanglong91/posts/ZnbRlr6lG2Xo
+
 https://viblo.asia/leminhtuan2015/posts/1l0rvmAAvyqA
+
 https://nguyenthingocblog.wordpress.com/2014/08/22/elasticsearch-introduction/
+
 https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_type
