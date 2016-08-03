@@ -50,11 +50,18 @@ backup_mount_point_base = /mnt/backup_mount
 backup_share = 10.10.10.9:/mnt/cinder_backup
 ```
 
+Note: Nếu cấu hình backup cả GlusterFS và NFS trên cùng 1 máy cinder_backup thì backup chỉ nhận cấu hình backup bên dưới. 
+
+Ví dụ bên dưới, máy chỉ nhận backup về NFS
+
+<img src=http://i.imgur.com/uD9nWfU.png>
+
 Command create backup:
 
 <img src=http://i.imgur.com/e4kVjjc.png>
 
 Ví dụ: cinder backup-create --name backup-volume1 volume1
+
 
 <a name="2"></a>
 ##2 Tính năng Scalable Backup Service
