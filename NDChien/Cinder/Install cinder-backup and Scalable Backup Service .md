@@ -9,6 +9,7 @@ Mục lục:
 
 - [2.2 Scalable Backup + Backend Volume GlusterFS(Lab-6) + Backend Backup NFS(Lab-9)](#2.2)
 
+- [2.3 Scalable với multi-backup](#2.3)
 ===========================
 
 <a name="1"></a>
@@ -75,6 +76,7 @@ File backup trên NFS(Lab-9)
 
 <img src=http://i.imgur.com/RfZdb6w.png>
 
+<a name="2.3"></a>
 2.3 Scalable với multi-backup
 
 Trường hợp đặt ra: Chạy 2 Note cinder-backup và 2 backend lưu backup
