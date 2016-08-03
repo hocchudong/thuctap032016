@@ -117,10 +117,6 @@ Command: nova image-create --poll myInstance myInstanceSnapshot
 ```
 
 
-**Backup-Snapshot**
-
-<img src=http://i.imgur.com/ug8lIte.jpg>
-
 
 
 
