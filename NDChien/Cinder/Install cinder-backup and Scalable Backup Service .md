@@ -40,6 +40,7 @@ glusterfs_backup_mount_point = /mnt/backup_mount
 ```
 
 `10.10.10.6:/gluster_cinder_backup` Địa chỉ backend và volume gluster lưu trữ backup.
+
 `/mnt/backup_mount` Thư mục mount Volume cinder về để tạo backup(Có thể ko cần, mặc định Volume được mount về /var/lib/cinder/mnt/.....). 
 
 - Với backend NFS
@@ -48,6 +49,12 @@ backup_driver = cinder.backup.drivers.nfs
 backup_mount_point_base = /mnt/backup_mount
 backup_share = 10.10.10.9:/mnt/cinder_backup
 ```
+
+Command create backup:
+
+<img src=http://i.imgur.com/e4kVjjc.png>
+
+Ví dụ: cinder backup-create --name backup-volume1 volume1
 
 <a name="2"></a>
 ##2 Tính năng Scalable Backup Service
