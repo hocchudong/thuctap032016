@@ -11,6 +11,10 @@
 <a name="1"></a>
 ###1 Cài đặt Cinder
 
+Mô hình:
+
+<img src=http://i.imgur.com/4uJWCJS.png>
+
 http://docs.openstack.org/mitaka/install-guide-ubuntu/cinder.html
 
 <a name="2"></a>
