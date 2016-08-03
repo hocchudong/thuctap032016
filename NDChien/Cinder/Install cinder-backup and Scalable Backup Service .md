@@ -10,6 +10,7 @@ Mục lục:
 - [2.2 Scalable Backup + Backend Volume GlusterFS(Lab-6) + Backend Backup NFS(Lab-9)](#2.2)
 
 - [2.3 Scalable với multi-backup](#2.3)
+
 ===========================
 
 <a name="1"></a>
@@ -33,7 +34,7 @@ apt-get install cinder-backup
 Tính năng cho phép tách 2 dịch vụ **cinder-volume** và **cinder-backup** trên 2 note khác nhau.
 
 <a name="2.1"></a>
-2.1 Scalable Backup + backend GlusterFS
+###2.1 Scalable Backup + backend GlusterFS
 
 <img src=http://i.imgur.com/hzoIy5T.png>
 
@@ -41,9 +42,7 @@ Trên Storage 1 cài **cinder-volume**
 
 Trên Storage 2 cài **cinder-backup**, ta cài thêm **cinder-volume** và **apt-get install sysfsutils** sau đó stop cinder-volume lại. 
 
-Trường hợp ko cài cinder-volume thì sẽ phải mount thư mục chứa volume và backup thủ công.
-
-Trường hợp ko cài cinder-volume thì sau khi tạo backup ta sẽ check cinder-backup.log và mount thư mục thủ công. 
+Trường hợp ko cài cinder-volume thì sẽ phải mount thư mục chứa volume và backup thủ công.Sau khi tạo backup ta sẽ check cinder-backup.log và mount thư mục.
 
 Log tạo backup khi chỉ cài cinder-backup. 
 
@@ -60,7 +59,7 @@ Phải đổi quyền volume đc mount về để tạo backup. Hạn chế là 
 <img src=http://i.imgur.com/7WPInzI.png>
 
 <a name="2.2"></a>
-2.2 Scalable Backup + Backend Volume GlusterFS(Lab-6) + Backend Backup NFS(Lab-9)
+###2.2 Scalable Backup + Backend Volume GlusterFS(Lab-6) + Backend Backup NFS(Lab-9)
 
 Trường hợp đặt ra: Tạo backup lưu vào NFS(Lab-9) từ volume lưu trên GlusterFS(Lab-6)
 
@@ -77,7 +76,7 @@ File backup trên NFS(Lab-9)
 <img src=http://i.imgur.com/RfZdb6w.png>
 
 <a name="2.3"></a>
-2.3 Scalable với multi-backup
+###2.3 Scalable với multi-backup
 
 Trường hợp đặt ra: Chạy 2 Note cinder-backup và 2 backend lưu backup
 
