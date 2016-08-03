@@ -1,13 +1,19 @@
 #Multi-backends và tính năng Oversubscription in thin provisioning trên LVM
 **Mục lục:**
+[1 Cài đặt Cinder](#1)
 
-[1 Triển khai multi-backends](#1)
+[2 Triển khai multi-backends](#2)
 
-[2 Tính năng Oversubscription in thin provisioning trên LVM,GlusterFS](#2)
+[3 Tính năng Oversubscription in thin provisioning trên LVM,GlusterFS](#3)
 
 ==========================
 
 <a name="1"></a>
+###1 Cài đặt Cinder
+
+http://docs.openstack.org/mitaka/install-guide-ubuntu/cinder.html
+
+<a name="2"></a>
 ###1 Triển khai multi-backends
 
 <img src=http://i.imgur.com/K38igmX.png>
@@ -89,8 +95,8 @@ Ví dụ: nfs_shares_config = /etc/cinder/nfsshares
 
 File `nfsshares` khai báo:  **10.10.10.9:/mnt/nfs** thư mục lưu trữ bên backend. 
 
-<a name="2"></a>
-###2 Tính năng Oversubscription in thin provisioning trên LVM, GlusterFS
+<a name="3"></a>
+###3 Tính năng Oversubscription in thin provisioning trên LVM, GlusterFS
 
 Cho phép tạo ra số ổ có tổng dung lượng lớn hơn dung lượng backend cung cấp.
 
