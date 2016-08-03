@@ -32,14 +32,17 @@ File cấu hình **/etc/cinder/cinder.conf**
 
 Thêm cấu hình backup vào section [DEFAULT]
 
-Với backend Glusterfs 
+- Với backend Glusterfs 
 ```sh
 backup_driver = cinder.backup.drivers.glusterfs
 glusterfs_backup_share = 10.10.10.6:/gluster_cinder_backup
 glusterfs_backup_mount_point = /mnt/backup_mount
 ```
 
-Với backend NFS
+`10.10.10.6:/gluster_cinder_backup` Địa chỉ backend và volume gluster lưu trữ backup.
+`/mnt/backup_mount` Thư mục mount Volume cinder về để tạo backup(Có thể ko cần, mặc định Volume được mount về /var/lib/cinder/mnt/.....). 
+
+- Với backend NFS
 ```sh
 backup_driver = cinder.backup.drivers.nfs
 backup_mount_point_base = /mnt/backup_mount
