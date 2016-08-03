@@ -28,6 +28,24 @@ apt-get install sysfsutils
 apt-get install cinder-backup
 ```
 
+File cấu hình **/etc/cinder/cinder.conf**
+
+Thêm cấu hình backup vào section [DEFAULT]
+
+Với backend Glusterfs 
+```sh
+backup_driver = cinder.backup.drivers.glusterfs
+glusterfs_backup_share = 10.10.10.6:/gluster_cinder_backup
+glusterfs_backup_mount_point = /mnt/backup_mount
+```
+
+Với backend NFS
+```sh
+backup_driver = cinder.backup.drivers.nfs
+backup_mount_point_base = /mnt/backup_mount
+backup_share = 10.10.10.9:/mnt/cinder_backup
+```
+
 <a name="2"></a>
 ##2 Tính năng Scalable Backup Service
 
