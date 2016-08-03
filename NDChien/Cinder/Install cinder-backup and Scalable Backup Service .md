@@ -69,11 +69,11 @@ Log tạo backup khi chỉ cài cinder-backup.
 
 <img src=http://i.imgur.com/or6DUUc.png>
 
-- Với NFS
+- Với Volume trên NFS
 
 Ko cần đổi quyền volume đc mount về để tạo backup. 
 
-- Với GlusterFS
+- Với Volume trên GlusterFS
 
 Phải đổi quyền volume đc mount về để tạo backup. Hạn chế là khi tạo volume mới thì cần quay lại để đổi quyền volume về cho user Cinder. 
 
@@ -99,7 +99,7 @@ File backup trên NFS(Lab-9)
 <a name="2.3"></a>
 ###2.3 Scalable với multi-backup
 
-Trường hợp đặt ra: Chạy 2 Note cinder-backup và 2 backend lưu backup
+Trường hợp đặt ra: Chạy 2 Note cinder-backup và 2 backend lưu trữ backup
 
 <img src=http://i.imgur.com/7r0mYcS.png>
 
