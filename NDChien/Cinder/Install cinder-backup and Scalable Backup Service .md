@@ -31,6 +31,7 @@ apt-get install cinder-backup
 
 Tính năng cho phép tách 2 dịch vụ **cinder-volume** và **cinder-backup** trên 2 note khác nhau.
 
+<a name="2.1"></a>
 2.1 Scalable Backup + backend GlusterFS
 
 <img src=http://i.imgur.com/hzoIy5T.png>
@@ -57,6 +58,7 @@ Phải đổi quyền volume đc mount về để tạo backup. Hạn chế là 
 
 <img src=http://i.imgur.com/7WPInzI.png>
 
+<a name="2.2"></a>
 2.2 Scalable Backup + Backend Volume GlusterFS(Lab-6) + Backend Backup NFS(Lab-9)
 
 Trường hợp đặt ra: Tạo backup lưu vào NFS(Lab-9) từ volume lưu trên GlusterFS(Lab-6)
