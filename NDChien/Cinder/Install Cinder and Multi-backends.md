@@ -1,5 +1,6 @@
-#Multi-backends và tính năng Oversubscription in thin provisioning trên LVM
+#Cài đặt Cinder service. Triển khai Multi-backends và tính năng Oversubscription in thin provisioning trên LVM
 **Mục lục:**
+
 [1 Cài đặt Cinder](#1)
 
 [2 Triển khai multi-backends](#2)
@@ -19,6 +20,8 @@ http://docs.openstack.org/mitaka/install-guide-ubuntu/cinder.html
 
 <a name="2"></a>
 ###2 Triển khai multi-backends
+
+Xây dựng mô hình nhiều backends lưu trữ cho Cinder
 
 <img src=http://i.imgur.com/K38igmX.png>
 
@@ -91,7 +94,7 @@ enabled_backends = .... (Các backends muốn sử dụng)
 my_ip (địa chỉ storage)
 ```
 
-Các section như [lvm], [nfs] (Khai báo thông số backends)
+Các section [lvm], [nfs], [glusterfs] Khai báo thông số backends
 
 Trên [nfs] vào [glusterfs] có thêm khai báo tới tập tin chứa đường dẫn backends 
 
