@@ -18,7 +18,7 @@ Mô hình:
 http://docs.openstack.org/mitaka/install-guide-ubuntu/cinder.html
 
 <a name="2"></a>
-###1 Triển khai multi-backends
+###2 Triển khai multi-backends
 
 <img src=http://i.imgur.com/K38igmX.png>
 
