@@ -14,29 +14,6 @@ Command:
 
 cinder backup-create [--incremental] [--force] VOLUME
 
-**Cấu hình:**
-
-Chú ý các thư mục lưu trữ cần cấp quyền write. 
-
-Khai báo trong section [DEFAULT]
-
-- Glusterfs 
-
-```sh
-backup_driver = cinder.backup.drivers.glusterfs
-glusterfs_backup_share = 10.10.10.6:/gluster_cinder_backup
-glusterfs_backup_mount_point = /mnt/backup_mount (Thay đổi thư mục mặc định chứa backup)
-```
-
-- NFS
-
-```sh
-backup_driver = cinder.backup.drivers.nfs
-backup_mount_point_base = /mnt/backup_mount
-backup_share = 10.10.10.9:/mnt/cinder_backup
-```
-
-
 **Test:**
 
 - GlusterFS
@@ -74,7 +51,7 @@ Nhận xét: Mức độ tiêu thụ ram của service cinder_backup lớn hơn 
 
 <img src=http://i.imgur.com/VXaGmR8.png>
 
-###2.1 Backend GlusterFS 
+####2.1 Backend GlusterFS 
 
 * Volume
 
@@ -105,7 +82,7 @@ Command: nova image-create --poll myInstance myInstanceSnapshot
 2- Instance create from volume, status: Running,SHUTOFF - fault
 ```
 
-###2.2 Backend LVM
+####2.2 Backend LVM
 
 * Volume
 
