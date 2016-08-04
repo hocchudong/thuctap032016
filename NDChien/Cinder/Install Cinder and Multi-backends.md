@@ -1,6 +1,5 @@
-#Cài đặt Cinder service. Triển khai Multi-backends và tính năng Oversubscription in thin provisioning trên LVM
+#Multi-backends và tính năng Oversubscription in thin provisioning
 **Mục lục:**
-
 [1 Cài đặt Cinder](#1)
 
 [2 Triển khai multi-backends](#2)
@@ -20,8 +19,6 @@ http://docs.openstack.org/mitaka/install-guide-ubuntu/cinder.html
 
 <a name="2"></a>
 ###2 Triển khai multi-backends
-
-Xây dựng mô hình nhiều backends lưu trữ cho Cinder
 
 <img src=http://i.imgur.com/K38igmX.png>
 
@@ -94,13 +91,30 @@ enabled_backends = .... (Các backends muốn sử dụng)
 my_ip (địa chỉ storage)
 ```
 
-Các section [lvm], [nfs], [glusterfs] Khai báo thông số backends
+Các section như [lvm], [nfs] (Khai báo thông số backends)
 
 Trên [nfs] vào [glusterfs] có thêm khai báo tới tập tin chứa đường dẫn backends 
 
 Ví dụ: nfs_shares_config = /etc/cinder/nfsshares 
 
 File `nfsshares` khai báo:  **10.10.10.9:/mnt/nfs** thư mục lưu trữ bên backend. 
+
+Sau khi cài đặt xong ta phải định nghĩa type cho các backend để khi tạo volume sẽ thêm lựa chọn backend lưu trữ nào.
+
+```sh
+cinder type-create nfs
+cinder type-key nfs set volume_backend_name=NFS
+cinder extra-specs-list
+```
+
+<img src=http://i.imgur.com/3Kfu9VV.png>
+
+<img src=http://i.imgur.com/KxcRFuT.png>
+
+Command create volume:
+
+`cinder create --display_name disk_nfs --volume-type nfs 1`
+
 
 <a name="3"></a>
 ###3 Tính năng Oversubscription in thin provisioning trên LVM, GlusterFS
@@ -115,7 +129,7 @@ volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
 volume_group = cinder-volumes
 iscsi_protocol = iscsi
 iscsi_helper = tgtadm
-volume_backend_name=LVM-1
+volume_backend_name=LVM
 lvm_type = thin 
 lvm_max_over_subscription _ratio = Mức độ muốn tăng lên ví dụ 2.0 3.5 ...
 ```
