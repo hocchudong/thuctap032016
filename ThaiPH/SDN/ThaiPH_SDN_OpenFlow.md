@@ -5,7 +5,11 @@
     <li><a href="#sdnconcept">1.1 Định nghĩa SDN</a></li>
     <li><a href="#sdnarch">1.2. Kiến trúc hệ thống của SDN</a></li>
 </ul>
-<h3><a href="#openflow">2. OpenFlow Protocol</a></h3>
+<h3><a href="#openflow">2. OpenFlow</a></h3>
+<ul>
+    <li><a href="#oflsw">2.1. Kiến trúc logical của OpenFlow Switch</a></li>
+    <li><a href="#ofp">2.2. OpenFlow Protocol</a></li>
+</ul>
 <h3><a href="#ref">3. Tham khảo</a></h3>
 
 ---
@@ -55,7 +59,7 @@
     </ul>
     OpenFlow được đưa ra để giao quyết cả hai vấn để đó.
     <ul>
-        <li><h3><a name="" ="">2.1. Kiến trúc logical của OpenFlow Switch</a></h3>
+        <li><h3><a name="oflsw">2.1. Kiến trúc logical của OpenFlow Switch</a></h3>
                 <br><br>
         <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_16-1/161_sdn_fig03_sm.jpg">
         <br><br>
