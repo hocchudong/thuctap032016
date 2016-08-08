@@ -51,6 +51,15 @@ Có những cải tiến kĩ thuật trên FAT và HPFS, cải thiện khả nă
 ####6. XFS:
 Filesystem journaling được phát triển bởi SGI, nó cung cấp thông lượng rất nhanh trên các tập tin lớn và filesystem
 
+####Journaling mode
+<ul>
+<li><b>Writeback</b>:Metadata và các dữ liệu sẽ được ghi vào file trên đĩa. Trong trường hợp xảy ra sự cố, filesystem sẽ được thu hồi, nhưng các dữ liệu vật lý có thể bị hỏng. Hỏng hóc có thể xảy ra nếu có sự cố sau khi file journal được tạo ra bởi các metadata, khả năng phục hồi filesystem là khá tệ nhưng hiệu suất là tốt nhất.</li>
+<li><b>Ordered</b>:Là chế độ mặc định, đây là chế độ đảo ngược của writeback. Các dữ liệu vật lý được ghi trước ghi metadata được journaled. Chế độ ordered cho phép dữ liệu và filesystem không bị hỏng hóc nếu như 1 hệ thống xảy ra sự cố trước khi khi journal được ghi</li>
+<li><b>Journal</b>:Trong chế độ này, metadata và file content được ghi trong journal. Hiệu năng của hệ thống có thể kém hơn so với 1 chế độ trên nhưng khả năng chịu lỗi tốt hơn nhiều</li>
+</ul>
+  
+
+
 ##Quản lý thiết bị lưu trữ trong Linux:
 <b>Device file in /dev:</b>
 Trong Linux, tất cả mọi thứ đều thể hiện là file. Bao gồm phần cứng như các thiết bị lưu trữ, được thể hiện trong hệ thống như là các file trong thư mục `/dev`. Thông thường các file đại diện cho thiêt bị lưu trữ thường có dạng `sd`, `hd`. Ví dụ ổ đĩa  trên server có dạng
