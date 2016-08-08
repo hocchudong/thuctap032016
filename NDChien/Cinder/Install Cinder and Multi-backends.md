@@ -1,14 +1,24 @@
-#Multi-backends và tính năng Oversubscription in thin provisioning trên LVM
+#Multi-backends và tính năng Oversubscription in thin provisioning
 **Mục lục:**
+[1 Cài đặt Cinder](#1)
 
-[1 Triển khai multi-backends](#1)
+[2 Triển khai multi-backends](#2)
 
-[2 Tính năng Oversubscription in thin provisioning trên LVM,GlusterFS](#2)
+[3 Tính năng Oversubscription in thin provisioning trên LVM,GlusterFS](#3)
 
 ==========================
 
 <a name="1"></a>
-###1 Triển khai multi-backends
+###1 Cài đặt Cinder
+
+Mô hình:
+
+<img src=http://i.imgur.com/4uJWCJS.png>
+
+http://docs.openstack.org/mitaka/install-guide-ubuntu/cinder.html
+
+<a name="2"></a>
+###2 Triển khai multi-backends
 
 <img src=http://i.imgur.com/K38igmX.png>
 
@@ -89,8 +99,25 @@ Ví dụ: nfs_shares_config = /etc/cinder/nfsshares
 
 File `nfsshares` khai báo:  **10.10.10.9:/mnt/nfs** thư mục lưu trữ bên backend. 
 
-<a name="2"></a>
-###2 Tính năng Oversubscription in thin provisioning trên LVM, GlusterFS
+Sau khi cài đặt xong ta phải định nghĩa type cho các backend để khi tạo volume sẽ thêm lựa chọn backend lưu trữ nào.
+
+```sh
+cinder type-create nfs
+cinder type-key nfs set volume_backend_name=NFS
+cinder extra-specs-list
+```
+
+<img src=http://i.imgur.com/3Kfu9VV.png>
+
+<img src=http://i.imgur.com/KxcRFuT.png>
+
+Command create volume:
+
+`cinder create --display_name disk_nfs --volume-type nfs 1`
+
+
+<a name="3"></a>
+###3 Tính năng Oversubscription in thin provisioning trên LVM, GlusterFS
 
 Cho phép tạo ra số ổ có tổng dung lượng lớn hơn dung lượng backend cung cấp.
 
@@ -102,7 +129,7 @@ volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
 volume_group = cinder-volumes
 iscsi_protocol = iscsi
 iscsi_helper = tgtadm
-volume_backend_name=LVM-1
+volume_backend_name=LVM
 lvm_type = thin 
 lvm_max_over_subscription _ratio = Mức độ muốn tăng lên ví dụ 2.0 3.5 ...
 ```

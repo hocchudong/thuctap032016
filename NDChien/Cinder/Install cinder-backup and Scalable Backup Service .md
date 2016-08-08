@@ -28,6 +28,41 @@ apt-get install sysfsutils
 apt-get install cinder-backup
 ```
 
+File cấu hình **/etc/cinder/cinder.conf**
+
+Thêm cấu hình backup vào section [DEFAULT]
+
+- Với backend Glusterfs 
+```sh
+backup_driver = cinder.backup.drivers.glusterfs
+glusterfs_backup_share = 10.10.10.6:/gluster_cinder_backup
+glusterfs_backup_mount_point = /mnt/backup_mount
+```
+
+`10.10.10.6:/gluster_cinder_backup` Địa chỉ backend và volume gluster lưu trữ backup.
+
+`/mnt/backup_mount` Thư mục mount Volume cinder về để tạo backup(Có thể ko cần, mặc định Volume được mount về /var/lib/cinder/mnt/.....). 
+
+- Với backend NFS
+```sh
+backup_driver = cinder.backup.drivers.nfs
+backup_mount_point_base = /mnt/backup_mount
+backup_share = 10.10.10.9:/mnt/cinder_backup
+```
+
+Note: Nếu cấu hình backup cả GlusterFS và NFS trên cùng 1 máy cinder_backup thì backup chỉ nhận cấu hình backup bên dưới. 
+
+Ví dụ bên dưới, máy chỉ nhận backup về NFS
+
+<img src=http://i.imgur.com/uD9nWfU.png>
+
+Command create backup:
+
+<img src=http://i.imgur.com/e4kVjjc.png>
+
+Ví dụ: cinder backup-create --name backup-volume1 volume1
+
+
 <a name="2"></a>
 ##2 Tính năng Scalable Backup Service
 
@@ -42,17 +77,17 @@ Trên Storage 1 cài **cinder-volume**
 
 Trên Storage 2 cài **cinder-backup**, ta cài thêm **cinder-volume** và **apt-get install sysfsutils** sau đó stop cinder-volume lại. 
 
-Trường hợp ko cài cinder-volume thì sẽ phải mount thư mục chứa volume và backup thủ công.Sau khi tạo backup ta sẽ check cinder-backup.log và mount thư mục.
+Trường hợp ko cài cinder-volume thì sẽ phải mount thư mục chứa volume, backup thủ công bằng lệnh. Sau khi tạo backup ta sẽ check cinder-backup.log và mount thư mục.
 
 Log tạo backup khi chỉ cài cinder-backup. 
 
 <img src=http://i.imgur.com/or6DUUc.png>
 
-- Với NFS
+- Với Volume trên NFS
 
 Ko cần đổi quyền volume đc mount về để tạo backup. 
 
-- Với GlusterFS
+- Với Volume trên GlusterFS
 
 Phải đổi quyền volume đc mount về để tạo backup. Hạn chế là khi tạo volume mới thì cần quay lại để đổi quyền volume về cho user Cinder. 
 
@@ -78,7 +113,7 @@ File backup trên NFS(Lab-9)
 <a name="2.3"></a>
 ###2.3 Scalable với multi-backup
 
-Trường hợp đặt ra: Chạy 2 Note cinder-backup và 2 backend lưu backup
+Trường hợp đặt ra: Chạy 2 Note cinder-backup và 2 backend lưu trữ backup
 
 <img src=http://i.imgur.com/7r0mYcS.png>
 
