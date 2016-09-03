@@ -109,7 +109,13 @@ virsh net-autostart ovs-gre
     </div>
     </li>
 
-    <li><h3><a name="gw">1.3. Phân tích trên wireshark</a></h3></li>
+    <li><h3><a name="gw">1.3. Phân tích trên wireshark</a></h3>
+    Phân tích một gói tin ICMP bắt được trên interface eth1:
+    <br><br>
+    <img src="http://i.imgur.com/QX3YGbD.png">
+    <br><br>
+    Có thể thấy rằng layer 2 frame (chứa thông tin ICMP/IP giữa hai host <code>10.1.1.20</code> và <code>10.1.1.21</code>) được đóng gói hoàn toàn trong bản tin GRE/IP của các địa chỉ ngoài <code>10.10.10.105</code> và <code>10.10.10.106</code>.   
+    </li>
 </ul>
 <h2><a name="vxlan">2. VXLAN</a></h2>
 <ul>
@@ -175,7 +181,13 @@ virsh net-autostart ovs-vxl
 
 
     </li>
-    <li><h3><a name="vxw">2.3. Phân tích trên wireshark</a></h3></li>
+    <li><h3><a name="vxw">2.3. Phân tích trên wireshark</a></h3>
+    Phân tích một gói tin ICMP bắt được trên interface eth1:
+    <br><br>
+    <img src="http://i.imgur.com/yzQmGi9.png">
+    <br><br>
+    Ở trong bản tin ICMP đem phân tích ở trên, có thể thấy xuất hiện VXLAN ID với số hiệu - VXLAN Network Identifier (VNI) = 0.
+    </li>
 </ul>
 <h2><a name="ref">3. Tham khảo</a></h2>
 <div>
