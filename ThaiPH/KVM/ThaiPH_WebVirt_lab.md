@@ -177,6 +177,7 @@ sudo systemctl start supervisor
 sudo service novnc stop
 sudo insserv -r novnc
 sudo vi /etc/insserv/overrides/novnc
+
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          nova-novncproxy
@@ -187,6 +188,7 @@ sudo vi /etc/insserv/overrides/novnc
 # Short-Description: Nova NoVNC proxy
 # Description:       Nova NoVNC proxy
 ### END INIT INFO
+
 sudo chown -R www-data:www-data /var/www/webvirtmgr
 </code>
 </pre>
