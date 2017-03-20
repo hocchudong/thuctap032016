@@ -263,9 +263,10 @@ libvirtd_opts="-l -d"
 </li>
 </ul>
 </li>
-<li>Kiểm tra lại việc cài đặt
+<li>Kiểm tra lại việc cài đặt. Khởi động lại libvirt-bin và kiểm tra:
 <pre>
 <code>
+root@ubuntu:~# service libvirt-bin restart
 root@ubuntu:~# ps ax | grep [l]ibvirtd
   1638 ?        Sl     1:24 /usr/sbin/libvirtd -l -d
 root@ubuntu:~# sudo netstat -pantu | grep libvirtd
