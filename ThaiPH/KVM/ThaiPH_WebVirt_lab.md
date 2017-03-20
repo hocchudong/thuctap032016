@@ -32,27 +32,196 @@ Cả hai máy đều cài đặt <b>ubuntu 14.04 LTS</b> và cùng thuộc dải
 <ul>
 <li><h3><a name="web">3.1. Cài đặt WebVirtMgr(Web panel)</a></h3>
 <div>
-Thao tác này thực hiện trên WebVirtMgr host. Chú ý các lệnh sau thực hiện với quyền root. Cài đặt theo các lệnh sau:
+<ul>
+<li>Cài đặt các gói cần thiết:
 <pre>
 <code>
-apt-get update && apt-get upgrade && apt-get dist-upgrade
-apt-get install -yq python-pip gcc python-dev git
-git clone https://github.com/thaihust/webvirtmgr.git
-mv $(pwd)/webvirtmgr /var/www/
-cd /var/www/webvirtmgr/deploy/fabric
-pip install -r fab_requirements.txt
-fab -H 127.0.0.1 -u root deploy_webvirt
+sudo apt-get install git python-pip python-libvirt python-libxml2 novnc supervisor nginx
 </code>
 </pre>
-Trong quá trình cài đặt sẽ yêu cầu tạo user và password đăng nhập Webvirt. Ở đây ta tạo user <b>root</b> (user này là user đăng nhập Webvirt, không ảnh hưởng tới user trên hệ thống). Tiến hành đăng nhập trên trình duyệt theo địa chỉ của WebVirtMrg Host (ở dây là 172.16.69.133):
-<br><br>
-<img src="http://i.imgur.com/olVY7SK.png"/> 
-<br><br>
-Sau khi đăng nhập thành công, giao diện sẽ tương tự như sau:
-<br><br>
-<img src="http://i.imgur.com/PTS3xy5.png"/> 
-<br><br>
-<i>Chú ý: Giao diện WebVirtMgr ở đây đã cá nhân hóa nên có một số thay đổi nhỏ.</i>
+</li>
+<li>Cài đặt python và môi trường cho Django:
+<pre>
+<code>
+cd ~/
+git clone git://github.com/retspen/webvirtmgr.git
+cd webvirtmgr
+sudo pip install -r requirements.txt
+./manage.py syncdb
+</code>
+</pre>
+Nhập các thông tin cần thiết trong quá trình cài đặt:
+<pre>
+<code>
+You just installed Django's auth system, which means you don't have any superusers defined.
+Would you like to create one now? (yes/no): yes (Put: yes)
+Username (Leave blank to use 'admin'): admin (Put: your username or login)
+E-mail address: username@domain.local (Put: your email)
+Password: xxxxxx (Put: your password)
+Password (again): xxxxxx (Put: confirm password)
+Superuser created successfully.
+</code>
+</pre>
+</li>
+<li>Cấu hình cho nginx
+<ul>
+
+<li>Chuyển thư mục webvirtmgr:
+<pre> 
+<code>
+sudo mv ~/webvirtmgr /var/www/webvirtmgr
+</code>
+</pre>
+</li>
+
+<li>Thêm file cấu hình cho webvirtmgr: <code>sudo vim /etc/nginx/conf.d/webvirtmgr.conf</code>  với nội dung như bên dưới
+<pre>
+<code>
+server {
+    listen 80 default_server;
+
+    server_name $hostname;
+    #access_log /var/log/nginx/webvirtmgr_access_log; 
+
+    location /static/ {
+        root /var/www/webvirtmgr/webvirtmgr; # or /srv instead of /var
+        expires max;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-for $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host:$server_port;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 600;
+        proxy_read_timeout 600;
+        proxy_send_timeout 600;
+        client_max_body_size 1024M; # Set higher depending on your needs 
+    }
+}
+</code>
+</pre>
+</li> 
+<li>Chỉnh sửa lại file cấu hình nginx: <code>sudo vim /etc/nginx/sites-enabled/default</code> với nội dung tương tự như sau(comment lại section <code>server</code>):
+<pre>
+<code>
+#    server {
+#        listen       80 default_server;
+#        server_name  localhost;
+#        root         /usr/share/nginx/html;
+#
+#        #charset koi8-r;
+#
+#        #access_log  /var/log/nginx/host.access.log  main;
+#
+#        # Load configuration files for the default server block.
+#        include /etc/nginx/default.d/*.conf;
+#
+#        location / {
+#        }
+#
+#        # redirect server error pages to the static page /40x.html
+#        #
+#        error_page  404              /404.html;
+#        location = /40x.html {
+#        }
+#
+#        # redirect server error pages to the static page /50x.html
+#        #
+#        error_page   500 502 503 504  /50x.html;
+#        location = /50x.html {
+#        }
+#    }
+</code>
+</pre>
+
+</li> 
+
+<li>Khởi động lại nginx: <code>sudo service nginx restart</code></li>
+<li>Kích hoạt <code>supervisord</code> khi khởi động:
+<ul>
+<li>Với Ubuntu 14.04:
+<pre>
+<code>
+sudo -i
+curl https://gist.github.com/howthebodyworks/176149/raw/88d0d68c4af22a7474ad1d011659ea2d27e35b8d/supervisord.sh > /etc/init.d/supervisord
+chmod +x /etc/init.d/supervisord
+update-rc.d supervisord defaults
+service supervisord stop
+service supervisord start
+exit
+</code>
+</pre>
+</li>
+<li>Với Ubuntu 16.04:
+<pre>
+<code>
+sudo systemctl enable supervisor
+sudo systemctl start supervisor
+</code>
+</pre>
+</li>
+</ul>
+</li>
+
+
+
+</ul>
+
+</li>
+
+<li>Cấu hình supervisor:
+<pre>
+<code>
+sudo service novnc stop
+sudo insserv -r novnc
+sudo vi /etc/insserv/overrides/novnc
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          nova-novncproxy
+# Required-Start:    $network $local_fs $remote_fs $syslog
+# Required-Stop:     $remote_fs
+# Default-Start:     
+# Default-Stop:      
+# Short-Description: Nova NoVNC proxy
+# Description:       Nova NoVNC proxy
+### END INIT INFO
+sudo chown -R www-data:www-data /var/www/webvirtmgr
+</code>
+</pre>
+Tạo file: <code>sudo vim /etc/supervisor/conf.d/webvirtmgr.conf</code> với nội dung như sau:
+<pre>
+<code>
+[program:webvirtmgr]
+command=/usr/bin/python /var/www/webvirtmgr/manage.py run_gunicorn -c /var/www/webvirtmgr/conf/gunicorn.conf.py
+directory=/var/www/webvirtmgr
+autostart=true
+autorestart=true
+stdout_logfile=/var/log/supervisor/webvirtmgr.log
+redirect_stderr=true
+user=www-data
+
+[program:webvirtmgr-console]
+command=/usr/bin/python /var/www/webvirtmgr/console/webvirtmgr-console
+directory=/var/www/webvirtmgr
+autostart=true
+autorestart=true
+stdout_logfile=/var/log/supervisor/webvirtmgr-console.log
+redirect_stderr=true
+user=www-data
+</code>
+</pre>
+
+Khởi động lại supervisor:
+<pre>
+<code>
+sudo service supervisor stop
+sudo service supervisor start
+</code>
+</pre>
+</li>
+</ul>
 </div>
 </li>
 <li><h3><a name="host">3.2. Cài đặt host server(server chứa các VM)</a></h3>
@@ -94,9 +263,10 @@ libvirtd_opts="-l -d"
 </li>
 </ul>
 </li>
-<li>Kiểm tra lại việc cài đặt
+<li>Kiểm tra lại việc cài đặt. Khởi động lại libvirt-bin và kiểm tra:
 <pre>
 <code>
+root@ubuntu:~# service libvirt-bin restart
 root@ubuntu:~# ps ax | grep [l]ibvirtd
   1638 ?        Sl     1:24 /usr/sbin/libvirtd -l -d
 root@ubuntu:~# sudo netstat -pantu | grep libvirtd
