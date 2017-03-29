@@ -98,9 +98,9 @@ user: omdadmin
 pass: omd
 ```
 
-![]()
+![](https://github.com/linhlt247/Thuc-tap-thang-03-2016/blob/master/LTLinh/Docker/images/Screenshot_9.png?raw=true)
 
-![]()
+![](https://github.com/linhlt247/Thuc-tap-thang-03-2016/blob/master/LTLinh/Docker/images/Screenshot_10.png?raw=true)
 
 
 # 4. Reference
