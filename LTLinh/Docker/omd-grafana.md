@@ -80,7 +80,7 @@ griesbacher/omd-grafana   latest              64abe77153bd        15 hours ago  
 $ docker run -it -p 80:80 -p 443:443 -h omd --name=omd griesbacher/omd-grafana
 ```
 
-Giải thích:
+- Giải thích câu lệnh:
   - `-p 80:80 -p 443:443`: Tùy chọn này sẽ `expose` port trong container với port của máy host. Vì sao phải expose? Bởi vì khi bạn chạy container, các ứng dụng này chạy bên trong container, các port LISTEN cũng nằm trong container. Vì vậy, khi bạn muốn truy cập từ bên ngoài vào ứng dụng, thì không thể được. Do đó, bạn phải `expose` port trong container ra máy host, mới có thể truy cập từ bên ngoài.
    - `-h omd`: Tùy chọn đặt hostname cho container.
    - `--name=omd`: Đặt tên container.
@@ -91,7 +91,10 @@ Giải thích:
 $ docker exec -it omd /bin/bash
 ```
 
+Trong đó, `omd` là tên của container.
+
 - Kết quả:
+
 Truy cập vào địa chỉ: `https://ip/default` trong đó `ip` là địa chỉ ip của máy host, với thông tin đăng nhập là:
 ```sh
 user: omdadmin
